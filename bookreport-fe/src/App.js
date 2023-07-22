@@ -1,32 +1,31 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./routes/Login.js";
-import Join from "./routes/Join.js";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Header from "./Layout/Header";
+import Login from "./routes/Login";
+import Join from "./routes/Join";
+import Home from "./routes/Home";
+import Footer from "./Layout/Footer";
 
 function App() {
   return (
-    <Router>
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/login">LOGIN</Nav.Link>
-              <Nav.Link href="/join">JOIN</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <Routes>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/join" element={<Join />}></Route>
-      </Routes>
-    </Router>
+    <div>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/account/login" element={<Login />} />
+          <Route path="/home/main" element={<Home />} />
+          <Route path="/account/join" element={<Join />} />
+          <Route path="*" element={<Navigate to="/home/main" />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 
