@@ -5,10 +5,11 @@ import {
   MDBIcon,
   MDBRow,
 } from "mdb-react-ui-kit";
+import styles from "../css/Layout.module.css";
 
 function Footer() {
   return (
-    <MDBFooter bgColor="light" className="text-center text-lg-start text-muted">
+    <MDBFooter className={`text-center text-lg-start ${styles.footer}`}>
       <section className="justify-content-center justify-content-lg-between p-4 border-bottom">
         <MDBContainer className="text-center text-md-start mt-5">
           <MDBRow className="mt-3">

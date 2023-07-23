@@ -2,10 +2,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
+import styles from "../css/Layout.module.css";
 
 function Header() {
   return (
-    <Navbar bg="primary" variant="dark">
+    <Navbar bg="none" className={styles.header} variant="dark">
       <Container>
         <Navbar.Brand href="/home/main">BOOKREPORT</Navbar.Brand>
         <Nav className="justify-text-end">
