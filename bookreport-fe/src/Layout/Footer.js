@@ -1,112 +1,78 @@
+/*!
+
+=========================================================
+* Argon Design System React - v1.1.2
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-design-system-react
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+/*eslint-disable*/
+import React from "react";
+// reactstrap components
 import {
-  MDBCol,
-  MDBContainer,
-  MDBFooter,
-  MDBIcon,
-  MDBRow,
-} from "mdb-react-ui-kit";
-import styles from "../css/Layout.module.css";
+  Button,
+  NavItem,
+  NavLink,
+  Nav,
+  Container,
+  Row,
+  Col,
+  UncontrolledTooltip,
+} from "reactstrap";
 
-function Footer() {
-  return (
-    <MDBFooter className={`text-center text-lg-start ${styles.footer}`}>
-      <section className="justify-content-center justify-content-lg-between p-4 border-bottom">
-        <MDBContainer className="text-center text-md-start mt-5">
-          <MDBRow className="mt-3">
-            <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">
-                <MDBIcon color="secondary" icon="gem" className="me-3" />
-                BOOKREPORT
-              </h6>
-              <p>
-                Here you can use rows and columns to organize your footer
-                content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit.
-              </p>
-            </MDBCol>
-
-            <MDBCol md="2" lg="2" xl="2" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Products</h6>
-              <p>
-                <a href="#!" className="text-reset">
-                  Angular
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  React
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Vue
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Laravel
-                </a>
-              </p>
-            </MDBCol>
-
-            <MDBCol md="3" lg="2" xl="2" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
-              <p>
-                <a href="#!" className="text-reset">
-                  Pricing
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Settings
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Orders
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Help
-                </a>
-              </p>
-            </MDBCol>
-
-            <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-md-0 mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
-              <p>
-                <MDBIcon color="secondary" icon="home" className="me-2" />
-                New York, NY 10012, US
-              </p>
-              <p>
-                <MDBIcon color="secondary" icon="envelope" className="me-3" />
-                info@example.com
-              </p>
-              <p>
-                <MDBIcon color="secondary" icon="phone" className="me-3" /> + 01
-                234 567 88
-              </p>
-              <p>
-                <MDBIcon color="secondary" icon="print" className="me-3" /> + 01
-                234 567 89
-              </p>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      </section>
-
-      <div
-        className="text-center p-4"
-        style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
-      >
-        © 2023 Copyright:
-        {/* <a className="text-reset fw-bold" href="https://mdbootstrap.com/">
-          MDBootstrap.com
-        </a> */}
-      </div>
-    </MDBFooter>
-  );
+class SimpleFooter extends React.Component {
+  render() {
+    return (
+      <>
+        <footer className=" footer">
+          <Container>
+            <Row className=" align-items-center justify-content-md-between">
+              <Col md="6">
+                <div className=" copyright">© {new Date().getFullYear()} </div>
+              </Col>
+              <Col md="6">
+                <Nav className=" nav-footer justify-content-end">
+                  <NavItem>
+                    <NavLink
+                      href="https://github.com/geunyoung490/BookReport-fe"
+                      target="_blank"
+                    >
+                      Front-End
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      href="https://github.com/geunyoung490/BookReport"
+                      target="_blank"
+                    >
+                      Back-End
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      href="https://www.creative-tim.com?ref=adsr-footer"
+                      target="_blank"
+                    >
+                      Creative Tim
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+              </Col>
+            </Row>
+          </Container>
+        </footer>
+      </>
+    );
+  }
 }
 
-export default Footer;
+export default SimpleFooter;
