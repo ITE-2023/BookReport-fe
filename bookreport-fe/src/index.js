@@ -2,10 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import axios from "axios";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+
+// import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/vendor/nucleo/css/nucleo.css";
+import "./assets/vendor/font-awesome/css/font-awesome.min.css";
+import "./assets/scss/argon-design-system-react.scss?v1.1.0";
+
+import Login from "./routes/Login";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" exact element={<App />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/member/login" exact element={<Login />} />
+    </Routes>
+  </BrowserRouter>
 );

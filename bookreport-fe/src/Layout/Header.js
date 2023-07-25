@@ -1,25 +1,88 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { NavLink } from "react-router-dom";
-import styles from "../css/Layout.module.css";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Headroom from "headroom.js";
+import {
+  Button,
+  UncontrolledCollapse,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle,
+  UncontrolledDropdown,
+  Media,
+  NavbarBrand,
+  Navbar,
+  NavItem,
+  NavLink,
+  Nav,
+  Container,
+  Row,
+  Col,
+  UncontrolledTooltip,
+} from "reactstrap";
 
-function Header() {
+function DemoNavbar() {
+  const componentDidMount = () => {
+    let headroom = new Headroom(document.getElementById("navbar-main"));
+    headroom.init();
+  };
+  useEffect(() => {
+    componentDidMount();
+  }, []);
   return (
-    <Navbar bg="none" className={styles.header} variant="dark">
-      <Container>
-        <Navbar.Brand href="/home/main">BOOKREPORT</Navbar.Brand>
-        <Nav className="justify-text-end">
-          <Nav.Link as={NavLink} to="/home/main" href="/home/main">
-            HOME
-          </Nav.Link>
-          <Nav.Link as={NavLink} to="/account/login" href="/account/login">
-            LOGIN
-          </Nav.Link>
-        </Nav>
-      </Container>
-    </Navbar>
+    <>
+      <header className="header-global">
+        <Navbar
+          className="navbar-main navbar-transparent navbar-light headroom"
+          expand="lg"
+          id="navbar-main"
+        >
+          <Container>
+            <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
+              <img
+                alt="..."
+                src={require("../assets/img/LOGO.__1_-removebg-preview1111.png")}
+              />
+            </NavbarBrand>
+            <button className="navbar-toggler" id="navbar_global">
+              <span className="navbar-toggler-icon" />
+            </button>
+            <UncontrolledCollapse toggler="#navbar_global" navbar>
+              <div className="navbar-collapse-header">
+                <Row>
+                  <Col className="collapse-brand" xs="6">
+                    <Link to="/">
+                      <img
+                        alt="..."
+                        src={require("../assets/img/LOGO.-removebg-preview1111.png")}
+                      />
+                    </Link>
+                  </Col>
+                  <Col className="collapse-close" xs="6">
+                    <button className="navbar-toggler" id="navbar_global">
+                      <span />
+                      <span />
+                    </button>
+                  </Col>
+                </Row>
+              </div>
+              <Nav className="align-items-lg-center ml-lg-auto" navbar>
+                <NavItem>
+                  <NavLink href="/member/login" to="/member/login">
+                    로그인
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/member/join" to="/member/join">
+                    회원가입
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </UncontrolledCollapse>
+          </Container>
+        </Navbar>
+      </header>
+    </>
   );
 }
 
-export default Header;
+export default DemoNavbar;
