@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -17,15 +17,16 @@ import {
 } from "reactstrap";
 
 import Layout from "../components/Layout"
-import axios from "axios";
+import customAxios from "../api/customAxios.js"
 
 function Join() {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [isConfirmPassword, setIsConfirmPassword] = useState(false)
-  
+  const [isConfirmPassword, setIsConfirmPassword] = useState(false);
+  const navigate = useNavigate();
+  const MEMBER_JOIN_URL = "/member/join";
+
   // 아이디
   const onChangeUsername = useCallback((event) => setUsername(event.target.value), [])
 
@@ -39,6 +40,34 @@ function Join() {
       setConfirmPassword(current_confirmPassword);
       setIsConfirmPassword(password === current_confirmPassword);
     }, [password]
+  )
+
+  // 회원 가입 dto
+  // const joinDto = 
+
+  // 제출
+  const onSubmit = useCallback(
+    async (event) =>{
+      event.preventDefault();
+      console.log("")
+      try {
+        await customAxios
+        .post(MEMBER_JOIN_URL, {
+          username : username,
+          password : password,
+          password2 : confirmPassword
+        })
+        .then((res) => {
+          if (res.status === 200){
+            navigate(-1);
+          }
+        })
+      }
+      catch(error){
+        console.error(error);   
+      }
+    }
+    ,[username, password, confirmPassword, navigate]
   )
 
   return (
@@ -64,7 +93,7 @@ function Join() {
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
-                      <Form role="form">
+                      <Form role="form" onSubmit = {onSubmit}>
                         <FormGroup>
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">
@@ -124,7 +153,7 @@ function Join() {
                           <Button
                             className="mt-4"
                             color="primary"
-                            type="button"
+                            type="submit"
                           >
                             회원 가입
                           </Button>
