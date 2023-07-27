@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   Button,
@@ -17,8 +17,30 @@ import {
 } from "reactstrap";
 
 import Layout from "../components/Layout"
+import axios from "axios";
 
 function Join() {
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [isConfirmPassword, setIsConfirmPassword] = useState(false)
+  
+  // 아이디
+  const onChangeUsername = useCallback((event) => setUsername(event.target.value), [])
+
+  // 비밀번호
+  const onChangePassword = useCallback((event) => setPassword(event.target.value), [])
+
+  // 비밀번호 확인
+  const onChangeConfirmPassword = useCallback(
+    (event) => {
+      const current_confirmPassword = event.target.value;
+      setConfirmPassword(current_confirmPassword);
+      setIsConfirmPassword(password === current_confirmPassword);
+    }, [password]
+  )
+
   return (
     <Layout>
           <section className="section section-shaped section-lg vh-100">
@@ -50,7 +72,7 @@ function Join() {
                                 <i className="fa fa-user" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="아이디" type="text" />
+                            <Input placeholder="아이디" type="text" onChange={onChangeUsername} value={username}/>
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -64,6 +86,8 @@ function Join() {
                               placeholder="비밀번호"
                               type="password"
                               autoComplete="off"
+                              onChange ={onChangePassword}
+                              value={password}
                             />
                           </InputGroup>
                         </FormGroup>
@@ -78,15 +102,22 @@ function Join() {
                               placeholder="비밀번호 재확인"
                               type="password"
                               autoComplete="off"
+                              value = {confirmPassword}
+                              onChange = {onChangeConfirmPassword}
                             />
                           </InputGroup>
                         </FormGroup>
                         <div className="text-muted font-italic">
                           <small>
-                            password strength:{" "}
-                            <span className="text-success font-weight-700">
-                              strong
+                            Confirm password:{" "}
+                            {isConfirmPassword ? (
+                            <span className="text-success font-weight-700" >
+                            success
                             </span>
+                            ) : 
+                            <span className="text-danger font-weight-700" >
+                            fail
+                            </span>}
                           </small>
                         </div>
                         <div className="text-center">
