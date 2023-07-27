@@ -1,63 +1,111 @@
 import React from "react";
-import { userEffect, useState } from "react";
+
 import {
-  MDBBtn,
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBInput,
-} from "mdb-react-ui-kit";
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  Form,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
+  Container,
+  Row,
+  Col,
+} from "reactstrap";
+
+import Layout from "../components/Layout"
 
 function Join() {
-
-
-
-  
   return (
-    <MDBContainer fluid>
-      <MDBRow className="d-flex justify-content-center align-items-center h-100">
-        <MDBCol col="12">
-          <MDBCard
-            className="bg-white my-5 mx-auto"
-            style={{ borderRadius: "1rem", maxWidth: "500px" }}
-          >
-            <MDBCardBody className="p-5 w-100 d-flex flex-column">
-              <h2 className="fw-bold mb-2 text-center">회원 가입</h2>
-              <p className="text-white-50 mb-3">
-                아이디와 비밀번호를 입력해주세요.
-              </p>
-
-              <MDBInput
-                wrapperClass="mb-4 w-100"
-                label="아이디"
-                id="formControlLg"
-                type="text"
-                size="lg"
-              />
-
-              <MDBInput
-                wrapperClass="mb-4 w-100"
-                label="비밀번호"
-                id="formControlLg"
-                type="password"
-                size="lg"
-              />
-
-              <MDBInput
-                wrapperClass="mb-4 w-100"
-                label="비밀번호 재입력"
-                id="formControlLg"
-                type="password"
-                size="lg"
-              />
-              <MDBBtn size="lg">Join</MDBBtn>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+    <Layout>
+          <section className="section section-shaped section-lg vh-100">
+            <div className="shape shape-style-1 bg-gradient-default">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+            <Container className="pt-lg-7">
+              <Row className="justify-content-center">
+                <Col lg="5">
+                  <Card className="bg-secondary shadow border-0">
+                    <CardHeader className="bg-white">
+                      <div className="text-muted text-center">
+                        <small>Sign up with credentials</small>
+                      </div>
+                    </CardHeader>
+                    <CardBody className="px-lg-5 py-lg-5">
+                      <Form role="form">
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i className="fa fa-user" />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input placeholder="아이디" type="text" />
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i className="ni ni-lock-circle-open" />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="비밀번호"
+                              type="password"
+                              autoComplete="off"
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                          <InputGroup className="input-group-alternative">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <i className="ni ni-lock-circle-open" />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              placeholder="비밀번호 재확인"
+                              type="password"
+                              autoComplete="off"
+                            />
+                          </InputGroup>
+                        </FormGroup>
+                        <div className="text-muted font-italic">
+                          <small>
+                            password strength:{" "}
+                            <span className="text-success font-weight-700">
+                              strong
+                            </span>
+                          </small>
+                        </div>
+                        <div className="text-center">
+                          <Button
+                            className="mt-4"
+                            color="primary"
+                            type="button"
+                          >
+                            회원 가입
+                          </Button>
+                        </div>
+                      </Form>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
+          </section>
+    </Layout>
   );
 }
 
