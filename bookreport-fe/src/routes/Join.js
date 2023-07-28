@@ -45,13 +45,17 @@ function Join() {
     }, [password]
   )
 
-  // 회원 가입 dto
-  // const joinDto = 
-
   // 제출
   const onSubmit = useCallback(
     async (event) =>{
       event.preventDefault();
+      // 회원 가입 dto
+      const joinDto = {
+        username : username,
+        password : password,
+        password2 : confirmPassword
+      }
+
       if (username.length === 0){
         MixinToast({icon: icon.ERROR, title: "아이디를 입력해주세요."})
         return;
@@ -74,11 +78,7 @@ function Join() {
 
       try {
         await customAxios
-        .post(MEMBER_JOIN_URL, {
-          username : username,
-          password : password,
-          password2 : confirmPassword
-        })
+        .post(MEMBER_JOIN_URL, joinDto)
         .then((res) => {
           if (res.status === 200){
             MixinToast({icon: icon.SUCCESS, title: "회원 가입 성공!"})
