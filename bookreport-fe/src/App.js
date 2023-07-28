@@ -1,50 +1,11 @@
 import React from "react";
-import Header from "./Layout/Header";
-import Footer from "./Layout/Footer";
+import Layout from "./components/Layout"
 
 function App() {
   return (
-    <div>
-      <Header />
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <Footer />
-    </div>
+    <Layout>
+      
+    </Layout>
   );
 }
 
