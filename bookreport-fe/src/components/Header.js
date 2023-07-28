@@ -13,7 +13,7 @@ import {
   Col,
 } from "reactstrap";
 
-function DemoNavbar() {
+function Header() {
   const componentDidMount = () => {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     headroom.init();
@@ -78,4 +78,4 @@ function DemoNavbar() {
   );
 }
 
-export default DemoNavbar;
+export default Header;

@@ -19,6 +19,8 @@ import {
 import Layout from "../components/Layout"
 import customAxios from "../api/customAxios.js"
 
+import {icon, MixinToast} from "../components/Alert.js"
+
 function Join() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +28,7 @@ function Join() {
   const [isConfirmPassword, setIsConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const MEMBER_JOIN_URL = "/member/join";
+  const MEMBER_LOGIN_URL = "/member/login"
 
   // 아이디
   const onChangeUsername = useCallback((event) => setUsername(event.target.value), [])
@@ -49,7 +52,26 @@ function Join() {
   const onSubmit = useCallback(
     async (event) =>{
       event.preventDefault();
-      console.log("")
+      if (username.length === 0){
+        MixinToast({icon: icon.ERROR, title: "아이디를 입력해주세요."})
+        return;
+      }
+
+      if (password.length === 0){
+        MixinToast({icon: icon.ERROR, title: "비밀번호를 입력해주세요."})
+        return;
+      }
+
+      if (confirmPassword.length === 0){
+        MixinToast({icon: icon.ERROR, title: "비밀번호를 재확인해주세요."})
+        return;
+      }
+
+      if (!isConfirmPassword) {
+        MixinToast({icon: icon.ERROR, title: "비밀번호가 일치하지 않습니다."})
+        return;
+      }
+
       try {
         await customAxios
         .post(MEMBER_JOIN_URL, {
@@ -59,7 +81,8 @@ function Join() {
         })
         .then((res) => {
           if (res.status === 200){
-            navigate(-1);
+            MixinToast({icon: icon.SUCCESS, title: "회원 가입 성공!"})
+            navigate(MEMBER_LOGIN_URL);
           }
         })
       }
@@ -67,7 +90,7 @@ function Join() {
         console.error(error);   
       }
     }
-    ,[username, password, confirmPassword, navigate]
+    ,[username, password, confirmPassword, isConfirmPassword, navigate]
   )
 
   return (
