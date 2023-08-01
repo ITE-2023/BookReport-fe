@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import {setCookie, getCookie} from "./cookie.js"
 
 const SERVER_ADDRESS = "http://localhost:8080";
 
@@ -10,27 +11,29 @@ const memberURL = {
 const api : AxiosInstance = axios.create({
     baseURL: `${SERVER_ADDRESS}`,
     headers: {'Content-type': 'application/json'},
-    timeout: 5000
+    timeout: 5000,
 });
 
-// api.interceptors.request.use(
-//     (config) => {
-//         // 요청 전 수행 로직
-//         return config;
-//     },
-//     (err) => {
-//         // 에러 시 수행 로직
-//         return Promise.reject(err);
-//     }
-// );
+const accessToken = getCookie('accessToken')
+const refreshToken = getCookie('refreshToken')
+api.interceptors.request.use(
+    (config) => {
+        // 요청 전 수행 로직
+        config.headers.Authorization = `Bearer ${accessToken}`;
+        return config;
+    }
+);
 
 api.interceptors.response.use(
     (response) => {
         // 응답 수행 로직
+        if (response.data.accessToken){
+            setCookie('accessToken', response.data.accessToken);
+        }
+        if (response.data.refreshToken){
+            setCookie('refreshToken', response.data.refreshToken);
+        }
         return response;
-    },
-    (err) => {
-        return Promise.reject(err);
     }
 );
 
