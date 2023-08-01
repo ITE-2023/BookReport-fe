@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   Button,
@@ -19,8 +19,55 @@ import {
 import Layout from "../components/Layout"
 import customAxios from "../api/customAxios.js"
 import {icon, MixinToast} from "../components/Alert.js"
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onChangeUsername = useCallback((event) => setUsername(event.target.value), [])
+  const onChangePassword = useCallback((event) => setPassword(event.target.value), [])
+
+  const MEMBER_LOGIN_URL = "/member/login"
+  const navigate = useNavigate();
+
+  const onSubmit = useCallback(
+    async (event) =>{
+      event.preventDefault();
+      // 로그인 dto
+      const loginDto = {
+        username : username,
+        password : password
+      }
+
+      if (username.length === 0){
+        MixinToast({icon: icon.ERROR, title: "아이디를 입력해주세요."})
+        return;
+      }
+
+      if (password.length === 0){
+        MixinToast({icon: icon.ERROR, title: "비밀번호를 입력해주세요."})
+        return;
+      }
+
+      try {
+        await customAxios
+        .post(MEMBER_LOGIN_URL, loginDto)
+        .then((res) => {
+          if (res.status === 200){
+            MixinToast({icon: icon.SUCCESS, title: "로그인 성공"})
+            navigate(-1);
+          }
+        })
+      }
+      catch(error){
+        console.error(error);   
+      }
+    }
+    ,[username, password, navigate]
+  )
+
     return (
       <Layout>
           <section className="section section-shaped section-lg vh-100">
@@ -44,7 +91,7 @@ function Login() {
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
-                      <Form role="form">   
+                      <Form role="form" onSubmit = {onSubmit}>   
                         <FormGroup className="mb-3">
                           <InputGroup className="input-group-alternative">
                             <InputGroupAddon addonType="prepend">
@@ -52,7 +99,7 @@ function Login() {
                                 <i className="fa fa-user" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="아이디" type="text" />
+                            <Input placeholder="아이디" type="text" onChange={onChangeUsername} value={username}/>
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -66,6 +113,8 @@ function Login() {
                               placeholder="비밀번호"
                               type="password"
                               autoComplete="off"
+                              onChange ={onChangePassword}
+                              value={password}
                             />
                           </InputGroup>
                         </FormGroup>
@@ -73,7 +122,7 @@ function Login() {
                           <Button
                             className="my-4"
                             color="primary"
-                            type="button"
+                            type="submit"
                           >
                             로그인
                           </Button>
