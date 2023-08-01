@@ -1,14 +1,51 @@
 import axios, { AxiosInstance } from 'axios';
-// import cookies from 'js-cookie';
+import {setCookie, getCookie} from "./cookie.js"
 
 const SERVER_ADDRESS = "http://localhost:8080";
 
-export const customAxios: AxiosInstance = axios.create({
+const memberURL = {
+    MEMBER_JOIN_URL : "/member/join",
+    MEMBER_LOGIN_URL : "/member/login"
+}
+
+const api : AxiosInstance = axios.create({
     baseURL: `${SERVER_ADDRESS}`,
-    headers: {'Content-type': 'application/json'}
-    // headers: {
-    // access_token: cookies.get('access_token'),
-    // },
+    headers: {'Content-type': 'application/json'},
+    timeout: 5000,
 });
 
-export default customAxios
+const accessToken = getCookie('accessToken')
+const refreshToken = getCookie('refreshToken')
+api.interceptors.request.use(
+    (config) => {
+        // 요청 전 수행 로직
+        config.headers.Authorization = `Bearer ${accessToken}`;
+        return config;
+    }
+);
+
+api.interceptors.response.use(
+    (response) => {
+        // 응답 수행 로직
+        if (response.data.accessToken){
+            setCookie('accessToken', response.data.accessToken);
+        }
+        if (response.data.refreshToken){
+            setCookie('refreshToken', response.data.refreshToken);
+        }
+        return response;
+    }
+);
+
+const customAxios = {
+    join: async (data) => {
+        const response = await api.post(memberURL.MEMBER_JOIN_URL,  data);
+        return response;
+    },
+    login: async (data) => {
+        const response = await api.post(memberURL.MEMBER_LOGIN_URL, data);
+        return response;
+    }
+};
+
+export {customAxios, memberURL}
