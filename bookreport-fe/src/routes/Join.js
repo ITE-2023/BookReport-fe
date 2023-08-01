@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 
 import Layout from "../components/Layout"
-import customAxios from "../api/customAxios.js"
+import {customAxios, memberURL} from "../api/customAxios.js"
 
 import {icon, MixinToast} from "../components/Alert.js"
 
@@ -27,8 +27,6 @@ function Join() {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [isConfirmPassword, setIsConfirmPassword] = useState(false);
   const navigate = useNavigate();
-  const MEMBER_JOIN_URL = "/member/join";
-  const MEMBER_LOGIN_URL = "/member/login"
 
   // 아이디
   const onChangeUsername = useCallback((event) => setUsername(event.target.value), [])
@@ -77,12 +75,12 @@ function Join() {
       }
 
       try {
-        await customAxios
-        .post(MEMBER_JOIN_URL, joinDto)
+        customAxios.join(joinDto)
         .then((res) => {
+          console.log(res)
           if (res.status === 200){
             MixinToast({icon: icon.SUCCESS, title: "회원 가입 성공!"})
-            navigate(MEMBER_LOGIN_URL);
+            navigate(memberURL.MEMBER_LOGIN_URL);
           }
         })
       }

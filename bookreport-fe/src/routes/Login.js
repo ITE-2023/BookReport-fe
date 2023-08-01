@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 
 import Layout from "../components/Layout"
-import customAxios from "../api/customAxios.js"
+import  {customAxios} from "../api/customAxios.js"
 import {icon, MixinToast} from "../components/Alert.js"
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +29,6 @@ function Login() {
   const onChangeUsername = useCallback((event) => setUsername(event.target.value), [])
   const onChangePassword = useCallback((event) => setPassword(event.target.value), [])
 
-  const MEMBER_LOGIN_URL = "/member/login"
   const navigate = useNavigate();
 
   const onSubmit = useCallback(
@@ -52,8 +51,7 @@ function Login() {
       }
 
       try {
-        await customAxios
-        .post(MEMBER_LOGIN_URL, loginDto)
+        await customAxios.login(loginDto)
         .then((res) => {
           if (res.status === 200){
             MixinToast({icon: icon.SUCCESS, title: "로그인 성공"})
