@@ -50,18 +50,15 @@ function Login() {
         return;
       }
 
-      try {
-        await customAxios.login(loginDto)
+      customAxios.login(loginDto)
         .then((res) => {
           if (res.status === 200){
             MixinToast({icon: icon.SUCCESS, title: "로그인 성공"})
             navigate(-1);
           }
-        })
-      }
-      catch(error){
+        }).catch((error)=>{
         console.error(error);   
-      }
+      });
     }
     ,[username, password, navigate]
   )

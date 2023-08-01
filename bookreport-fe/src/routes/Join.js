@@ -74,19 +74,15 @@ function Join() {
         return;
       }
 
-      try {
         customAxios.join(joinDto)
         .then((res) => {
-          console.log(res)
           if (res.status === 200){
             MixinToast({icon: icon.SUCCESS, title: "회원 가입 성공!"})
             navigate(memberURL.MEMBER_LOGIN_URL);
           }
-        })
-      }
-      catch(error){
+        }).catch((error)=>{
         console.error(error);   
-      }
+      });
     }
     ,[username, password, confirmPassword, isConfirmPassword, navigate]
   )
