@@ -65,8 +65,8 @@ function Header() {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/member/join" to="/member/join">
-                    회원가입
+                  <NavLink href="/report/create" to="/report/create">
+                    독후감 쓰기
                   </NavLink>
                 </NavItem>
               </Nav>
