@@ -20,6 +20,7 @@ import Layout from "../components/Layout"
 import  {customAxios} from "../api/customAxios.js"
 import {icon, MixinToast} from "../components/Alert.js"
 import { useNavigate } from 'react-router-dom';
+import {setCookie, getCookie} from "../api/cookie.js"
 
 function Login() {
 
@@ -54,6 +55,21 @@ function Login() {
         .then((res) => {
           if (res.status === 200){
             MixinToast({icon: icon.SUCCESS, title: "로그인 성공"})
+            if (res.data.accessToken) {
+              setCookie('accessToken', res.data.accessToken, {
+                path : "/",
+                secure: true,
+                maxAge : 3600,
+              })
+            }
+            if (res.data.refreshToken) {
+              setCookie('refreshToken', res.data.refreshToken, {
+                path : "/",
+                secure: true,
+                maxAge : 3600 * 24,
+              })
+            }
+            console.log(getCookie('accessToken'))
             navigate(-1);
           }
         }).catch((error)=>{

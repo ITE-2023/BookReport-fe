@@ -27,12 +27,6 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => {
         // 응답 수행 로직
-        if (response.data.accessToken){
-            setCookie('accessToken', response.data.accessToken);
-        }
-        if (response.data.refreshToken){
-            setCookie('refreshToken', response.data.refreshToken);
-        }
         return response;
     }
 );
