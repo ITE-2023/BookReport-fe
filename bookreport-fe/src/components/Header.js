@@ -12,6 +12,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { useNavigate } from 'react-router-dom';
+import { getCookie, removeCookie} from "../api/cookie.js";
 
 function Header() {
   const componentDidMount = () => {
@@ -21,6 +23,15 @@ function Header() {
   useEffect(() => {
     componentDidMount();
   }, []);
+
+  const navigate = useNavigate();
+
+  const token = getCookie('accessToken')
+  const logout = () => {
+    removeCookie('accessToken');
+    removeCookie('refreshToken');
+    navigate('/');
+  }
   return (
     <>
       <header className="header-global">
@@ -59,16 +70,36 @@ function Header() {
                 </Row>
               </div>
               <Nav className="align-items-lg-center ml-lg-auto" navbar>
-                <NavItem>
-                  <NavLink href="/member/login" to="/member/login">
-                    로그인
-                  </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/member/join" to="/member/join">
-                    회원가입
-                  </NavLink>
-                </NavItem>
+                {token ? 
+                (
+                  <>
+                    <NavItem>
+                      <NavLink onClick={logout} href="#">
+                        로그아웃
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/report/create" to="/report/create">
+                        독후감 쓰기
+                      </NavLink>
+                    </NavItem>
+                  </>
+                ) :
+                (
+                  <>
+                    <NavItem>
+                      <NavLink href="/member/login" to="/member/login">
+                        로그인
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink href="/member/join" to="/member/join">
+                        회원가입
+                      </NavLink>
+                    </NavItem>
+                  </>
+                )
+                }
               </Nav>
             </UncontrolledCollapse>
           </Container>

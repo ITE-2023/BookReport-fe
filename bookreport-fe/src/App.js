@@ -1,11 +1,14 @@
 import React from "react";
 import Layout from "./components/Layout"
+import {CookiesProvider} from 'react-cookie';
 
 function App() {
+
   return (
-    <Layout>
-      
-    </Layout>
+    <CookiesProvider>
+      <Layout />
+    </CookiesProvider>
+
   );
 }
 
