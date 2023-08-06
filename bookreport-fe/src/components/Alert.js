@@ -28,7 +28,7 @@ const MixinToast = ({icon, title}) => {
     })
 }
 
-const Toast = ({title, text, icon, confirmText, confirmTitle, confirmContent}) => {
+const ConfirmToast = ({title, text, icon, confirmText, confirmTitle, confirmContent}) => {
     MySwal.fire({
         title: title,
         text: text,
@@ -48,4 +48,14 @@ const Toast = ({title, text, icon, confirmText, confirmTitle, confirmContent}) =
     })
 }
 
-export {icon, MixinToast, Toast}
+const TimerToast = ({icon, title}) => {
+    MySwal.fire({
+        position: 'center',
+        icon: icon,
+        title: title,
+        showConfirmButton: false,
+        timer: 1500
+    })
+}
+
+export {icon, MixinToast, ConfirmToast, TimerToast}

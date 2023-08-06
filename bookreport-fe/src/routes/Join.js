@@ -19,7 +19,7 @@ import {
 import Layout from "../components/Layout"
 import {customAxios, memberURL} from "../api/customAxios.js"
 
-import {icon, MixinToast} from "../components/Alert.js"
+import {icon, MixinToast, TimerToast} from "../components/Alert.js"
 
 function Join() {
   const [username, setUsername] = useState("");
@@ -32,7 +32,11 @@ function Join() {
   const onChangeUsername = useCallback((event) => setUsername(event.target.value), [])
 
   // 비밀번호
-  const onChangePassword = useCallback((event) => setPassword(event.target.value), [])
+  const onChangePassword = useCallback((event) => {
+    const current_password = event.target.value;
+    setPassword(current_password)
+    setIsConfirmPassword(current_password === confirmPassword);
+  }, [confirmPassword])
 
   // 비밀번호 확인
   const onChangeConfirmPassword = useCallback(
@@ -81,7 +85,10 @@ function Join() {
             navigate(memberURL.MEMBER_LOGIN_URL);
           }
         }).catch((error)=>{
-        console.error(error);   
+          console.log(error.response.data)
+          TimerToast({
+            title : error.response.data, 
+            icon : icon.ERROR,})  
       });
     }
     ,[username, password, confirmPassword, isConfirmPassword, navigate]
