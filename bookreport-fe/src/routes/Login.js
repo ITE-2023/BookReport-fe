@@ -18,7 +18,7 @@ import {
 
 import Layout from "../components/Layout"
 import  {customAxios} from "../api/customAxios.js"
-import {icon, MixinToast} from "../components/Alert.js"
+import {icon, MixinToast, TimerToast} from "../components/Alert.js"
 import { useNavigate } from 'react-router-dom';
 import {setCookie, getCookie} from "../api/cookie.js"
 
@@ -73,7 +73,10 @@ function Login() {
             navigate(-1);
           }
         }).catch((error)=>{
-        console.error(error);   
+        console.error(error.response.data);
+        TimerToast({
+          title : error.response.data, 
+          icon : icon.ERROR,})     
       });
     }
     ,[username, password, navigate]
