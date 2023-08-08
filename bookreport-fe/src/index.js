@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import axios from "axios";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import "./assets/vendor/nucleo/css/nucleo.css";
