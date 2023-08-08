@@ -112,8 +112,8 @@ function Join() {
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white">
-                      <div className="text-muted text-center">
-                        <small>Sign up with credentials</small>
+                      <div className="text-center">
+                        <smail>회원 가입</smail>
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
@@ -162,7 +162,7 @@ function Join() {
                         </FormGroup>
                         <div className="text-muted font-italic">
                           <small>
-                            Confirm password:{" "}
+                            비밀번호 확인 :{" "}
                             {isConfirmPassword ? (
                             <span className="text-success font-weight-700" >
                             success

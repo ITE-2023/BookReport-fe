@@ -100,8 +100,8 @@ function Login() {
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white">
-                      <div className="text-muted text-center">
-                        <small>Sign in with credentials</small>
+                      <div className="text-center">
+                        <small>로그인</small>
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
@@ -149,7 +149,7 @@ function Login() {
                         className="text-light"
                         href="/member/join"
                       >
-                        <small>Create new account</small>
+                        <small>회원 가입</small>
                       </a>
                     </div>
                 </Col>
