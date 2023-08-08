@@ -99,9 +99,9 @@ function Login() {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-white">
+                  <CardHeader className="bg-white">
                       <div className="text-center">
-                        <small>로그인</small>
+                        <h5>로그인</h5>
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
@@ -149,7 +149,7 @@ function Login() {
                         className="text-light"
                         href="/member/join"
                       >
-                        <small>회원 가입</small>
+                        <small>계정이 없으신가요?</small>
                       </a>
                     </div>
                 </Col>

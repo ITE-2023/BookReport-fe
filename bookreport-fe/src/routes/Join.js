@@ -113,7 +113,7 @@ function Join() {
                   <Card className="bg-secondary shadow border-0">
                     <CardHeader className="bg-white">
                       <div className="text-center">
-                        <smail>회원 가입</smail>
+                        <h5>회원 가입</h5>
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
