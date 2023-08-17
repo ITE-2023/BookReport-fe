@@ -18,7 +18,7 @@ import {
 
 import Layout from "../components/Layout"
 import  {customAxios} from "../api/customAxios.js"
-import {icon, MixinToast} from "../components/Alert.js"
+import {icon, MixinToast, TimerToast} from "../components/Alert.js"
 import { useNavigate } from 'react-router-dom';
 import {setCookie, getCookie} from "../api/cookie.js"
 
@@ -73,7 +73,10 @@ function Login() {
             navigate(-1);
           }
         }).catch((error)=>{
-        console.error(error);   
+        console.error(error.response.data);
+        TimerToast({
+          title : error.response.data, 
+          icon : icon.ERROR,})     
       });
     }
     ,[username, password, navigate]
@@ -96,9 +99,9 @@ function Login() {
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-white">
-                      <div className="text-muted text-center">
-                        <small>Sign in with credentials</small>
+                  <CardHeader className="bg-white">
+                      <div className="text-center">
+                        <h5>로그인</h5>
                       </div>
                     </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
@@ -146,7 +149,7 @@ function Login() {
                         className="text-light"
                         href="/member/join"
                       >
-                        <small>Create new account</small>
+                        <small>계정이 없으신가요?</small>
                       </a>
                     </div>
                 </Col>
