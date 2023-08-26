@@ -20,7 +20,7 @@ const items = [
 function Hero() {
   return (
     <>
-      <div className="position-relative">
+      <div>
         <section className="section section-hero section-shaped">
           <div className="shape shape-style-1 shape-default">
             <span />

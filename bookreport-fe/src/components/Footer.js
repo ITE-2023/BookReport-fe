@@ -7,13 +7,12 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import styles from "../css/Layout.module.css"
-
+import "../css/Layout.css";
 
 function Footer() {
     return (
       <>
-        <footer className={`footer ${styles.footer}`}>
+        <footer className="footer" id = "footer">
           <Container>
             <Row className="align-items-center justify-content-md-between">
               <Col md="6">
