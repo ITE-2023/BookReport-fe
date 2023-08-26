@@ -6,9 +6,9 @@ import styles from "../css/Layout.module.css"
 
 function Layout({children}) {
     return (
-        <div>
+        <div className={styles.wrapper}>
             <Header />
-            <main className={styles.wrapper}>
+            <main className={styles.content}>
                 {children}
             </main>
             <Footer />

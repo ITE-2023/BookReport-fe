@@ -1,11 +1,18 @@
-.wrapper{
+.wrapper {
   min-height: 100%;
-  position:relative;
+  position: relative;
 }
 
-.footer{
-  position:absolute;
+.content {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 80px;
+}
+
+.footer {
+  position: absolute;
   width: 100%;
+  height: 80px; /* footer의 높이 */
   bottom: 0;
   left: 0;
 }
