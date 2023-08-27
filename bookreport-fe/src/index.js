@@ -9,7 +9,7 @@ import "./assets/scss/argon-design-system-react.scss?v1.1.0";
 
 import Login from "./routes/Login";
 import Join from "./routes/Join";
-import ReportForm from "./routes/report/ReportForm.js"
+import ReportForm from "./routes/report/ReportForm.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -19,8 +19,8 @@ root.render(
       <Route path="/" exact element={<App />} />
       <Route path="*" element={<Navigate to="/" replace />} />
       <Route path="/member/login" exact element={<Login />} />
-      <Route path="/member/join" exact element={<Join />}/>
-      <Route path="/report/create" exact element={<ReportForm />}/>
+      <Route path="/member/join" exact element={<Join />} />
+      <Route path="/report/create" exact element={<ReportForm />} />
     </Routes>
   </BrowserRouter>
 );

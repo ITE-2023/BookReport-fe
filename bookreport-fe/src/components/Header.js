@@ -12,8 +12,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { useNavigate } from 'react-router-dom';
-import { getCookie, removeCookie} from "../api/cookie.js";
+import { useNavigate } from "react-router-dom";
+import { getCookie, removeCookie } from "../api/cookie.js";
 
 function Header() {
   const componentDidMount = () => {
@@ -26,12 +26,12 @@ function Header() {
 
   const navigate = useNavigate();
 
-  const token = getCookie('accessToken')
+  const token = getCookie("accessToken");
   const logout = () => {
-    removeCookie('accessToken');
-    removeCookie('refreshToken');
-    navigate('/');
-  }
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
+    navigate("/");
+  };
   return (
     <>
       <header className="header-global">
@@ -70,8 +70,7 @@ function Header() {
                 </Row>
               </div>
               <Nav className="align-items-lg-center ml-lg-auto" navbar>
-                {token ? 
-                (
+                {token ? (
                   <>
                     <NavItem>
                       <NavLink onClick={logout} href="#">
@@ -84,8 +83,7 @@ function Header() {
                       </NavLink>
                     </NavItem>
                   </>
-                ) :
-                (
+                ) : (
                   <>
                     <NavItem>
                       <NavLink href="/member/login" to="/member/login">
@@ -98,8 +96,7 @@ function Header() {
                       </NavLink>
                     </NavItem>
                   </>
-                )
-                }
+                )}
               </Nav>
             </UncontrolledCollapse>
           </Container>
