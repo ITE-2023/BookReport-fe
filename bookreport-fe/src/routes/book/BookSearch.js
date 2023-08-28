@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Layout from "../../components/Layout";
 import Hero from "../../components/Hero";
 import classnames from "classnames";
@@ -15,23 +15,35 @@ import { customAxios } from "../../api/customAxios.js";
 
 function ReportForm() {
   const location = useLocation();
-  const data = location.state.data;
+  const data = location.state.keyword;
   const [state, setState] = useState({});
   const [keyword, setKeyword] = useState(data);
+  const [bookList, setBookList] = useState([]);
   const onChangeKeyword = useCallback(
     (event) => setKeyword(event.target.value),
     []
   );
+  const search = (keyword) => {
+    customAxios
+      .search(keyword)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data.items.length);
+          setBookList(res.data.items);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    search(data);
+  }, [data]);
+
   const onKeyDown = (e) => {
     if (e.key === "Enter") {
-      customAxios
-        .search(keyword)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      search(keyword);
     }
   };
 
@@ -61,22 +73,13 @@ function ReportForm() {
           </InputGroup>
         </FormGroup>
       </Hero>
-      <section className="section">
+      <div className="">
         <Container>
-          <Card className="card-profile shadow mt--300">
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
+          <Card className="shadow mt--300">
+            <div className="bookList"></div>
           </Card>
         </Container>
-      </section>
+      </div>
     </Layout>
   );
 }
