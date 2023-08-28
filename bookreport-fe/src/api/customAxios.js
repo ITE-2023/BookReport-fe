@@ -8,6 +8,10 @@ const memberURL = {
   MEMBER_LOGIN_URL: "/member/login",
 };
 
+const bookURL = {
+  BOOK_SEARCH_URL: "/book/search",
+};
+
 const api = axios.create({
   baseURL: `${SERVER_ADDRESS}`,
   headers: { "Content-type": "application/json" },
@@ -34,6 +38,12 @@ const customAxios = {
   },
   login: async (data) => {
     const response = await api.post(memberURL.MEMBER_LOGIN_URL, data);
+    return response;
+  },
+  search: async (keyword) => {
+    const response = await api.get(bookURL.BOOK_SEARCH_URL, {
+      params: { query: keyword },
+    });
     return response;
   },
 };
