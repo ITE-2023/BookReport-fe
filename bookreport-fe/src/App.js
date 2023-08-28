@@ -40,7 +40,9 @@ function App() {
 
   const onKeyDown = (e) => {
     if (e.key === "Enter") {
-      navigate("/book/search", { state: { keyword: keyword } });
+      navigate(`/book/search?query=${keyword}`, {
+        state: { keyword: keyword },
+      });
     }
   };
   return (
