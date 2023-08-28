@@ -12,8 +12,11 @@ import {
 import { useLocation } from "react-router-dom";
 import { Button, Card, Container, Row, Col } from "reactstrap";
 import { customAxios } from "../../api/customAxios.js";
+import { useNavigate } from "react-router-dom";
+import "../../css/BookSearch.css";
 
-function ReportForm() {
+function BookSearch() {
+  const navigate = useNavigate();
   const location = useLocation();
   const data = location.state.keyword;
   const [state, setState] = useState({});
@@ -28,12 +31,11 @@ function ReportForm() {
       .search(keyword)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.items.length);
           setBookList(res.data.items);
         }
       })
       .catch((error) => {
-        console.log(error);
+        setBookList([]);
       });
   };
 
@@ -43,8 +45,28 @@ function ReportForm() {
 
   const onKeyDown = (e) => {
     if (e.key === "Enter") {
-      search(keyword);
+      navigate(`/book/search?query=${keyword}`, {
+        state: { keyword: keyword },
+      });
     }
+  };
+
+  const repeatBook = (bookList) => {
+    let arr = [];
+    for (let i = 0; i < bookList.length; i++) {
+      arr.push(
+        <Row className="book">
+          <Col md="2">
+            <img src={bookList[i].image} className="bookImage" />
+          </Col>
+          <Col>
+            <Row>{bookList[i].title}</Row>
+            <Row>{bookList[i].author}</Row>
+          </Col>
+        </Row>
+      );
+    }
+    return arr;
   };
 
   return (
@@ -73,10 +95,20 @@ function ReportForm() {
           </InputGroup>
         </FormGroup>
       </Hero>
-      <div className="">
+      <div className="pb-5">
         <Container>
           <Card className="shadow mt--300">
-            <div className="bookList"></div>
+            <div className="bookList">
+              {bookList.length !== 0 ? (
+                <div className="p-5">{repeatBook(bookList)}</div>
+              ) : (
+                <>
+                  <div className="text-center p-5">
+                    <p>해당 검색어에 대한 검색 결과가 존재하지 않습니다.</p>
+                  </div>
+                </>
+              )}
+            </div>
           </Card>
         </Container>
       </div>
@@ -84,4 +116,4 @@ function ReportForm() {
   );
 }
 
-export default ReportForm;
+export default BookSearch;
