@@ -9,10 +9,9 @@ import {
   InputGroupText,
   InputGroup,
 } from "reactstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Card, Container, Row, Col } from "reactstrap";
 import { customAxios } from "../../api/customAxios.js";
-import { useNavigate } from "react-router-dom";
 import "../../css/BookSearch.css";
 
 function BookSearch() {
@@ -51,25 +50,37 @@ function BookSearch() {
     }
   };
 
+  const onClick = (book) => {
+    navigate(`/book/detail/${book.isbn}`, {
+      state: { book: book },
+    });
+  };
+
   const repeatBook = (bookList) => {
     let arr = [];
     for (let i = 0; i < bookList.length; i++) {
       arr.push(
-        <Row className="book align-items-center">
-          <Col className="bookImageBox">
-            <img src={bookList[i].image} className="bookImage" />
-          </Col>
-          <Col sm="5">
-            <p className="book-title text-uppercase font-weight-bold">
-              {bookList[i].title}
-            </p>
-            <p className="text-muted">{bookList[i].author}</p>
-            <p className="text-muted">{bookList[i].publisher}</p>
-          </Col>
-          <Col sm="5" className="book-description text-muted">
-            <p>{bookList[i].description}</p>
-          </Col>
-        </Row>
+        <div onClick={() => onClick(bookList[i])}>
+          <Row className="book align-items-center">
+            <Col className="bookImageBox">
+              <img
+                src={bookList[i].image}
+                className="bookImage"
+                alt="bookImage"
+              />
+            </Col>
+            <Col sm="5">
+              <p className="book-title text-uppercase font-weight-bold">
+                {bookList[i].title}
+              </p>
+              <p className="text-muted">{bookList[i].author}</p>
+              <p className="text-muted">{bookList[i].publisher}</p>
+            </Col>
+            <Col sm="5" className="book-description text-muted">
+              <p>{bookList[i].description}</p>
+            </Col>
+          </Row>
+        </div>
       );
     }
     return arr;
@@ -110,20 +121,7 @@ function BookSearch() {
               ) : (
                 <>
                   <div className="text-center p-5">
-                    {/* <p>해당 검색어에 대한 검색 결과가 존재하지 않습니다.</p> */}
-                    <Row className="py-3 align-items-center">
-                      <Col sm="2">
-                        <small className="text-uppercase text-muted font-weight-bold">
-                          Heading 1
-                        </small>
-                      </Col>
-                      <Col sm="5">
-                        <h1 className="mb-0">Argon Design System</h1>
-                      </Col>
-                      <Col sm="5">
-                        <h1 className="mb-0">Argon Design System</h1>
-                      </Col>
-                    </Row>
+                    <p>해당 검색어에 대한 검색 결과가 존재하지 않습니다.</p>
                   </div>
                 </>
               )}
