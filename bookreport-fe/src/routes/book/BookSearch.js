@@ -70,11 +70,11 @@ function BookSearch() {
               />
             </Col>
             <Col sm="5">
-              <p className="book-title text-uppercase font-weight-bold">
+              <p className="nowrap text-uppercase font-weight-bold">
                 {bookList[i].title}
               </p>
-              <p className="text-muted">{bookList[i].author}</p>
-              <p className="text-muted">{bookList[i].publisher}</p>
+              <p className="nowrap text-muted">{bookList[i].author}</p>
+              <p className="nowrap text-muted">{bookList[i].publisher}</p>
             </Col>
             <Col sm="5" className="book-description text-muted">
               <p>{bookList[i].description}</p>
