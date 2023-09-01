@@ -12,6 +12,7 @@ import Join from "./routes/Join";
 import ReportForm from "./routes/report/ReportForm.js";
 import BookSearch from "./routes/book/BookSearch.js";
 import BookDetail from "./routes/book/BookDetail.js";
+import "./css/Index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
