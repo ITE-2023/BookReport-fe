@@ -11,6 +11,8 @@ import Login from "./routes/Login";
 import Join from "./routes/Join";
 import ReportForm from "./routes/report/ReportForm.js";
 import BookSearch from "./routes/book/BookSearch.js";
+import BookDetail from "./routes/book/BookDetail.js";
+import "./css/Index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -23,6 +25,7 @@ root.render(
       <Route path="/member/join" exact element={<Join />} />
       <Route path="/report/create" exact element={<ReportForm />} />
       <Route path="/book/search" exact element={<BookSearch />} />
+      <Route path="/book/detail/:isbn" exact element={<BookDetail />} />
     </Routes>
   </BrowserRouter>
 );

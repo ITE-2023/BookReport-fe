@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import React from "react";
 
 import "../css/Layout.css";
-import "../css/Default.css";
 
 function Layout({ children }) {
   return (
