@@ -65,7 +65,7 @@ function App() {
             </Row>
           </Container>
         </Hero>
-        <section className="text-center">
+        <section className="text-center m-5">
           <p className="lead">책을 검색하여 독후감과 음악을 기록해보세요!</p>
           <FormGroup
             className={classnames({

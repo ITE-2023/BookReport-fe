@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 
 import Layout from "../components/Layout";
-import { customAxios, memberURL } from "../api/customAxios.js";
+import { customAxios } from "../api/customAxios.js";
 
 import { icon, MixinToast, TimerToast } from "../components/Alert.js";
 
@@ -93,7 +93,7 @@ function Join() {
         .then((res) => {
           if (res.status === 200) {
             MixinToast({ icon: icon.SUCCESS, title: "회원 가입 성공!" });
-            navigate(memberURL.MEMBER_LOGIN_URL);
+            navigate(`/member/login`);
           }
         })
         .catch((error) => {

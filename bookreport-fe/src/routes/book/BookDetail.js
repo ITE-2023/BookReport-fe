@@ -25,6 +25,10 @@ function BookDetail() {
     return book.description;
   }, [isMore, book.description]);
 
+  const myBookSave = () => {
+    
+  }
+
   return (
     <Layout>
       <Hero>
@@ -59,8 +63,7 @@ function BookDetail() {
                 <Button
                   className="btn-neutral btn-icon"
                   color="default"
-                  href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-navbar"
-                  target="_blank"
+                  onClick = {myBookSave}
                 >
                   <span className="btn-inner--icon">
                     <i

@@ -12,6 +12,10 @@ const bookURL = {
   BOOK_SEARCH_URL: "/book/search",
 };
 
+const myBookURL = {
+  MY_BOOK_SAVE_URL: "/myBook/save",
+};
+
 const api = axios.create({
   baseURL: `${SERVER_ADDRESS}`,
   headers: { "Content-type": "application/json" },
@@ -46,6 +50,10 @@ const customAxios = {
     });
     return response;
   },
+  myBook_save: async (data) => {
+    const response = await api.post(myBookURL.MY_BOOK_SAVE_URL, data);
+    return response;
+  },
 };
 
-export { customAxios, memberURL };
+export { customAxios };
