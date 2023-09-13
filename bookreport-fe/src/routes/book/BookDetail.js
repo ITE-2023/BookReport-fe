@@ -4,22 +4,21 @@ import {
   Col,
   Container,
   Row,
-  CardHeader,
   CardBody,
+  Modal,
+  NavItem,
+  NavLink,
+  Nav,
+  CardHeader,
   FormGroup,
   Form,
   Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Modal,
-  NavItem,
-  NavLink,
-  Nav,
 } from "reactstrap";
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
-import { useLocation } from "react-router-dom";
 import styles from "../../css/BookDetail.module.css";
 import { useMemo, useRef, useState, useEffect } from "react";
 import classnames from "classnames";
@@ -34,6 +33,7 @@ function BookDetail() {
   const [publisher, setPublisher] = useState("");
   const [description, setDescription] = useState("");
 
+  // 책 상세 검색
   const search_detail = async (isbn) => {
     await customAxios
       .search_detail(isbn)
@@ -54,6 +54,7 @@ function BookDetail() {
     search_detail(isbn);
   }, [isbn]);
 
+  // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
   const descriptionLimit = useRef(200);
   const commenter = useMemo(() => {
@@ -68,7 +69,11 @@ function BookDetail() {
     return description;
   }, [isMore, description]);
 
-  const myBookSave = () => {};
+  // 내 서재 버튼 클릭 시, modal 작동
+  const [formModal, setFormModal] = useState(false);
+  const toggleModal = () => {
+    setFormModal(!formModal);
+  };
 
   return (
     <Layout>
@@ -107,7 +112,7 @@ function BookDetail() {
                 <Button
                   className="btn-neutral btn-icon"
                   color="default"
-                  onClick={myBookSave}
+                  onClick={toggleModal}
                 >
                   <span className="btn-inner--icon">
                     <i
@@ -117,6 +122,12 @@ function BookDetail() {
                   </span>
                   내 서재 추가
                 </Button>
+                <Modal
+                  className="modal-dialog-centered"
+                  size="sm"
+                  isOpen={formModal}
+                  toggle={toggleModal}
+                ></Modal>
               </Col>
             </Row>
           </Card>
