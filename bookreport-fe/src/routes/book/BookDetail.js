@@ -75,6 +75,12 @@ function BookDetail() {
     setFormModal(!formModal);
   };
 
+  // 책 상태 선택 버튼
+  const [pill, setPill] = useState(0);
+  const toggleNavs = (index) => {
+    setPill(index);
+  };
+
   return (
     <Layout>
       <Hero>
@@ -127,7 +133,71 @@ function BookDetail() {
                   size="sm"
                   isOpen={formModal}
                   toggle={toggleModal}
-                ></Modal>
+                >
+                  <div className="modal-body p-0">
+                    <Card className="bg-secondary shadow border-0">
+                      <CardHeader className="bg-white pb-5">
+                        <div className="btn-wrapper text-center">
+                          <Col>
+                            <Nav pills>
+                              <NavItem>
+                                <NavLink
+                                  aria-selected={pill === 1}
+                                  className={classnames("btn-1", {
+                                    active: pill === 1,
+                                  })}
+                                  onClick={(index) => toggleNavs(1)}
+                                  color="primary"
+                                  outline
+                                  type="button"
+                                >
+                                  <span className="nav-link-icon d-block">
+                                    <i className="fa fa-check-circle" />
+                                  </span>
+                                  읽은 책
+                                </NavLink>
+                              </NavItem>
+                              <NavItem>
+                                <NavLink
+                                  aria-selected={pill === 2}
+                                  className={classnames("btn-1", {
+                                    active: pill === 2,
+                                  })}
+                                  onClick={(index) => toggleNavs(2)}
+                                  color="primary"
+                                  outline
+                                  type="button"
+                                >
+                                  <span className="nav-link-icon d-block">
+                                    <i className="fa fa-bookmark" />
+                                  </span>
+                                  읽는 중인 책
+                                </NavLink>
+                              </NavItem>
+                              <NavItem>
+                                <NavLink
+                                  aria-selected={pill === 3}
+                                  className={classnames("btn-1", {
+                                    active: pill === 3,
+                                  })}
+                                  onClick={(index) => toggleNavs(3)}
+                                  color="primary"
+                                  outline
+                                  type="button"
+                                >
+                                  <span className="nav-link-icon d-block">
+                                    <i className="fa fa-star" />
+                                  </span>
+                                  읽고 싶은 책
+                                </NavLink>
+                              </NavItem>
+                            </Nav>
+                          </Col>
+                        </div>
+                      </CardHeader>
+                    </Card>
+                  </div>
+                </Modal>
               </Col>
             </Row>
           </Card>
