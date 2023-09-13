@@ -4,18 +4,12 @@ import {
   Col,
   Container,
   Row,
-  CardBody,
   Modal,
   NavItem,
   NavLink,
   Nav,
   CardHeader,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
+  CardBody,
 } from "reactstrap";
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
@@ -130,7 +124,6 @@ function BookDetail() {
                 </Button>
                 <Modal
                   className="modal-dialog-centered"
-                  size="sm"
                   isOpen={formModal}
                   toggle={toggleModal}
                 >
@@ -139,13 +132,17 @@ function BookDetail() {
                       <CardHeader className="bg-white pb-5">
                         <div className="btn-wrapper text-center">
                           <Col>
-                            <Nav pills>
+                            <Nav pills className="justify-content-center">
                               <NavItem>
                                 <NavLink
                                   aria-selected={pill === 1}
-                                  className={classnames("btn-1", {
-                                    active: pill === 1,
-                                  })}
+                                  className={classnames(
+                                    "btn-1",
+                                    {
+                                      active: pill === 1,
+                                    },
+                                    styles.navLink
+                                  )}
                                   onClick={(index) => toggleNavs(1)}
                                   color="primary"
                                   outline
@@ -160,9 +157,13 @@ function BookDetail() {
                               <NavItem>
                                 <NavLink
                                   aria-selected={pill === 2}
-                                  className={classnames("btn-1", {
-                                    active: pill === 2,
-                                  })}
+                                  className={classnames(
+                                    "btn-1",
+                                    {
+                                      active: pill === 2,
+                                    },
+                                    styles.navLink
+                                  )}
                                   onClick={(index) => toggleNavs(2)}
                                   color="primary"
                                   outline
@@ -177,9 +178,13 @@ function BookDetail() {
                               <NavItem>
                                 <NavLink
                                   aria-selected={pill === 3}
-                                  className={classnames("btn-1", {
-                                    active: pill === 3,
-                                  })}
+                                  className={classnames(
+                                    "btn-1",
+                                    {
+                                      active: pill === 3,
+                                    },
+                                    styles.navLink
+                                  )}
                                   onClick={(index) => toggleNavs(3)}
                                   color="primary"
                                   outline
@@ -195,6 +200,7 @@ function BookDetail() {
                           </Col>
                         </div>
                       </CardHeader>
+                      <CardBody></CardBody>
                     </Card>
                   </div>
                 </Modal>

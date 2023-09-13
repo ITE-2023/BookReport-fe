@@ -20,3 +20,7 @@
 .moreBtn:hover {
   cursor: pointer;
 }
+
+.navLink {
+  width: 100px;
+}
