@@ -10,6 +10,8 @@ import {
   Nav,
   CardHeader,
   CardBody,
+  TabContent,
+  TabPane,
 } from "reactstrap";
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
@@ -130,75 +132,96 @@ function BookDetail() {
                   <div className="modal-body p-0">
                     <Card className="bg-secondary shadow border-0">
                       <CardHeader className="bg-white pb-5">
-                        <div className="btn-wrapper text-center">
-                          <Col>
-                            <Nav pills className="justify-content-center">
-                              <NavItem>
-                                <NavLink
-                                  aria-selected={pill === 1}
-                                  className={classnames(
-                                    "btn-1",
-                                    {
-                                      active: pill === 1,
-                                    },
-                                    styles.navLink
-                                  )}
-                                  onClick={(index) => toggleNavs(1)}
-                                  color="primary"
-                                  outline
-                                  type="button"
-                                >
-                                  <span className="nav-link-icon d-block">
-                                    <i className="fa fa-check-circle" />
-                                  </span>
-                                  읽은 책
-                                </NavLink>
-                              </NavItem>
-                              <NavItem>
-                                <NavLink
-                                  aria-selected={pill === 2}
-                                  className={classnames(
-                                    "btn-1",
-                                    {
-                                      active: pill === 2,
-                                    },
-                                    styles.navLink
-                                  )}
-                                  onClick={(index) => toggleNavs(2)}
-                                  color="primary"
-                                  outline
-                                  type="button"
-                                >
-                                  <span className="nav-link-icon d-block">
-                                    <i className="fa fa-bookmark" />
-                                  </span>
-                                  읽는 중인 책
-                                </NavLink>
-                              </NavItem>
-                              <NavItem>
-                                <NavLink
-                                  aria-selected={pill === 3}
-                                  className={classnames(
-                                    "btn-1",
-                                    {
-                                      active: pill === 3,
-                                    },
-                                    styles.navLink
-                                  )}
-                                  onClick={(index) => toggleNavs(3)}
-                                  color="primary"
-                                  outline
-                                  type="button"
-                                >
-                                  <span className="nav-link-icon d-block">
-                                    <i className="fa fa-star" />
-                                  </span>
-                                  읽고 싶은 책
-                                </NavLink>
-                              </NavItem>
-                            </Nav>
-                          </Col>
+                        <div className="nav-wrapper">
+                          <Nav
+                            className="nav-fill flex-column flex-md-row"
+                            id="tabs-icons-text"
+                            pills
+                            role="tablist"
+                          >
+                            <NavItem>
+                              <NavLink
+                                aria-selected={pill === 1}
+                                className={classnames("mb-sm-3 mb-md-0", {
+                                  active: pill === 1,
+                                })}
+                                onClick={(e) => toggleNavs(1)}
+                                href="#pablo"
+                                role="tab"
+                              >
+                                <i className="ni ni-cloud-upload-96 mr-2" />
+                                Home
+                              </NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink
+                                aria-selected={pill === 2}
+                                className={classnames("mb-sm-3 mb-md-0", {
+                                  active: pill === 2,
+                                })}
+                                onClick={(e) => toggleNavs(2)}
+                                href="#pablo"
+                                role="tab"
+                              >
+                                <i className="ni ni-bell-55 mr-2" />
+                                Profile
+                              </NavLink>
+                            </NavItem>
+                            <NavItem>
+                              <NavLink
+                                aria-selected={pill === 3}
+                                className={classnames("mb-sm-3 mb-md-0", {
+                                  active: pill === 3,
+                                })}
+                                onClick={(e) => toggleNavs(3)}
+                                href="#pablo"
+                                role="tab"
+                              >
+                                <i className="ni ni-calendar-grid-58 mr-2" />
+                                Messages
+                              </NavLink>
+                            </NavItem>
+                          </Nav>
                         </div>
+                        <Card className="shadow">
+                          <CardBody>
+                            <TabContent activeTab={"iconTabs" + pill}>
+                              <TabPane tabId="iconTabs1">
+                                <p className="description">
+                                  Raw denim you probably haven't heard of them
+                                  jean shorts Austin. Nesciunt tofu stumptown
+                                  aliqua, retro synth master cleanse. Mustache
+                                  cliche tempor, williamsburg carles vegan
+                                  helvetica. Reprehenderit butcher retro
+                                  keffiyeh dreamcatcher synth.
+                                </p>
+                                <p className="description">  
+                                  Raw denim you probably haven't heard of them
+                                  jean shorts Austin. Nesciunt tofu stumptown
+                                  aliqua, retro synth master cleanse.
+                                </p>
+                              </TabPane>
+                              <TabPane tabId="iconTabs2">
+                                <p className="description">
+                                  Cosby sweater eu banh mi, qui irure terry
+                                  richardson ex squid. Aliquip placeat salvia
+                                  cillum iphone. Seitan aliquip quis cardigan
+                                  american apparel, butcher voluptate nisi qui.
+                                </p>
+                              </TabPane>
+                              <TabPane tabId="iconTabs3">
+                                <p className="description">
+                                  Raw denim you probably haven't heard of them
+                                  jean shorts Austin. Nesciunt tofu stumptown
+                                  aliqua, retro synth master cleanse. Mustache
+                                  cliche tempor, williamsburg carles vegan
+                                  helvetica. Reprehenderit butcher retro
+                                  keffiyeh dreamcatcher synth.
+                                </p>
+                              </TabPane>
+                            </TabContent>
+                          </CardBody>
+                        </Card>
                       </CardHeader>
                       <CardBody></CardBody>
                     </Card>
