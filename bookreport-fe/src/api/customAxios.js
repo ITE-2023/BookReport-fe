@@ -10,6 +10,7 @@ const memberURL = {
 
 const bookURL = {
   BOOK_SEARCH_URL: "/book/search",
+  BOOK_SEARCH_DETAIL_URL: "/book/detail",
 };
 
 const myBookURL = {
@@ -50,6 +51,11 @@ const customAxios = {
     });
     return response;
   },
+  search_detail: async (isbn) => {
+    const response = await api.get(`${bookURL.BOOK_SEARCH_DETAIL_URL}/${isbn}`);
+    return response;
+  },
+
   myBook_save: async (data) => {
     const response = await api.post(myBookURL.MY_BOOK_SAVE_URL, data);
     return response;

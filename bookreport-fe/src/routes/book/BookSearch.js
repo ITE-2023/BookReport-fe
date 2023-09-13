@@ -51,9 +51,7 @@ function BookSearch() {
   };
 
   const onClick = (book) => {
-    navigate(`/book/detail/${book.isbn}`, {
-      state: { book: book },
-    });
+    navigate(`/book/detail/${book.isbn}`);
   };
 
   const repeatBook = (bookList) => {
