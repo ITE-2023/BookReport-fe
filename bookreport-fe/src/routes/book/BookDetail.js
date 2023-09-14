@@ -20,6 +20,7 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
 import { useParams } from "react-router-dom";
+import { Rating } from 'react-simple-star-rating'
 
 function BookDetail() {
   const { isbn } = useParams();
@@ -77,6 +78,11 @@ function BookDetail() {
     setPill(index);
   };
 
+  // star rating
+  const [rating, setRating] = useState(0)
+  const handleRating = (rate: number) => {
+    setRating(rate)
+  }
   return (
     <Layout>
       <Hero>
@@ -149,8 +155,8 @@ function BookDetail() {
                                 href="#pablo"
                                 role="tab"
                               >
-                                <i className="ni ni-cloud-upload-96 mr-2" />
-                                Home
+                                <i className="fa fa-check-circle mr-2" />
+                                읽은 책
                               </NavLink>
                             </NavItem>
                             <NavItem>
@@ -163,8 +169,8 @@ function BookDetail() {
                                 href="#pablo"
                                 role="tab"
                               >
-                                <i className="ni ni-bell-55 mr-2" />
-                                Profile
+                                <i className="fa fa-bookmark mr-2" />
+                                읽는 중인 책
                               </NavLink>
                             </NavItem>
                             <NavItem>
@@ -177,8 +183,8 @@ function BookDetail() {
                                 href="#pablo"
                                 role="tab"
                               >
-                                <i className="ni ni-calendar-grid-58 mr-2" />
-                                Messages
+                                <i className="fa fa-star mr-2" />
+                                읽고 싶은 책
                               </NavLink>
                             </NavItem>
                           </Nav>
@@ -187,19 +193,9 @@ function BookDetail() {
                           <CardBody>
                             <TabContent activeTab={"iconTabs" + pill}>
                               <TabPane tabId="iconTabs1">
-                                <p className="description">
-                                  Raw denim you probably haven't heard of them
-                                  jean shorts Austin. Nesciunt tofu stumptown
-                                  aliqua, retro synth master cleanse. Mustache
-                                  cliche tempor, williamsburg carles vegan
-                                  helvetica. Reprehenderit butcher retro
-                                  keffiyeh dreamcatcher synth.
-                                </p>
-                                <p className="description">  
-                                  Raw denim you probably haven't heard of them
-                                  jean shorts Austin. Nesciunt tofu stumptown
-                                  aliqua, retro synth master cleanse.
-                                </p>
+                                <span>평점 </span>
+                                <Rating onClick={handleRating}/>
+                                
                               </TabPane>
                               <TabPane tabId="iconTabs2">
                                 <p className="description">
@@ -223,7 +219,6 @@ function BookDetail() {
                           </CardBody>
                         </Card>
                       </CardHeader>
-                      <CardBody></CardBody>
                     </Card>
                   </div>
                 </Modal>
