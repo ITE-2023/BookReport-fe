@@ -16,3 +16,11 @@
   text-transform: uppercase;
   font-weight: bold;
 }
+
+.moreBtn:hover {
+  cursor: pointer;
+}
+
+.navLink {
+  width: 100px;
+}

@@ -21,6 +21,7 @@
 .book:hover {
   box-shadow: rgba(56, 56, 133, 0.25) 0px 2px 5px -1px,
     rgba(56, 56, 133, 0.25) 0px 1px 5px -1px;
+  cursor: pointer;
 }
 
 .nowrap {
