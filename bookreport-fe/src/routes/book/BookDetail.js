@@ -12,6 +12,10 @@ import {
   CardBody,
   TabContent,
   TabPane,
+  FormGroup,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
 } from "reactstrap";
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
@@ -20,7 +24,8 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
 import { useParams } from "react-router-dom";
-import { Rating } from 'react-simple-star-rating'
+import { Rating } from "react-simple-star-rating";
+import ReactDatetime from "react-datetime";
 
 function BookDetail() {
   const { isbn } = useParams();
@@ -73,16 +78,72 @@ function BookDetail() {
   };
 
   // 책 상태 선택 버튼
-  const [pill, setPill] = useState(0);
+  const [pill, setPill] = useState(1);
   const toggleNavs = (index) => {
     setPill(index);
   };
 
   // star rating
-  const [rating, setRating] = useState(0)
+  const [rating, setRating] = useState(0);
   const handleRating = (rate: number) => {
-    setRating(rate)
-  }
+    setRating(rate);
+  };
+
+  // date picker
+  const [state, setState] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const handleReactDatetimeChange = (who, date) => {
+    if (
+      state.startDate &&
+      who === "endDate" &&
+      new Date(state.startDate._d + "") > new Date(date._d + "")
+    ) {
+      setState({
+        startDate: date,
+        endDate: date,
+      });
+    } else if (
+      state.endDate &&
+      who === "startDate" &&
+      new Date(state.endDate._d + "") < new Date(date._d + "")
+    ) {
+      setState({
+        startDate: date,
+        endDate: date,
+      });
+    } else {
+      setState({
+        [who]: date,
+      });
+    }
+  };
+
+  const getClassNameReactDatetimeDays = (date) => {
+    if (state.startDate && state.endDate) {
+    }
+    if (
+      state.startDate &&
+      state.endDate &&
+      state.startDate._d + "" !== state.endDate._d + ""
+    ) {
+      if (
+        new Date(state.endDate._d + "") > new Date(date._d + "") &&
+        new Date(state.startDate._d + "") < new Date(date._d + "")
+      ) {
+        return " middle-date";
+      }
+      if (state.endDate._d + "" === date._d + "") {
+        return " end-date";
+      }
+      if (state.startDate._d + "" === date._d + "") {
+        return " start-date";
+      }
+    }
+    return "";
+  };
+
   return (
     <Layout>
       <Hero>
@@ -194,8 +255,82 @@ function BookDetail() {
                             <TabContent activeTab={"iconTabs" + pill}>
                               <TabPane tabId="iconTabs1">
                                 <span>평점 </span>
-                                <Rating onClick={handleRating}/>
-                                
+                                <Rating onClick={handleRating} />
+                                <p></p>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="ni ni-calendar-grid-58" />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <ReactDatetime
+                                      inputProps={{
+                                        placeholder: "시작일",
+                                      }}
+                                      value={state.startDate}
+                                      timeFormat={false}
+                                      onChange={(e) =>
+                                        handleReactDatetimeChange(
+                                          "startDate",
+                                          e
+                                        )
+                                      }
+                                      renderDay={(
+                                        props,
+                                        currentDate,
+                                        selectedDate
+                                      ) => {
+                                        let classes = props.className;
+                                        classes +=
+                                          getClassNameReactDatetimeDays(
+                                            currentDate
+                                          );
+                                        return (
+                                          <td {...props} className={classes}>
+                                            {currentDate.date()}
+                                          </td>
+                                        );
+                                      }}
+                                    />
+                                  </InputGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="ni ni-calendar-grid-58" />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <ReactDatetime
+                                      inputProps={{
+                                        placeholder: "종료일",
+                                      }}
+                                      className="rdtPickerOnRight"
+                                      value={state.endDate}
+                                      timeFormat={false}
+                                      onChange={(e) =>
+                                        handleReactDatetimeChange("endDate", e)
+                                      }
+                                      renderDay={(
+                                        props,
+                                        currentDate,
+                                        selectedDate
+                                      ) => {
+                                        let classes = props.className;
+                                        classes +=
+                                          getClassNameReactDatetimeDays(
+                                            currentDate
+                                          );
+                                        return (
+                                          <td {...props} className={classes}>
+                                            {currentDate.date()}
+                                          </td>
+                                        );
+                                      }}
+                                    />
+                                  </InputGroup>
+                                </FormGroup>
                               </TabPane>
                               <TabPane tabId="iconTabs2">
                                 <p className="description">
