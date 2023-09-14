@@ -27,8 +27,13 @@ import { useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import ReactDatetime from "react-datetime";
 import { icon, MixinToast } from "../../components/Alert.js";
+import { getCookie } from "../../api/cookie.js";
+import { useNavigate } from "react-router-dom";
 
 function BookDetail() {
+  const token = getCookie("accessToken");
+  const navigate = useNavigate();
+
   const { isbn } = useParams();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
@@ -75,6 +80,9 @@ function BookDetail() {
   // 내 서재 버튼 클릭 시, modal 작동
   const [formModal, setFormModal] = useState(false);
   const toggleModal = () => {
+    if (!token) {
+      navigate(`/member/login`);
+    }
     setFormModal(!formModal);
   };
 
@@ -101,7 +109,10 @@ function BookDetail() {
         startDate: date,
         endDate: state.endDate,
       });
-    } else if (who === "endDate" && (!state.startDate || date > state.startDate)) {
+    } else if (
+      who === "endDate" &&
+      (!state.startDate || date > state.startDate)
+    ) {
       setState({
         startDate: state.startDate,
         endDate: date,
@@ -124,7 +135,7 @@ function BookDetail() {
     } else if (state.endDate && date === state.endDate) {
       return "end-date";
     }
-  
+
     return "";
   };
 
