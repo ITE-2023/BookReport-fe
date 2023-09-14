@@ -26,6 +26,7 @@ import { customAxios } from "../../api/customAxios.js";
 import { useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import ReactDatetime from "react-datetime";
+import { icon, MixinToast } from "../../components/Alert.js";
 
 function BookDetail() {
   const { isbn } = useParams();
@@ -95,53 +96,66 @@ function BookDetail() {
     endDate: null,
   });
   const handleReactDatetimeChange = (who, date) => {
-    if (
-      state.startDate &&
-      who === "endDate" &&
-      new Date(state.startDate._d + "") > new Date(date._d + "")
-    ) {
+    if (who === "startDate" && (!state.endDate || date < state.endDate)) {
       setState({
         startDate: date,
-        endDate: date,
+        endDate: state.endDate,
       });
-    } else if (
-      state.endDate &&
-      who === "startDate" &&
-      new Date(state.endDate._d + "") < new Date(date._d + "")
-    ) {
+    } else if (who === "endDate" && (!state.startDate || date > state.startDate)) {
       setState({
-        startDate: date,
+        startDate: state.startDate,
         endDate: date,
       });
     } else {
       setState({
-        [who]: date,
+        startDate: date,
+        endDate: date,
       });
     }
   };
 
   const getClassNameReactDatetimeDays = (date) => {
     if (state.startDate && state.endDate) {
+      if (date >= state.startDate && date <= state.endDate) {
+        return "selected-date";
+      }
+    } else if (state.startDate && date === state.startDate) {
+      return "start-date";
+    } else if (state.endDate && date === state.endDate) {
+      return "end-date";
     }
-    if (
-      state.startDate &&
-      state.endDate &&
-      state.startDate._d + "" !== state.endDate._d + ""
-    ) {
-      if (
-        new Date(state.endDate._d + "") > new Date(date._d + "") &&
-        new Date(state.startDate._d + "") < new Date(date._d + "")
-      ) {
-        return " middle-date";
-      }
-      if (state.endDate._d + "" === date._d + "") {
-        return " end-date";
-      }
-      if (state.startDate._d + "" === date._d + "") {
-        return " start-date";
-      }
-    }
+  
     return "";
+  };
+
+  // 내 서재에 담기 실행
+  const onClick = () => {
+    const bookRequest = {
+      isbn: isbn,
+      bookName: title,
+      author: author,
+      publisher: publisher,
+      description: description,
+      image: image,
+    };
+
+    const myBookRequest = {
+      myBookStatus: pill,
+      rate: rating,
+      startDate: state.startDate,
+      endDate: state.endDate,
+    };
+
+    const myBookVO = {
+      bookRequest: bookRequest,
+      myBookRequest: myBookRequest,
+    };
+
+    customAxios.myBook_save(myBookVO).then((res) => {
+      if (res.status === 200) {
+        MixinToast({ icon: icon.SUCCESS, title: "내 서재에 담았어요!" });
+      }
+    });
   };
 
   return (
@@ -353,6 +367,17 @@ function BookDetail() {
                             </TabContent>
                           </CardBody>
                         </Card>
+                        <div className="text-center mt-4">
+                          <Button
+                            className="btn-1"
+                            color="primary"
+                            outline
+                            type="button"
+                            onClick={onClick}
+                          >
+                            저장하기
+                          </Button>
+                        </div>
                       </CardHeader>
                     </Card>
                   </div>
