@@ -15,6 +15,7 @@ const bookURL = {
 
 const myBookURL = {
   MY_BOOK_SAVE_URL: "/myBook/save",
+  MY_BOOK_CHECK: "/myBook/check",
 };
 
 const api = axios.create({
@@ -58,6 +59,11 @@ const customAxios = {
 
   myBook_save: async (data) => {
     const response = await api.post(myBookURL.MY_BOOK_SAVE_URL, data);
+    return response;
+  },
+
+  myBook_check: async (isbn) => {
+    const response = await api.get(`${myBookURL.MY_BOOK_CHECK}/${isbn}`);
     return response;
   },
 };

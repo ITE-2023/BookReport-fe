@@ -26,7 +26,7 @@ import { customAxios } from "../../api/customAxios.js";
 import { useParams } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import ReactDatetime from "react-datetime";
-import { icon, MixinToast } from "../../components/Alert.js";
+import { icon, MixinToast, TimerToast } from "../../components/Alert.js";
 import { getCookie } from "../../api/cookie.js";
 import { useNavigate } from "react-router-dom";
 
@@ -40,6 +40,8 @@ function BookDetail() {
   const [author, setAuthor] = useState("");
   const [publisher, setPublisher] = useState("");
   const [description, setDescription] = useState("");
+
+  const [myBook, setMyBook] = useState(false);
 
   // 책 상세 검색
   const search_detail = async (isbn) => {
@@ -58,9 +60,23 @@ function BookDetail() {
         console.log(error);
       });
   };
+
   useEffect(() => {
+    // 회원이 이미 서재에 책을 담았는지 확인
+    const checkMyBook = async (isbn) => {
+      if (token) {
+        await customAxios.myBook_check(isbn).then((res) => {
+          if (res.status === 200) {
+            setMyBook(res.data);
+            console.log(res.data);
+          }
+        });
+      }
+    };
+
     search_detail(isbn);
-  }, [isbn]);
+    checkMyBook(isbn);
+  }, [isbn, token]);
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
@@ -147,7 +163,7 @@ function BookDetail() {
       author: author,
       publisher: publisher,
       description: description,
-      image: image,
+      imageUrl: image,
     };
 
     const myBookRequest = {
@@ -162,11 +178,21 @@ function BookDetail() {
       myBookRequest: myBookRequest,
     };
 
-    customAxios.myBook_save(myBookVO).then((res) => {
-      if (res.status === 200) {
-        MixinToast({ icon: icon.SUCCESS, title: "내 서재에 담았어요!" });
-      }
-    });
+    customAxios
+      .myBook_save(myBookVO)
+      .then((res) => {
+        if (res.status === 200) {
+          MixinToast({ icon: icon.SUCCESS, title: "내 서재에 담았어요!" });
+          navigate("/member/login");
+        }
+      })
+      .catch((error) => {
+        console.error(error.response.data);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+      });
   };
 
   return (
@@ -203,19 +229,36 @@ function BookDetail() {
                 </div>
               </Col>
               <Col>
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  onClick={toggleModal}
-                >
-                  <span className="btn-inner--icon">
-                    <i
-                      className={`${styles.icon} fa fa-plus-square mr-2 fa-lg`}
-                      aria-hidden="true"
-                    />
-                  </span>
-                  내 서재 추가
-                </Button>
+                {!myBook ? (
+                  <Button
+                    className="btn-neutral btn-icon"
+                    color="default"
+                    onClick={toggleModal}
+                  >
+                    <span className="btn-inner--icon">
+                      <i
+                        className={`${styles.icon} fa fa-plus-square mr-2 fa-lg`}
+                        aria-hidden="true"
+                      />
+                    </span>
+                    내 서재 추가
+                  </Button>
+                ) : (
+                  <Button
+                    className="btn-neutral btn-icon"
+                    color="default"
+                    // onClick={myBookDetail}
+                  >
+                    <span className="btn-inner--icon">
+                      <i
+                        className={`${styles.icon} fa fa-arrow-right mr-2 fa-lg`}
+                        aria-hidden="true"
+                      />
+                    </span>
+                    내 서재로 이동
+                  </Button>
+                )}
+
                 <Modal
                   className="modal-dialog-centered"
                   isOpen={formModal}
