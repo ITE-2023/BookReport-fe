@@ -24,8 +24,27 @@ const api = axios.create({
   timeout: 5000,
 });
 
-const accessToken = getCookie("accessToken");
-const refreshToken = getCookie("refreshToken");
+let accessToken = getCookie("accessToken");
+let refreshToken = getCookie("refreshToken");
+
+const updateAccessToken = (newAccessToken) => {
+  accessToken = newAccessToken;
+  setCookie("accessToken", accessToken, {
+    path: "/",
+    secure: true,
+    maxAge: 3600,
+  });
+};
+
+const updateRefreshToken = (newRefreshToken) => {
+  refreshToken = newRefreshToken;
+  setCookie("refreshToken", refreshToken, {
+    path: "/",
+    secure: true,
+    maxAge: 3600 * 24,
+  });
+};
+
 api.interceptors.request.use((config) => {
   // 요청 전 수행 로직
   config.headers.Authorization = `Bearer ${accessToken}`;
@@ -68,4 +87,4 @@ const customAxios = {
   },
 };
 
-export { customAxios };
+export { customAxios, updateAccessToken, updateRefreshToken };
