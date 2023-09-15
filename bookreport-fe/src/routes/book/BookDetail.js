@@ -16,6 +16,9 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
 } from "reactstrap";
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
@@ -444,6 +447,86 @@ function BookDetail() {
           </Card>
         </Container>
       </Hero>
+      <div className="pb-5">
+        <Container>
+          <Card className="shadow p-4">
+            <Row className="text-center text-muted">
+              <Col sm="1">번호</Col>
+              <Col sm="6">제목</Col>
+              <Col>작성자</Col>
+              <Col>작성일</Col>
+            </Row>
+            <hr className="m-3" />
+            <Row className="text-center mb-3">
+              <Col sm="1">1</Col>
+              <Col sm="6" className="text-left">
+                독후감 제목을 뭐라고 하면 좋을까
+              </Col>
+              <Col>작성자</Col>
+              <Col>2023-07-08</Col>
+            </Row>
+            <br />
+            <Pagination className="m-auto">
+              <PaginationItem>
+                <PaginationLink
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <i className="fa fa-angle-left" />
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  1
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem className="active">
+                <PaginationLink
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  3
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  4
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  5
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink
+                  href="#pablo"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <i className="fa fa-angle-right" />
+                </PaginationLink>
+              </PaginationItem>
+            </Pagination>
+          </Card>
+        </Container>
+      </div>
     </Layout>
   );
 }
