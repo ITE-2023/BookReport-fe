@@ -23,7 +23,7 @@ function App() {
       header: "",
     },
     {
-      src: require("./assets/img/LOGO.-removebg-preview1111.png"),
+      src: require("./assets/img/LOGO.__1_-removebg-preview1111.png"),
       altText: "",
       caption: "",
       header: "",
