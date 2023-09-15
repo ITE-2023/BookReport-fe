@@ -4,7 +4,7 @@
 .bookImage {
   width: 100px;
   height: 130px;
-  object-fit: cover;
+  object-fit: scale-down;
 }
 
 .book {
@@ -21,9 +21,10 @@
 .book:hover {
   box-shadow: rgba(56, 56, 133, 0.25) 0px 2px 5px -1px,
     rgba(56, 56, 133, 0.25) 0px 1px 5px -1px;
+  cursor: pointer;
 }
 
-.book-title {
+.nowrap {
   display: block;
   white-space: nowrap;
   overflow: hidden;

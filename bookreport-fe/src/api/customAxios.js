@@ -10,6 +10,12 @@ const memberURL = {
 
 const bookURL = {
   BOOK_SEARCH_URL: "/book/search",
+  BOOK_SEARCH_DETAIL_URL: "/book/detail",
+};
+
+const myBookURL = {
+  MY_BOOK_SAVE_URL: "/myBook/save",
+  MY_BOOK_CHECK: "/myBook/check",
 };
 
 const api = axios.create({
@@ -18,8 +24,27 @@ const api = axios.create({
   timeout: 5000,
 });
 
-const accessToken = getCookie("accessToken");
-const refreshToken = getCookie("refreshToken");
+let accessToken = getCookie("accessToken");
+let refreshToken = getCookie("refreshToken");
+
+const updateAccessToken = (newAccessToken) => {
+  accessToken = newAccessToken;
+  setCookie("accessToken", accessToken, {
+    path: "/",
+    secure: true,
+    maxAge: 3600,
+  });
+};
+
+const updateRefreshToken = (newRefreshToken) => {
+  refreshToken = newRefreshToken;
+  setCookie("refreshToken", refreshToken, {
+    path: "/",
+    secure: true,
+    maxAge: 3600 * 24,
+  });
+};
+
 api.interceptors.request.use((config) => {
   // 요청 전 수행 로직
   config.headers.Authorization = `Bearer ${accessToken}`;
@@ -46,6 +71,20 @@ const customAxios = {
     });
     return response;
   },
+  search_detail: async (isbn) => {
+    const response = await api.get(`${bookURL.BOOK_SEARCH_DETAIL_URL}/${isbn}`);
+    return response;
+  },
+
+  myBook_save: async (data) => {
+    const response = await api.post(myBookURL.MY_BOOK_SAVE_URL, data);
+    return response;
+  },
+
+  myBook_check: async (isbn) => {
+    const response = await api.get(`${myBookURL.MY_BOOK_CHECK}/${isbn}`);
+    return response;
+  },
 };
 
-export { customAxios, memberURL };
+export { customAxios, updateAccessToken, updateRefreshToken };
