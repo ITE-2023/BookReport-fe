@@ -31,7 +31,7 @@ import { getCookie } from "../../api/cookie.js";
 import { useNavigate } from "react-router-dom";
 
 function BookDetail() {
-  const token = getCookie("accessToken");
+  const [token, setToken] = useState();
   const navigate = useNavigate();
 
   const { isbn } = useParams();
@@ -41,7 +41,8 @@ function BookDetail() {
   const [publisher, setPublisher] = useState("");
   const [description, setDescription] = useState("");
 
-  const [myBook, setMyBook] = useState(false);
+  const [myBookBtn, setMyBookBtn] = useState(false);
+  const [myBookId, setMyBookId] = useState();
 
   // 책 상세 검색
   const search_detail = async (isbn) => {
@@ -62,13 +63,15 @@ function BookDetail() {
   };
 
   useEffect(() => {
+    setToken(getCookie("accessToken"));
     // 회원이 이미 서재에 책을 담았는지 확인
     const checkMyBook = async (isbn) => {
       if (token) {
+        console.log(token);
         await customAxios.myBook_check(isbn).then((res) => {
           if (res.status === 200) {
-            setMyBook(res.data);
-            console.log(res.data);
+            setMyBookBtn(res.data.check);
+            setMyBookId(res.data.myBookId);
           }
         });
       }
@@ -183,7 +186,7 @@ function BookDetail() {
       .then((res) => {
         if (res.status === 200) {
           MixinToast({ icon: icon.SUCCESS, title: "내 서재에 담았어요!" });
-          navigate("/member/login");
+          navigate(`/myBook/detail/${res.data.id}`);
         }
       })
       .catch((error) => {
@@ -229,7 +232,7 @@ function BookDetail() {
                 </div>
               </Col>
               <Col>
-                {!myBook ? (
+                {!myBookBtn ? (
                   <Button
                     className="btn-neutral btn-icon"
                     color="default"
@@ -247,7 +250,7 @@ function BookDetail() {
                   <Button
                     className="btn-neutral btn-icon"
                     color="default"
-                    // onClick={myBookDetail}
+                    href={`/myBook/detail/${myBookId}`}
                   >
                     <span className="btn-inner--icon">
                       <i
