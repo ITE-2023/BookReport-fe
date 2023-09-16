@@ -90,8 +90,10 @@ const customAxios = {
     return response;
   },
 
-  reports: async (isbn) => {
-    const response = await api.get(`${reportURL.REPORTS_URL}/${isbn}`);
+  reports: async (isbn, currentPage) => {
+    const response = await api.get(
+      `${reportURL.REPORTS_URL}/${isbn}?page=${currentPage}`
+    );
     return response;
   },
 };

@@ -47,7 +47,9 @@ function BookDetail() {
   const [myBookBtn, setMyBookBtn] = useState(false);
   const [myBookId, setMyBookId] = useState();
 
+  const [totalPage, setTotalPage] = useState();
   const [reportList, setReportList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   // 책 상세 검색
   const search_detail = async (isbn) => {
@@ -68,12 +70,13 @@ function BookDetail() {
   };
 
   // 책 별 독후감 조회
-  const findReports = async (isbn) => {
+  const findReports = async (isbn, currentPage) => {
     await customAxios
-      .reports(isbn)
+      .reports(isbn, currentPage)
       .then((res) => {
         if (res.status === 200) {
-          setReportList(res.data);
+          setReportList(res.data.reportList);
+          setTotalPage(res.data.totalPage);
         }
       })
       .catch((error) => {
@@ -86,13 +89,44 @@ function BookDetail() {
     for (let i = 0; i < reportList.length; i++) {
       arr.push(
         <Row className="text-center mb-3">
-          <Col sm="1">{i + 1}</Col>
+          <Col sm="1">{i + 1 + currentPage * 10}</Col>
           <Col sm="6" className="text-left">
             {reportList[i].title}
           </Col>
           <Col>{reportList[i].username}</Col>
           <Col>{reportList[i].createDate.substring(0, 10)}</Col>
         </Row>
+      );
+    }
+    return arr;
+  };
+
+  // 페이징
+  const onClickPage = (index) => {
+    setCurrentPage(index);
+  };
+
+  const renderPageButtons = () => {
+    let arr = [];
+    const btnLimit = 5;
+    const startBtn = Math.max(1, currentPage - Math.floor(btnLimit / 2));
+    const endBtn = Math.min(totalPage, startBtn + btnLimit - 1);
+    console.log(startBtn, endBtn);
+    for (let i = startBtn; i <= endBtn; i++) {
+      arr.push(
+        <PaginationItem
+          key={i}
+          className={currentPage === i - 1 ? "active" : ""}
+        >
+          <PaginationLink
+            onClick={(e) => {
+              e.preventDefault();
+              onClickPage(i - 1);
+            }}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
       );
     }
     return arr;
@@ -115,8 +149,8 @@ function BookDetail() {
 
     search_detail(isbn);
     checkMyBook(isbn);
-    findReports(isbn);
-  }, [isbn, token]);
+    findReports(isbn, currentPage);
+  }, [isbn, token, currentPage]);
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
@@ -321,7 +355,6 @@ function BookDetail() {
                                   active: pill === 1,
                                 })}
                                 onClick={(e) => toggleNavs(1)}
-                                href="#pablo"
                                 role="tab"
                               >
                                 <i className="fa fa-check-circle mr-2" />
@@ -335,7 +368,6 @@ function BookDetail() {
                                   active: pill === 2,
                                 })}
                                 onClick={(e) => toggleNavs(2)}
-                                href="#pablo"
                                 role="tab"
                               >
                                 <i className="fa fa-bookmark mr-2" />
@@ -349,7 +381,6 @@ function BookDetail() {
                                   active: pill === 3,
                                 })}
                                 onClick={(e) => toggleNavs(3)}
-                                href="#pablo"
                                 role="tab"
                               >
                                 <i className="fa fa-star mr-2" />
@@ -500,58 +531,28 @@ function BookDetail() {
             )}
             <br />
             <Pagination className="m-auto">
-              <PaginationItem>
+              <PaginationItem
+                style={{ display: currentPage === 0 ? "none" : "block" }}
+              >
                 <PaginationLink
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={(e) => {
+                    if (currentPage > 0) onClickPage(currentPage - 1);
+                  }}
                 >
                   <i className="fa fa-angle-left" />
                 </PaginationLink>
               </PaginationItem>
-              <PaginationItem>
+              {renderPageButtons()}
+              <PaginationItem
+                style={{
+                  display: currentPage === totalPage - 1 ? "none" : "block",
+                }}
+              >
                 <PaginationLink
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem className="active">
-                <PaginationLink
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  3
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  4
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  5
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={(e) => {
+                    if (currentPage < totalPage - 1)
+                      onClickPage(currentPage + 1);
+                  }}
                 >
                   <i className="fa fa-angle-right" />
                 </PaginationLink>
