@@ -18,6 +18,10 @@ const myBookURL = {
   MY_BOOK_CHECK: "/myBook/check",
 };
 
+const reportURL = {
+  REPORTS_URL: "/reports",
+};
+
 const api = axios.create({
   baseURL: `${SERVER_ADDRESS}`,
   headers: { "Content-type": "application/json" },
@@ -83,6 +87,11 @@ const customAxios = {
 
   myBook_check: async (isbn) => {
     const response = await api.get(`${myBookURL.MY_BOOK_CHECK}/${isbn}`);
+    return response;
+  },
+
+  reports: async (isbn) => {
+    const response = await api.get(`${reportURL.REPORTS_URL}/${isbn}`);
     return response;
   },
 };

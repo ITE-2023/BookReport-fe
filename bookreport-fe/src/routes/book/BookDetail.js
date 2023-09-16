@@ -47,6 +47,8 @@ function BookDetail() {
   const [myBookBtn, setMyBookBtn] = useState(false);
   const [myBookId, setMyBookId] = useState();
 
+  const [reportList, setReportList] = useState([]);
+
   // 책 상세 검색
   const search_detail = async (isbn) => {
     await customAxios
@@ -62,6 +64,20 @@ function BookDetail() {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  // 책 별 독후감 조회
+  const findReports = async (isbn) => {
+    await customAxios
+      .reports(isbn)
+      .then((res) => {
+        if (res.status === 200) {
+          setReportList(res.data);
+        }
+      })
+      .catch((error) => {
+        setReportList([]);
       });
   };
 
@@ -82,6 +98,7 @@ function BookDetail() {
 
     search_detail(isbn);
     checkMyBook(isbn);
+    findReports(isbn);
   }, [isbn, token]);
 
   // 책 소개글 더보기
