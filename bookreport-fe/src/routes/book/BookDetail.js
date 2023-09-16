@@ -88,14 +88,19 @@ function BookDetail() {
     let arr = [];
     for (let i = 0; i < reportList.length; i++) {
       arr.push(
-        <Row className="text-center mb-3">
-          <Col sm="1">{i + 1 + currentPage * 10}</Col>
-          <Col sm="6" className="text-left">
-            {reportList[i].title}
-          </Col>
-          <Col>{reportList[i].username}</Col>
-          <Col>{reportList[i].createDate.substring(0, 10)}</Col>
-        </Row>
+        <a
+          className="text-decoration-none text-dark"
+          href={`/report/detail/${reportList[i].id}`}
+        >
+          <Row className="text-center mb-3">
+            <Col sm="1">{i + 1 + currentPage * 10}</Col>
+            <Col sm="6" className="text-left">
+              {reportList[i].title}
+            </Col>
+            <Col>{reportList[i].username}</Col>
+            <Col>{reportList[i].createDate.substring(0, 10)}</Col>
+          </Row>
+        </a>
       );
     }
     return arr;
