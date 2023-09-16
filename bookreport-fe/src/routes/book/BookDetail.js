@@ -81,6 +81,23 @@ function BookDetail() {
       });
   };
 
+  const repeatReport = (reportList) => {
+    let arr = [];
+    for (let i = 0; i < reportList.length; i++) {
+      arr.push(
+        <Row className="text-center mb-3">
+          <Col sm="1">{i + 1}</Col>
+          <Col sm="6" className="text-left">
+            {reportList[i].title}
+          </Col>
+          <Col>{reportList[i].username}</Col>
+          <Col>{reportList[i].createDate.substring(0, 10)}</Col>
+        </Row>
+      );
+    }
+    return arr;
+  };
+
   useEffect(() => {
     setToken(getCookie("accessToken"));
     // 회원이 이미 서재에 책을 담았는지 확인
@@ -474,14 +491,13 @@ function BookDetail() {
               <Col>작성일</Col>
             </Row>
             <hr className="m-3" />
-            <Row className="text-center mb-3">
-              <Col sm="1">1</Col>
-              <Col sm="6" className="text-left">
-                독후감 제목을 뭐라고 하면 좋을까
-              </Col>
-              <Col>작성자</Col>
-              <Col>2023-07-08</Col>
-            </Row>
+            {reportList.length !== 0 ? (
+              repeatReport(reportList)
+            ) : (
+              <div className="text-center">
+                등록된 독후감이 존재하지 않습니다.
+              </div>
+            )}
             <br />
             <Pagination className="m-auto">
               <PaginationItem>
