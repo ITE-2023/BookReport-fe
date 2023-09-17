@@ -13,6 +13,7 @@ import {
   TabContent,
   TabPane,
   FormGroup,
+  Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
@@ -116,7 +117,6 @@ function BookDetail() {
     const btnLimit = 5;
     const startBtn = Math.max(1, currentPage - Math.floor(btnLimit / 2));
     const endBtn = Math.min(totalPage, startBtn + btnLimit - 1);
-    console.log(startBtn, endBtn);
     for (let i = startBtn; i <= endBtn; i++) {
       arr.push(
         <PaginationItem
@@ -234,8 +234,52 @@ function BookDetail() {
     return "";
   };
 
+  // 읽는 중인 경우
+  const [readingPage, setReadingPage] = useState(0);
+  const [readingStartDate, setReadingStartDate] = useState(null);
+  const changeReadingStartDate = (date) => {
+    setReadingStartDate(date);
+  };
+
+  const changeReadingPage = (e) => {
+    setReadingPage(e.target.value);
+  };
+
+  // 읽고 싶은 경우
+  const [expect, setExpect] = useState(null);
+  const changeExpect = (e) => {
+    setExpect(e.target.value);
+  };
+
+  console.log("expect : " + expect);
+
   // 내 서재에 담기 실행
   const onClick = () => {
+    if (pill === 1) {
+      if (rating === 0 || state.startDate === null || state.endDate === null) {
+        MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
+        return;
+      }
+    } else if (pill === 2) {
+      if (readingPage === 0 || readingStartDate === null) {
+        MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
+        return;
+      }
+    }
+
+    function getPillStatus(pill) {
+      switch (pill) {
+        case 1:
+          return "읽은 책";
+        case 2:
+          return "읽는 중인 책";
+        case 3:
+          return "읽고 싶은 책";
+        default:
+          return "읽은 책";
+      }
+    }
+
     const bookRequest = {
       isbn: isbn,
       bookName: title,
@@ -246,10 +290,13 @@ function BookDetail() {
     };
 
     const myBookRequest = {
-      myBookStatus: pill,
+      myBookStatus: getPillStatus(pill),
       rate: rating,
       startDate: state.startDate,
       endDate: state.endDate,
+      readPage: readingPage,
+      readingStartDate: readingStartDate,
+      expectation: expect,
     };
 
     const myBookVO = {
@@ -477,22 +524,57 @@ function BookDetail() {
                                 </FormGroup>
                               </TabPane>
                               <TabPane tabId="iconTabs2">
-                                <p className="description">
-                                  Cosby sweater eu banh mi, qui irure terry
-                                  richardson ex squid. Aliquip placeat salvia
-                                  cillum iphone. Seitan aliquip quis cardigan
-                                  american apparel, butcher voluptate nisi qui.
-                                </p>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="fa fa-bookmark-o" />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;읽은
+                                        페이지 :
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <Input
+                                      type="number"
+                                      onChange={changeReadingPage}
+                                    />
+                                    <InputGroupText>쪽</InputGroupText>
+                                  </InputGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="ni ni-calendar-grid-58" />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <ReactDatetime
+                                      inputProps={{
+                                        placeholder: "시작일",
+                                      }}
+                                      timeFormat={false}
+                                      value={readingStartDate}
+                                      onChange={(e) =>
+                                        changeReadingStartDate(e)
+                                      }
+                                    />
+                                  </InputGroup>
+                                </FormGroup>
                               </TabPane>
                               <TabPane tabId="iconTabs3">
-                                <p className="description">
-                                  Raw denim you probably haven't heard of them
-                                  jean shorts Austin. Nesciunt tofu stumptown
-                                  aliqua, retro synth master cleanse. Mustache
-                                  cliche tempor, williamsburg carles vegan
-                                  helvetica. Reprehenderit butcher retro
-                                  keffiyeh dreamcatcher synth.
-                                </p>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="fa fa-heart-o" />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <Input
+                                      placeholder="기대평"
+                                      type="text"
+                                      onChange={(e) => changeExpect(e)}
+                                    />
+                                  </InputGroup>
+                                </FormGroup>
                               </TabPane>
                             </TabContent>
                           </CardBody>
