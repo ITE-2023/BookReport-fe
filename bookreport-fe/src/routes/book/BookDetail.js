@@ -13,9 +13,13 @@ import {
   TabContent,
   TabPane,
   FormGroup,
+  Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
 } from "reactstrap";
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
@@ -44,6 +48,10 @@ function BookDetail() {
   const [myBookBtn, setMyBookBtn] = useState(false);
   const [myBookId, setMyBookId] = useState();
 
+  const [totalPage, setTotalPage] = useState();
+  const [reportList, setReportList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+
   // 책 상세 검색
   const search_detail = async (isbn) => {
     await customAxios
@@ -60,6 +68,73 @@ function BookDetail() {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  // 책 별 독후감 조회
+  const findReports = async (isbn, currentPage) => {
+    await customAxios
+      .reports(isbn, currentPage)
+      .then((res) => {
+        if (res.status === 200) {
+          setReportList(res.data.reportList);
+          setTotalPage(res.data.totalPage);
+        }
+      })
+      .catch((error) => {
+        setReportList([]);
+      });
+  };
+
+  const repeatReport = (reportList) => {
+    let arr = [];
+    for (let i = 0; i < reportList.length; i++) {
+      arr.push(
+        <a
+          className="text-decoration-none text-dark"
+          href={`/report/detail/${reportList[i].id}`}
+        >
+          <Row className="text-center mb-3">
+            <Col sm="1">{i + 1 + currentPage * 10}</Col>
+            <Col sm="6" className="text-left">
+              {reportList[i].title}
+            </Col>
+            <Col>{reportList[i].username}</Col>
+            <Col>{reportList[i].createDate.substring(0, 10)}</Col>
+          </Row>
+        </a>
+      );
+    }
+    return arr;
+  };
+
+  // 페이징
+  const onClickPage = (index) => {
+    setCurrentPage(index);
+  };
+
+  const renderPageButtons = () => {
+    let arr = [];
+    const btnLimit = 5;
+    const startBtn = Math.max(1, currentPage - Math.floor(btnLimit / 2));
+    const endBtn = Math.min(totalPage, startBtn + btnLimit - 1);
+    for (let i = startBtn; i <= endBtn; i++) {
+      arr.push(
+        <PaginationItem
+          key={i}
+          className={currentPage === i - 1 ? "active" : ""}
+        >
+          <PaginationLink
+            onClick={(e) => {
+              e.preventDefault();
+              onClickPage(i - 1);
+            }}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    return arr;
   };
 
   useEffect(() => {
@@ -79,7 +154,8 @@ function BookDetail() {
 
     search_detail(isbn);
     checkMyBook(isbn);
-  }, [isbn, token]);
+    findReports(isbn, currentPage);
+  }, [isbn, token, currentPage]);
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
@@ -158,8 +234,52 @@ function BookDetail() {
     return "";
   };
 
+  // 읽는 중인 경우
+  const [readingPage, setReadingPage] = useState(0);
+  const [readingStartDate, setReadingStartDate] = useState(null);
+  const changeReadingStartDate = (date) => {
+    setReadingStartDate(date);
+  };
+
+  const changeReadingPage = (e) => {
+    setReadingPage(e.target.value);
+  };
+
+  // 읽고 싶은 경우
+  const [expect, setExpect] = useState(null);
+  const changeExpect = (e) => {
+    setExpect(e.target.value);
+  };
+
+  console.log("expect : " + expect);
+
   // 내 서재에 담기 실행
   const onClick = () => {
+    if (pill === 1) {
+      if (rating === 0 || state.startDate === null || state.endDate === null) {
+        MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
+        return;
+      }
+    } else if (pill === 2) {
+      if (readingPage === 0 || readingStartDate === null) {
+        MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
+        return;
+      }
+    }
+
+    function getPillStatus(pill) {
+      switch (pill) {
+        case 1:
+          return "읽은 책";
+        case 2:
+          return "읽는 중인 책";
+        case 3:
+          return "읽고 싶은 책";
+        default:
+          return "읽은 책";
+      }
+    }
+
     const bookRequest = {
       isbn: isbn,
       bookName: title,
@@ -170,10 +290,13 @@ function BookDetail() {
     };
 
     const myBookRequest = {
-      myBookStatus: pill,
+      myBookStatus: getPillStatus(pill),
       rate: rating,
       startDate: state.startDate,
       endDate: state.endDate,
+      readPage: readingPage,
+      readingStartDate: readingStartDate,
+      expectation: expect,
     };
 
     const myBookVO = {
@@ -284,7 +407,6 @@ function BookDetail() {
                                   active: pill === 1,
                                 })}
                                 onClick={(e) => toggleNavs(1)}
-                                href="#pablo"
                                 role="tab"
                               >
                                 <i className="fa fa-check-circle mr-2" />
@@ -298,7 +420,6 @@ function BookDetail() {
                                   active: pill === 2,
                                 })}
                                 onClick={(e) => toggleNavs(2)}
-                                href="#pablo"
                                 role="tab"
                               >
                                 <i className="fa fa-bookmark mr-2" />
@@ -312,7 +433,6 @@ function BookDetail() {
                                   active: pill === 3,
                                 })}
                                 onClick={(e) => toggleNavs(3)}
-                                href="#pablo"
                                 role="tab"
                               >
                                 <i className="fa fa-star mr-2" />
@@ -404,22 +524,57 @@ function BookDetail() {
                                 </FormGroup>
                               </TabPane>
                               <TabPane tabId="iconTabs2">
-                                <p className="description">
-                                  Cosby sweater eu banh mi, qui irure terry
-                                  richardson ex squid. Aliquip placeat salvia
-                                  cillum iphone. Seitan aliquip quis cardigan
-                                  american apparel, butcher voluptate nisi qui.
-                                </p>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="fa fa-bookmark-o" />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;읽은
+                                        페이지 :
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <Input
+                                      type="number"
+                                      onChange={changeReadingPage}
+                                    />
+                                    <InputGroupText>쪽</InputGroupText>
+                                  </InputGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="ni ni-calendar-grid-58" />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <ReactDatetime
+                                      inputProps={{
+                                        placeholder: "시작일",
+                                      }}
+                                      timeFormat={false}
+                                      value={readingStartDate}
+                                      onChange={(e) =>
+                                        changeReadingStartDate(e)
+                                      }
+                                    />
+                                  </InputGroup>
+                                </FormGroup>
                               </TabPane>
                               <TabPane tabId="iconTabs3">
-                                <p className="description">
-                                  Raw denim you probably haven't heard of them
-                                  jean shorts Austin. Nesciunt tofu stumptown
-                                  aliqua, retro synth master cleanse. Mustache
-                                  cliche tempor, williamsburg carles vegan
-                                  helvetica. Reprehenderit butcher retro
-                                  keffiyeh dreamcatcher synth.
-                                </p>
+                                <FormGroup>
+                                  <InputGroup>
+                                    <InputGroupAddon addonType="prepend">
+                                      <InputGroupText>
+                                        <i className="fa fa-heart-o" />
+                                      </InputGroupText>
+                                    </InputGroupAddon>
+                                    <Input
+                                      placeholder="기대평"
+                                      type="text"
+                                      onChange={(e) => changeExpect(e)}
+                                    />
+                                  </InputGroup>
+                                </FormGroup>
                               </TabPane>
                             </TabContent>
                           </CardBody>
@@ -444,6 +599,55 @@ function BookDetail() {
           </Card>
         </Container>
       </Hero>
+      <div className="pb-5">
+        <Container>
+          <Card className="shadow p-4">
+            <Row className="text-center text-muted">
+              <Col sm="1">번호</Col>
+              <Col sm="6">제목</Col>
+              <Col>작성자</Col>
+              <Col>작성일</Col>
+            </Row>
+            <hr className="m-3" />
+            {reportList.length !== 0 ? (
+              repeatReport(reportList)
+            ) : (
+              <div className="text-center">
+                등록된 독후감이 존재하지 않습니다.
+              </div>
+            )}
+            <br />
+            <Pagination className="m-auto">
+              <PaginationItem
+                style={{ display: currentPage === 0 ? "none" : "block" }}
+              >
+                <PaginationLink
+                  onClick={(e) => {
+                    if (currentPage > 0) onClickPage(currentPage - 1);
+                  }}
+                >
+                  <i className="fa fa-angle-left" />
+                </PaginationLink>
+              </PaginationItem>
+              {renderPageButtons()}
+              <PaginationItem
+                style={{
+                  display: currentPage === totalPage - 1 ? "none" : "block",
+                }}
+              >
+                <PaginationLink
+                  onClick={(e) => {
+                    if (currentPage < totalPage - 1)
+                      onClickPage(currentPage + 1);
+                  }}
+                >
+                  <i className="fa fa-angle-right" />
+                </PaginationLink>
+              </PaginationItem>
+            </Pagination>
+          </Card>
+        </Container>
+      </div>
     </Layout>
   );
 }
