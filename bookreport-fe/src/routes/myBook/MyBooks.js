@@ -58,6 +58,89 @@ function MyBooks() {
     }
   }, [isLoggedIn, navigate, year, currentPage]);
 
+  const repeatMyBooks = (myBooks) => {
+    let arr = [];
+    const numIterations = Math.min(myBooks.length, 5);
+    for (let i = 0; i < numIterations; i++) {
+      arr.push(
+        <Col className={styles.box}>
+          {myBooks[i].myBookDTO.myBookStatus === "읽은 책" ? (
+            <Badge className="text-uppercase mb-2" color="primary" pill>
+              {myBooks[i].myBookDTO.myBookStatus}
+            </Badge>
+          ) : (
+            ""
+          )}
+          {myBooks[i].myBookDTO.myBookStatus === "읽는 중인 책" ? (
+            <Badge className="text-uppercase mb-2" color="warning" pill>
+              {myBooks[i].myBookDTO.myBookStatus}
+            </Badge>
+          ) : (
+            ""
+          )}
+          {myBooks[i].myBookDTO.myBookStatus === "읽고 싶은 책" ? (
+            <Badge className="text-uppercase mb-2" color="danger" pill>
+              {myBooks[i].myBookDTO.myBookStatus}
+            </Badge>
+          ) : (
+            ""
+          )}
+
+          <img
+            className={styles.bookImage}
+            src={myBooks[i].bookDTO.imageUrl}
+            alt="bookImage"
+          ></img>
+          <p className={styles.title}>{myBooks[i].bookDTO.bookName}</p>
+        </Col>
+      );
+    }
+    return arr;
+  };
+
+  const repeatMyBooks2 = (myBooks) => {
+    let arr = [];
+    if (myBooks.length <= 5) {
+      return;
+    }
+    const numIterations = Math.min(myBooks.length - 5, 5);
+    for (let i = 5; i < 5 + numIterations; i++) {
+      arr.push(
+        <Col className={styles.box}>
+          {myBooks[i].myBookDTO.myBookStatus === "읽은 책" ? (
+            <Badge className="text-uppercase mb-2" color="primary" pill>
+              {myBooks[i].myBookDTO.myBookStatus}
+            </Badge>
+          ) : (
+            ""
+          )}
+          {myBooks[i].myBookDTO.myBookStatus === "읽는 중인 책" ? (
+            <Badge className="text-uppercase mb-2" color="warning" pill>
+              {myBooks[i].myBookDTO.myBookStatus}
+            </Badge>
+          ) : (
+            ""
+          )}
+          {myBooks[i].myBookDTO.myBookStatus === "읽고 싶은 책" ? (
+            <Badge className="text-uppercase mb-2" color="danger" pill>
+              {myBooks[i].myBookDTO.myBookStatus}
+            </Badge>
+          ) : (
+            ""
+          )}
+
+          <img
+            className={styles.bookImage}
+            src={myBooks[i].bookDTO.imageUrl}
+            alt="bookImage"
+          ></img>
+          <p className={styles.title}>{myBooks[i].bookDTO.bookName}</p>
+        </Col>
+      );
+    }
+    return arr;
+  };
+
   return (
     <Layout>
       <Hero></Hero>
@@ -71,140 +154,8 @@ function MyBooks() {
           </div>
           {myBooks.length !== 0 ? (
             <div>
-              <Row className="mt-5">
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    {myBooks[0].myBookDTO.myBookStatus}
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-              </Row>
-              <Row className="mt-3 mb-3">
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-                <Col className={styles.box}>
-                  <Badge className="text-uppercase mb-2" color="success" pill>
-                    Success
-                  </Badge>
-                  <img
-                    className={styles.bookImage}
-                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                    alt="bookImage"
-                  ></img>
-                  <p className={styles.title}>
-                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-                  </p>
-                </Col>
-              </Row>
+              <Row className="mt-5">{repeatMyBooks(myBooks)}</Row>
+              <Row className="mt-3 mb-3">{repeatMyBooks2(myBooks)}</Row>
             </div>
           ) : (
             <div className="text-center m-5">
