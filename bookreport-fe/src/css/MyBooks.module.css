@@ -1,7 +1,8 @@
 .bookImage {
-  width: 140px;
-  height: 190px;
+  width: 120px;
+  height: 170px;
   object-fit: scale-down;
+  margin-bottom: 10px;
 }
 
 .title {
@@ -17,6 +18,7 @@
   width: 120px;
   height: 35px;
   border: 2px solid rgb(158, 162, 225);
+  margin-left: 10px;
 }
 
 .box {

@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { getCookie } from "../../api/cookie.js";
 import { useNavigate } from "react-router-dom";
 import { customAxios } from "../../api/customAxios.js";
-import "../../css/MyBooks.css";
+import styles from "../../css/MyBooks.module.css";
 
 function MyBooks() {
   const navigate = useNavigate();
@@ -22,14 +22,29 @@ function MyBooks() {
   const [myBooks, setMyBooks] = useState([]);
   const [totalPage, setTotalPage] = useState();
   const [currentPage, setCurrentPage] = useState(0);
-  const [year, setYear] = useState(new Date().getFullYear());
+
+  // 연도 선택
+  const currentYear = new Date().getFullYear();
+  const startYear = 2000;
+  const yearOptions = [];
+  const [year, setYear] = useState(currentYear);
+  for (let year = currentYear; year >= startYear; year--) {
+    yearOptions.push(
+      <option key={year} value={year}>
+        {year}
+      </option>
+    );
+  }
+  const onChangeYear = (e) => {
+    setYear(parseInt(e.target.value, 10));
+  };
 
   const find_myBooks = async (year, currentPage) => {
     await customAxios.myBooks(year, currentPage).then((res) => {
       if (res.status === 200) {
-        console.log(res.data);
         setTotalPage(res.data.totalPage);
         setMyBooks(res.data.myBooks);
+        console.log(res.data.totalPage);
       }
     });
   };
@@ -43,21 +58,6 @@ function MyBooks() {
     }
   }, [isLoggedIn, navigate, year, currentPage]);
 
-  // 연도 선택
-  const currentYear = new Date().getFullYear();
-  const startYear = 2000;
-  const yearOptions = [];
-  for (let year = currentYear; year >= startYear; year--) {
-    yearOptions.push(
-      <option key={year} value={year}>
-        {year}
-      </option>
-    );
-  }
-  const [selectedYear, setSelectedYear] = useState(currentYear);
-  const onChangeYear = (e) => {
-    setSelectedYear(parseInt(e.target.value, 10));
-  };
   return (
     <Layout>
       <Hero></Hero>
@@ -65,144 +65,153 @@ function MyBooks() {
         <Card className="shadow mt--400 p-5">
           <div className="ml-1 d-flex align-items-center">
             <h3 className="m-0">내 서재</h3>
-            <select className="select ml-3" onChange={onChangeYear}>
+            <select className={styles.select} onChange={onChangeYear}>
               {yearOptions}
             </select>
           </div>
-          <Row className="mt-5">
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-          </Row>
-          <Row className="mt-3 mb-3">
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-            <Col className="box">
-              <Badge className="text-uppercase mb-2" color="success" pill>
-                Success
-              </Badge>
-              <img
-                className="bookImage mb-2"
-                src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
-                alt="bookImage"
-              ></img>
-              <p className="title">
-                달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
-              </p>
-            </Col>
-          </Row>
+          {myBooks.length !== 0 ? (
+            <div>
+              <Row className="mt-5">
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    {myBooks[0].myBookDTO.myBookStatus}
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+              </Row>
+              <Row className="mt-3 mb-3">
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+                <Col className={styles.box}>
+                  <Badge className="text-uppercase mb-2" color="success" pill>
+                    Success
+                  </Badge>
+                  <img
+                    className={styles.bookImage}
+                    src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
+                    alt="bookImage"
+                  ></img>
+                  <p className={styles.title}>
+                    달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
+                  </p>
+                </Col>
+              </Row>
+            </div>
+          ) : (
+            <div className="text-center m-5">
+              내 서재에 담긴 책이 존재하지 않습니다.
+            </div>
+          )}
+
           <Pagination className="m-auto">
             <PaginationItem>
               <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
