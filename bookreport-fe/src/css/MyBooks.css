@@ -1,0 +1,20 @@
+.bookImage {
+  width: 140px;
+  height: 190px;
+  object-fit: scale-down;
+}
+
+.title {
+  width: 140px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select {
+  font-size: 18px;
+  width: 120px;
+  height: 40px;
+  border: 2px solid rgb(158, 162, 225);
+}
