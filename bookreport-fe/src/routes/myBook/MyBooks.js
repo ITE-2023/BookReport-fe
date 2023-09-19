@@ -141,6 +141,35 @@ function MyBooks() {
     return arr;
   };
 
+  //페이징
+  const onClickPage = (index) => {
+    setCurrentPage(index);
+  };
+  const renderPageButtons = () => {
+    let arr = [];
+    const btnLimit = 5;
+    const startBtn = Math.max(1, currentPage - Math.floor(btnLimit / 2));
+    const endBtn = Math.min(totalPage, startBtn + btnLimit - 1);
+    for (let i = startBtn; i <= endBtn; i++) {
+      arr.push(
+        <PaginationItem
+          key={i}
+          className={currentPage === i - 1 ? "active" : ""}
+        >
+          <PaginationLink
+            onClick={(e) => {
+              e.preventDefault();
+              onClickPage(i - 1);
+            }}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+    return arr;
+  };
+
   return (
     <Layout>
       <Hero></Hero>
@@ -164,38 +193,28 @@ function MyBooks() {
           )}
 
           <Pagination className="m-auto">
-            <PaginationItem>
-              <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
+            <PaginationItem
+              style={{ display: currentPage === 0 ? "none" : "block" }}
+            >
+              <PaginationLink
+                onClick={(e) => {
+                  if (currentPage > 0) onClickPage(currentPage - 1);
+                }}
+              >
                 <i className="fa fa-angle-left" />
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem className="active">
-              <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                4
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                5
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
+            {renderPageButtons()}
+            <PaginationItem
+              style={{
+                display: currentPage === totalPage - 1 ? "none" : "block",
+              }}
+            >
+              <PaginationLink
+                onClick={(e) => {
+                  if (currentPage < totalPage - 1) onClickPage(currentPage + 1);
+                }}
+              >
                 <i className="fa fa-angle-right" />
               </PaginationLink>
             </PaginationItem>
