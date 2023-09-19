@@ -10,11 +10,28 @@ import {
   PaginationLink,
   Badge,
 } from "reactstrap";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { getCookie } from "../../api/cookie.js";
+import { useNavigate } from "react-router-dom";
 import "../../css/MyBooks.css";
 
 function MyBooks() {
+  // 로그인 확인
+  const [token, setToken] = useState();
+  const [tokenSet, setTokenSet] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const accessToken = getCookie("accessToken");
+    setToken(accessToken);
+    setTokenSet(true);
+  }, [token]);
+
+  useEffect(() => {
+    if (!token && tokenSet) {
+      navigate(`/member/login`);
+    }
+  }, [token, tokenSet, navigate]);
+
   // 연도 선택
   const currentYear = new Date().getFullYear();
   const startYear = 2000;
@@ -36,7 +53,7 @@ function MyBooks() {
       <Container className="pb-5">
         <Card className="shadow mt--400 p-5">
           <div className="ml-1 d-flex align-items-center">
-            <h3>내 서재</h3>
+            <h3 className="m-0">내 서재</h3>
             <select className="select ml-3" onChange={onChangeYear}>
               {yearOptions}
             </select>
