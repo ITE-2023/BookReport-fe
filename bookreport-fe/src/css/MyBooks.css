@@ -15,6 +15,13 @@
 .select {
   font-size: 18px;
   width: 120px;
-  height: 40px;
+  height: 35px;
   border: 2px solid rgb(158, 162, 225);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

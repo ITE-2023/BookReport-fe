@@ -8,6 +8,7 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink,
+  Badge,
 } from "reactstrap";
 import { useState } from "react";
 
@@ -34,15 +35,19 @@ function MyBooks() {
       <Hero></Hero>
       <Container className="pb-5">
         <Card className="shadow mt--400 p-5">
-          <div className="ml-1">
-            <select className="select" onChange={onChangeYear}>
+          <div className="ml-1 d-flex align-items-center">
+            <h3>내 서재</h3>
+            <select className="select ml-3" onChange={onChangeYear}>
               {yearOptions}
             </select>
           </div>
           <Row className="mt-5">
-            <Col>
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
@@ -50,39 +55,51 @@ function MyBooks() {
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
             </Col>
-            <Col className="">
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
               <p className="title">
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
-            </Col>{" "}
-            <Col className="">
+            </Col>
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
               <p className="title">
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
-            </Col>{" "}
-            <Col className="">
+            </Col>
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
               <p className="title">
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
-            </Col>{" "}
-            <Col className="">
+            </Col>
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
@@ -92,9 +109,12 @@ function MyBooks() {
             </Col>
           </Row>
           <Row className="mt-3 mb-3">
-            <Col className="">
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
@@ -102,39 +122,51 @@ function MyBooks() {
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
             </Col>
-            <Col className="">
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
               <p className="title">
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
-            </Col>{" "}
-            <Col className="">
+            </Col>
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
               <p className="title">
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
-            </Col>{" "}
-            <Col className="">
+            </Col>
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
               <p className="title">
                 달러구트 꿈 백화점 1 (주문하신 꿈은 매진입니다)
               </p>
-            </Col>{" "}
-            <Col className="">
+            </Col>
+            <Col className="box">
+              <Badge className="text-uppercase mb-2" color="success" pill>
+                Success
+              </Badge>
               <img
-                className="bookImage"
+                className="bookImage mb-2"
                 src="https://shopping-phinf.pstatic.net/main_3243610/32436104744.20230905101559.jpg"
                 alt="bookImage"
               ></img>
