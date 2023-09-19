@@ -11,6 +11,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0;
 }
 
 .select {
@@ -26,4 +27,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 15px;
+}
+
+.box:hover {
+  box-shadow: rgba(56, 56, 133, 0.25) 0px 2px 5px -1px,
+    rgba(56, 56, 133, 0.25) 0px 1px 5px -1px;
+  cursor: pointer;
 }

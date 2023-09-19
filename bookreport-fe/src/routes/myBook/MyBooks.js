@@ -183,7 +183,7 @@ function MyBooks() {
           </div>
           {myBooks.length !== 0 ? (
             <div>
-              <Row className="mt-5">{repeatMyBooks(myBooks)}</Row>
+              <Row className="mt-3">{repeatMyBooks(myBooks)}</Row>
               <Row className="mt-3 mb-3">{repeatMyBooks2(myBooks)}</Row>
             </div>
           ) : (
