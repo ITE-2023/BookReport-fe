@@ -13,24 +13,35 @@ import {
 import { useState, useEffect } from "react";
 import { getCookie } from "../../api/cookie.js";
 import { useNavigate } from "react-router-dom";
+import { customAxios } from "../../api/customAxios.js";
 import "../../css/MyBooks.css";
 
 function MyBooks() {
-  // 로그인 확인
-  const [token, setToken] = useState();
-  const [tokenSet, setTokenSet] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
-    const accessToken = getCookie("accessToken");
-    setToken(accessToken);
-    setTokenSet(true);
-  }, [token]);
 
+  const [myBooks, setMyBooks] = useState([]);
+  const [totalPage, setTotalPage] = useState();
+  const [currentPage, setCurrentPage] = useState(0);
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  const find_myBooks = async (year, currentPage) => {
+    await customAxios.myBooks(year, currentPage).then((res) => {
+      if (res.status === 200) {
+        console.log(res.data);
+        setTotalPage(res.data.totalPage);
+        setMyBooks(res.data.myBooks);
+      }
+    });
+  };
+
+  const isLoggedIn = getCookie("accessToken") !== undefined;
   useEffect(() => {
-    if (!token && tokenSet) {
-      navigate(`/member/login`);
+    if (!isLoggedIn) {
+      navigate("/member/login");
+    } else {
+      find_myBooks(year, currentPage);
     }
-  }, [token, tokenSet, navigate]);
+  }, [isLoggedIn, navigate, year, currentPage]);
 
   // 연도 선택
   const currentYear = new Date().getFullYear();
