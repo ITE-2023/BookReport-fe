@@ -44,7 +44,6 @@ function MyBooks() {
       if (res.status === 200) {
         setTotalPage(res.data.totalPage);
         setMyBooks(res.data.myBooks);
-        console.log(res.data.totalPage);
       }
     });
   };
@@ -58,12 +57,19 @@ function MyBooks() {
     }
   }, [isLoggedIn, navigate, year, currentPage]);
 
+  const myBookDetail = (e) => {
+    navigate(`/myBook/detail/${e}`);
+  };
+
   const repeatMyBooks = (myBooks) => {
     let arr = [];
     const numIterations = Math.min(myBooks.length, 5);
     for (let i = 0; i < numIterations; i++) {
       arr.push(
-        <Col className={styles.box}>
+        <Col
+          className={styles.box}
+          onClick={() => myBookDetail(myBooks[i].myBookDTO.id)}
+        >
           {myBooks[i].myBookDTO.myBookStatus === "읽은 책" ? (
             <Badge className="text-uppercase mb-2" color="primary" pill>
               {myBooks[i].myBookDTO.myBookStatus}

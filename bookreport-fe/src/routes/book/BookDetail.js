@@ -251,8 +251,6 @@ function BookDetail() {
     setExpect(e.target.value);
   };
 
-  console.log("expect : " + expect);
-
   // 내 서재에 담기 실행
   const onClick = () => {
     if (pill === 1) {
