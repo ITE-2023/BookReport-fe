@@ -17,6 +17,7 @@ const myBookURL = {
   MY_BOOK_SAVE_URL: "/myBook/save",
   MY_BOOK_CHECK: "/myBook/check",
   MY_BOOK_LIST_URL: "/myBooks",
+  MY_BOOK_DETAIL_URL: "/myBook/detail",
 };
 
 const reportURL = {
@@ -95,6 +96,11 @@ const customAxios = {
     const response = await api.get(
       `${myBookURL.MY_BOOK_LIST_URL}?year=${year}&page=${currentPage}`
     );
+    return response;
+  },
+
+  myBook_detail: async (id) => {
+    const response = await api.get(`${myBookURL.MY_BOOK_DETAIL_URL}/${id}`);
     return response;
   },
 
