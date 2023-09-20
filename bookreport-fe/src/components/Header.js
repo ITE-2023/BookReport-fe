@@ -78,8 +78,8 @@ function Header() {
                       </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink href="/report/create" to="/report/create">
-                        독후감 쓰기
+                      <NavLink href="/myBooks" to="/myBooks">
+                        내 서재
                       </NavLink>
                     </NavItem>
                   </>
