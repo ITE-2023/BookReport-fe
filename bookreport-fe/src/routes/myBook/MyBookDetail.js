@@ -29,7 +29,6 @@ function MyBookDetail() {
       .myBook_detail(id)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.myBookDTO);
           setIsbn(res.data.bookDTO.isbn);
           setTitle(res.data.bookDTO.bookName);
           setImage(res.data.bookDTO.imageUrl);
@@ -68,6 +67,14 @@ function MyBookDetail() {
     }
     return description;
   }, [isMore, description]);
+
+  const repeatRate = () => {
+    let arr = [];
+    for (let i = 0; i < rate; i++) {
+      arr.push(<span>⭐</span>);
+    }
+    return arr;
+  };
 
   return (
     <Layout>
@@ -127,12 +134,30 @@ function MyBookDetail() {
                 <div className="mb-3 text-center">
                   <span>수정</span>&nbsp;/&nbsp;<span>삭제</span>
                 </div>
-                <p>평가 : ⭐⭐⭐⭐⭐</p>
-                <p>시작일 : 2023-09-20 </p>
-                <p>종료일 : 2023-09-25</p>
-                <p>독서량 : 100쪽</p>
-                <p>시작일 : 2023-09-20 </p>
-                <p>기대평 : 기대기대기대평 </p>
+                {myBookStatus === "읽은 책" ? (
+                  <div>
+                    <p>평가 : {repeatRate()}</p>
+                    <p>시작일 : {startDate.substring(0, 10)}</p>
+                    <p>종료일 : {endDate.substring(0, 10)}</p>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {myBookStatus === "읽는 중인 책" ? (
+                  <div>
+                    <p>독서량 : {readPage}쪽</p>
+                    <p>시작일 : {readingStartDate.substring(0, 10)} </p>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {myBookStatus === "읽고 싶은 책" ? (
+                  <div>
+                    <p>기대평 : {expectation}</p>
+                  </div>
+                ) : (
+                  ""
+                )}
               </Col>
             </Row>
           </Card>
