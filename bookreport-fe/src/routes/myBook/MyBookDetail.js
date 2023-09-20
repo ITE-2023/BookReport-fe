@@ -1,6 +1,6 @@
 import Layout from "../../components/Layout";
 import Hero from "../../components/Hero";
-import { Card, Col, Container, Row } from "reactstrap";
+import { Card, Col, Container, Row, Badge } from "reactstrap";
 import styles from "../../css/BookDetail.module.css";
 import { useState, useRef, useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -16,18 +16,34 @@ function MyBookDetail() {
   const [publisher, setPublisher] = useState("");
   const [description, setDescription] = useState("");
 
+  const [myBookStatus, setMyBookStatus] = useState("");
+  const [rate, setRate] = useState(0);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [readPage, setReadPage] = useState(0);
+  const [readingStartDate, setReadingStartDate] = useState(null);
+  const [expectation, setExpectation] = useState("");
+
   const findMyBook = (id) => {
     customAxios
       .myBook_detail(id)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.bookDTO);
+          console.log(res.data.myBookDTO);
           setIsbn(res.data.bookDTO.isbn);
           setTitle(res.data.bookDTO.bookName);
           setImage(res.data.bookDTO.imageUrl);
           setAuthor(res.data.bookDTO.author);
           setPublisher(res.data.bookDTO.publisher);
           setDescription(res.data.bookDTO.description);
+
+          setMyBookStatus(res.data.myBookDTO.myBookStatus);
+          setRate(res.data.myBookDTO.rate);
+          setStartDate(res.data.myBookDTO.startDate);
+          setEndDate(res.data.myBookDTO.endDate);
+          setReadPage(res.data.myBookDTO.readPage);
+          setReadingStartDate(res.data.myBookDTO.readingStartDate);
+          setExpectation(res.data.myBookDTO.expectation);
         }
       })
       .catch((error) => {
@@ -59,7 +75,28 @@ function MyBookDetail() {
         <Container className="mt-5">
           <Card className={styles.bookDetailBox}>
             <Row className="align-items-top">
-              <Col className="text-center">
+              <Col className="text-center mt-auto mb-auto">
+                {myBookStatus === "읽은 책" ? (
+                  <Badge className="text-uppercase mb-3" color="primary" pill>
+                    {myBookStatus}
+                  </Badge>
+                ) : (
+                  ""
+                )}
+                {myBookStatus === "읽는 중인 책" ? (
+                  <Badge className="text-uppercase mb-3" color="info" pill>
+                    {myBookStatus}
+                  </Badge>
+                ) : (
+                  ""
+                )}
+                {myBookStatus === "읽고 싶은 책" ? (
+                  <Badge className="text-uppercase mb-3" color="danger" pill>
+                    {myBookStatus}
+                  </Badge>
+                ) : (
+                  ""
+                )}
                 <img
                   className={styles.bookImage}
                   src={image}
