@@ -95,6 +95,10 @@ function MyBooks() {
         </Col>
       );
     }
+
+    for (let i = 5 - numIterations; i > 0; i--) {
+      arr.push(<Col></Col>);
+    }
     return arr;
   };
 
@@ -137,6 +141,9 @@ function MyBooks() {
           <p className={styles.title}>{myBooks[i].bookDTO.bookName}</p>
         </Col>
       );
+    }
+    for (let i = 5 - numIterations; i > 0; i--) {
+      arr.push(<Col></Col>);
     }
     return arr;
   };
