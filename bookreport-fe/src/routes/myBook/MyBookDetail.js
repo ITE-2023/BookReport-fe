@@ -22,7 +22,7 @@ import {
   InputGroup,
 } from "reactstrap";
 import styles from "../../css/BookDetail.module.css";
-import { useState, useRef, useMemo, useEffect } from "react";
+import { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import ReactDatetime from "react-datetime";
 import classnames from "classnames";
@@ -57,7 +57,7 @@ function MyBookDetail() {
   const [updateReadingStartDate, setUpdateReadingStartDate] = useState(null);
   const [updateExpectation, setUpdateExpectation] = useState("");
 
-  const findMyBook = (id) => {
+  const findMyBook = useCallback(() => {
     customAxios
       .myBook_detail(id)
       .then((res) => {
@@ -82,11 +82,11 @@ function MyBookDetail() {
         console.log(error);
         navigate("/myBooks");
       });
-  };
+  }, [id, navigate]);
 
   useEffect(() => {
     findMyBook(id);
-  }, [id]);
+  }, [id, findMyBook]);
 
   const [isMore, setIsMore] = useState(false);
   const descriptionLimit = useRef(145);
