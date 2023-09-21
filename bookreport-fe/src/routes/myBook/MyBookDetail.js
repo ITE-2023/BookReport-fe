@@ -130,7 +130,7 @@ function MyBookDetail() {
                     (isMore ? "[접기]" : "[더보기]")}
                 </div>
               </Col>
-              <Col>
+              <Col className="border-left">
                 <div className="text-left mb-3">
                   <Button className="btn-white" color="default" size="sm">
                     <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
@@ -141,24 +141,30 @@ function MyBookDetail() {
                 </div>
                 {myBookStatus === "읽은 책" ? (
                   <div>
-                    <p>평가 : {repeatRate()}</p>
-                    <p>시작일 : {startDate.substring(0, 10)}</p>
-                    <p>종료일 : {endDate.substring(0, 10)}</p>
+                    <h6 className="font-weight-bold">평가</h6>
+                    <p>{repeatRate()}</p>
+                    <h6 className="font-weight-bold">시작일</h6>
+                    <p>{startDate.substring(0, 10)}</p>
+                    <h6 className="font-weight-bold">종료일</h6>
+                    <p>{endDate.substring(0, 10)}</p>
                   </div>
                 ) : (
                   ""
                 )}
                 {myBookStatus === "읽는 중인 책" ? (
                   <div>
-                    <p>독서량 : {readPage}쪽</p>
-                    <p>시작일 : {readingStartDate.substring(0, 10)} </p>
+                    <h6 className="font-weight-bold">독서량</h6>
+                    <p>{readPage}쪽</p>
+                    <h6 className="font-weight-bold">시작일</h6>
+                    <p>{readingStartDate.substring(0, 10)} </p>
                   </div>
                 ) : (
                   ""
                 )}
                 {myBookStatus === "읽고 싶은 책" ? (
                   <div>
-                    <p>기대평 : {expectation}</p>
+                    <h6 className="font-weight-bold">기대평</h6>
+                    <p>{expectation}</p>
                   </div>
                 ) : (
                   ""
