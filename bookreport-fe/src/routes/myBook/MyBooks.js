@@ -78,7 +78,7 @@ function MyBooks() {
             ""
           )}
           {myBooks[i].myBookDTO.myBookStatus === "읽는 중인 책" ? (
-            <Badge className="text-uppercase mb-2" color="warning" pill>
+            <Badge className="text-uppercase mb-2" color="info" pill>
               {myBooks[i].myBookDTO.myBookStatus}
             </Badge>
           ) : (

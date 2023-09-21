@@ -159,7 +159,7 @@ function BookDetail() {
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
-  const descriptionLimit = useRef(200);
+  const descriptionLimit = useRef(145);
   const commenter = useMemo(() => {
     const shortDescription = description.slice(0, descriptionLimit.current);
 
@@ -290,10 +290,16 @@ function BookDetail() {
     const myBookRequest = {
       myBookStatus: getPillStatus(pill),
       rate: rating,
-      startDate: state.startDate,
-      endDate: state.endDate,
+      startDate: state.startDate
+        ? state.startDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
+      endDate: state.endDate
+        ? state.endDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
       readPage: readingPage,
-      readingStartDate: readingStartDate,
+      readingStartDate: readingStartDate
+        ? readingStartDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
       expectation: expect,
     };
 
@@ -325,7 +331,7 @@ function BookDetail() {
         <Container className="mt-5">
           <Card className={styles.bookDetailBox}>
             <Row className="align-items-top">
-              <Col>
+              <Col className="mt-3">
                 <img
                   className={styles.bookImage}
                   src={image}
@@ -570,6 +576,7 @@ function BookDetail() {
                                       placeholder="기대평"
                                       type="text"
                                       onChange={(e) => changeExpect(e)}
+                                      maxlength="70"
                                     />
                                   </InputGroup>
                                 </FormGroup>
