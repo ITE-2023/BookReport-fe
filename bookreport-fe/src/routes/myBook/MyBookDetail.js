@@ -1,11 +1,33 @@
 import Layout from "../../components/Layout";
 import Hero from "../../components/Hero";
-import { Card, Col, Container, Row, Badge, Button } from "reactstrap";
+import {
+  Card,
+  Col,
+  Modal,
+  NavItem,
+  NavLink,
+  Nav,
+  Container,
+  Row,
+  Badge,
+  Button,
+  CardHeader,
+  CardBody,
+  TabContent,
+  TabPane,
+  FormGroup,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
+} from "reactstrap";
 import styles from "../../css/BookDetail.module.css";
 import { useState, useRef, useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
+import ReactDatetime from "react-datetime";
+import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
+import { Rating } from "react-simple-star-rating";
 
 function MyBookDetail() {
   const { id } = useParams();
@@ -76,6 +98,77 @@ function MyBookDetail() {
     return arr;
   };
 
+  // 수정 버튼
+  const [formModal, setFormModal] = useState(false);
+  const toggleModal = () => {
+    setFormModal(!formModal);
+  };
+  // 책 상태 선택 버튼
+  const [pill, setPill] = useState(1);
+  const toggleNavs = (index) => {
+    setPill(index);
+  };
+
+  // star rating
+  const handleRating = (rate: number) => {
+    setRate(rate);
+  };
+
+  // date picker
+  const [state, setState] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const handleReactDatetimeChange = (who, date) => {
+    if (who === "startDate" && (!state.endDate || date < state.endDate)) {
+      setState({
+        startDate: date,
+        endDate: state.endDate,
+      });
+    } else if (
+      who === "endDate" &&
+      (!state.startDate || date > state.startDate)
+    ) {
+      setState({
+        startDate: state.startDate,
+        endDate: date,
+      });
+    } else {
+      setState({
+        startDate: date,
+        endDate: date,
+      });
+    }
+  };
+
+  const getClassNameReactDatetimeDays = (date) => {
+    if (state.startDate && state.endDate) {
+      if (date >= state.startDate && date <= state.endDate) {
+        return "selected-date";
+      }
+    } else if (state.startDate && date === state.startDate) {
+      return "start-date";
+    } else if (state.endDate && date === state.endDate) {
+      return "end-date";
+    }
+
+    return "";
+  };
+
+  // 읽는 중인 경우
+  const changeReadingStartDate = (date) => {
+    setReadingStartDate(date);
+  };
+
+  const changeReadingPage = (e) => {
+    setReadPage(e.target.value);
+  };
+
+  // 읽고 싶은 경우
+  const changeExpect = (e) => {
+    setExpectation(e.target.value);
+  };
+
   return (
     <Layout>
       <Hero>
@@ -131,8 +224,13 @@ function MyBookDetail() {
                 </div>
               </Col>
               <Col className="border-left">
-                <div className="text-left mb-3">
-                  <Button className="btn-white" color="default" size="sm">
+                <div className="text-left mb-4">
+                  <Button
+                    className="btn-white"
+                    color="default"
+                    size="sm"
+                    onClick={toggleModal}
+                  >
                     <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
                   </Button>
                   <Button className="btn-white" color="default" size="sm">
@@ -170,6 +268,209 @@ function MyBookDetail() {
                   ""
                 )}
               </Col>
+              <Modal
+                className="modal-dialog-centered"
+                isOpen={formModal}
+                toggle={toggleModal}
+              >
+                <div className="modal-body p-0">
+                  <Card className="bg-secondary shadow border-0">
+                    <CardHeader className="bg-white pb-5">
+                      <div className="nav-wrapper">
+                        <Nav
+                          className="nav-fill flex-column flex-md-row"
+                          id="tabs-icons-text"
+                          pills
+                          role="tablist"
+                        >
+                          <NavItem>
+                            <NavLink
+                              aria-selected={pill === 1}
+                              className={classnames("mb-sm-3 mb-md-0", {
+                                active: pill === 1,
+                              })}
+                              onClick={(e) => toggleNavs(1)}
+                              role="tab"
+                            >
+                              <i className="fa fa-check-circle mr-2" />
+                              읽은 책
+                            </NavLink>
+                          </NavItem>
+                          <NavItem>
+                            <NavLink
+                              aria-selected={pill === 2}
+                              className={classnames("mb-sm-3 mb-md-0", {
+                                active: pill === 2,
+                              })}
+                              onClick={(e) => toggleNavs(2)}
+                              role="tab"
+                            >
+                              <i className="fa fa-bookmark mr-2" />
+                              읽는 중인 책
+                            </NavLink>
+                          </NavItem>
+                          <NavItem>
+                            <NavLink
+                              aria-selected={pill === 3}
+                              className={classnames("mb-sm-3 mb-md-0", {
+                                active: pill === 3,
+                              })}
+                              onClick={(e) => toggleNavs(3)}
+                              role="tab"
+                            >
+                              <i className="fa fa-star mr-2" />
+                              읽고 싶은 책
+                            </NavLink>
+                          </NavItem>
+                        </Nav>
+                      </div>
+                      <Card className="shadow">
+                        <CardBody>
+                          <TabContent activeTab={"iconTabs" + pill}>
+                            <TabPane tabId="iconTabs1">
+                              <span>평점 </span>
+                              <Rating onClick={handleRating} />
+                              <p></p>
+                              <FormGroup>
+                                <InputGroup>
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="ni ni-calendar-grid-58" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <ReactDatetime
+                                    inputProps={{
+                                      placeholder: "시작일",
+                                    }}
+                                    value={state.startDate}
+                                    timeFormat={false}
+                                    onChange={(e) =>
+                                      handleReactDatetimeChange("startDate", e)
+                                    }
+                                    renderDay={(
+                                      props,
+                                      currentDate,
+                                      selectedDate
+                                    ) => {
+                                      let classes = props.className;
+                                      classes +=
+                                        getClassNameReactDatetimeDays(
+                                          currentDate
+                                        );
+                                      return (
+                                        <td {...props} className={classes}>
+                                          {currentDate.date()}
+                                        </td>
+                                      );
+                                    }}
+                                  />
+                                </InputGroup>
+                              </FormGroup>
+                              <FormGroup>
+                                <InputGroup>
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="ni ni-calendar-grid-58" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <ReactDatetime
+                                    inputProps={{
+                                      placeholder: "종료일",
+                                    }}
+                                    className="rdtPickerOnRight"
+                                    value={state.endDate}
+                                    timeFormat={false}
+                                    onChange={(e) =>
+                                      handleReactDatetimeChange("endDate", e)
+                                    }
+                                    renderDay={(
+                                      props,
+                                      currentDate,
+                                      selectedDate
+                                    ) => {
+                                      let classes = props.className;
+                                      classes +=
+                                        getClassNameReactDatetimeDays(
+                                          currentDate
+                                        );
+                                      return (
+                                        <td {...props} className={classes}>
+                                          {currentDate.date()}
+                                        </td>
+                                      );
+                                    }}
+                                  />
+                                </InputGroup>
+                              </FormGroup>
+                            </TabPane>
+                            <TabPane tabId="iconTabs2">
+                              <FormGroup>
+                                <InputGroup>
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="fa fa-bookmark-o" />
+                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;읽은 페이지
+                                      :
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    type="number"
+                                    onChange={changeReadingPage}
+                                  />
+                                  <InputGroupText>쪽</InputGroupText>
+                                </InputGroup>
+                              </FormGroup>
+                              <FormGroup>
+                                <InputGroup>
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="ni ni-calendar-grid-58" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <ReactDatetime
+                                    inputProps={{
+                                      placeholder: "시작일",
+                                    }}
+                                    timeFormat={false}
+                                    value={readingStartDate}
+                                    onChange={(e) => changeReadingStartDate(e)}
+                                  />
+                                </InputGroup>
+                              </FormGroup>
+                            </TabPane>
+                            <TabPane tabId="iconTabs3">
+                              <FormGroup>
+                                <InputGroup>
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="fa fa-heart-o" />
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    placeholder="기대평"
+                                    type="text"
+                                    onChange={(e) => changeExpect(e)}
+                                  />
+                                </InputGroup>
+                              </FormGroup>
+                            </TabPane>
+                          </TabContent>
+                        </CardBody>
+                      </Card>
+                      <div className="text-center mt-4">
+                        <Button
+                          className="btn-1"
+                          color="primary"
+                          outline
+                          type="button"
+                        >
+                          수정하기
+                        </Button>
+                      </div>
+                    </CardHeader>
+                  </Card>
+                </div>
+              </Modal>
             </Row>
           </Card>
         </Container>
