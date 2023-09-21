@@ -159,7 +159,7 @@ function BookDetail() {
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
-  const descriptionLimit = useRef(200);
+  const descriptionLimit = useRef(145);
   const commenter = useMemo(() => {
     const shortDescription = description.slice(0, descriptionLimit.current);
 
@@ -325,7 +325,7 @@ function BookDetail() {
         <Container className="mt-5">
           <Card className={styles.bookDetailBox}>
             <Row className="align-items-top">
-              <Col>
+              <Col className="mt-3">
                 <img
                   className={styles.bookImage}
                   src={image}

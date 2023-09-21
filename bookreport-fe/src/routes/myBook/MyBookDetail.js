@@ -1,6 +1,6 @@
 import Layout from "../../components/Layout";
 import Hero from "../../components/Hero";
-import { Card, Col, Container, Row, Badge } from "reactstrap";
+import { Card, Col, Container, Row, Badge, Button } from "reactstrap";
 import styles from "../../css/BookDetail.module.css";
 import { useState, useRef, useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -55,7 +55,7 @@ function MyBookDetail() {
   }, [id]);
 
   const [isMore, setIsMore] = useState(false);
-  const descriptionLimit = useRef(200);
+  const descriptionLimit = useRef(145);
   const commenter = useMemo(() => {
     const shortDescription = description.slice(0, descriptionLimit.current);
 
@@ -82,7 +82,7 @@ function MyBookDetail() {
         <Container className="mt-5">
           <Card className={styles.bookDetailBox}>
             <Row className="align-items-top">
-              <Col className="text-center mt-auto mb-auto">
+              <Col className="text-center mt-3">
                 {myBookStatus === "읽은 책" ? (
                   <Badge className="text-uppercase mb-3" color="primary" pill>
                     {myBookStatus}
@@ -131,8 +131,13 @@ function MyBookDetail() {
                 </div>
               </Col>
               <Col>
-                <div className="mb-3 text-center">
-                  <span>수정</span>&nbsp;/&nbsp;<span>삭제</span>
+                <div className="text-left mb-3">
+                  <Button className="btn-white" color="default" size="sm">
+                    <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
+                  </Button>
+                  <Button className="btn-white" color="default" size="sm">
+                    <span className="btn-inner--text">&nbsp;삭제&nbsp;</span>
+                  </Button>
                 </div>
                 {myBookStatus === "읽은 책" ? (
                   <div>
