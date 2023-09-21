@@ -290,10 +290,16 @@ function BookDetail() {
     const myBookRequest = {
       myBookStatus: getPillStatus(pill),
       rate: rating,
-      startDate: state.startDate,
-      endDate: state.endDate,
+      startDate: state.startDate
+        ? state.startDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
+      endDate: state.endDate
+        ? state.endDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
       readPage: readingPage,
-      readingStartDate: readingStartDate,
+      readingStartDate: readingStartDate
+        ? readingStartDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
       expectation: expect,
     };
 

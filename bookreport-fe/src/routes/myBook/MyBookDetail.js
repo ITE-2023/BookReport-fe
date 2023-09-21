@@ -200,10 +200,16 @@ function MyBookDetail() {
     const myBookRequest = {
       myBookStatus: getPillStatus(pill),
       rate: updateRate,
-      startDate: updateStartDate,
-      endDate: updateEndDate,
+      startDate: updateStartDate
+        ? updateStartDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
+      endDate: updateEndDate
+        ? updateEndDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
       readPage: updateReadPage,
-      readingStartDate: updateReadingStartDate,
+      readingStartDate: updateReadingStartDate
+        ? updateReadingStartDate.format("YYYY-MM-DDTHH:mm:sszz")
+        : null,
       expectation: updateExpectation,
     };
 
