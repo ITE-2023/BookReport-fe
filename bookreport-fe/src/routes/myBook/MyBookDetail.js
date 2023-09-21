@@ -47,6 +47,13 @@ function MyBookDetail() {
   const [readingStartDate, setReadingStartDate] = useState(null);
   const [expectation, setExpectation] = useState("");
 
+  const [updateRate, setUpdateRate] = useState(0);
+  const [updateStartDate, setUpdateStartDate] = useState(null);
+  const [updateEndDate, setUpdateEndDate] = useState(null);
+  const [updateReadPage, setUpdateReadPage] = useState(0);
+  const [updateReadingStartDate, setUpdateReadingStartDate] = useState(null);
+  const [updateExpectation, setUpdateExpectation] = useState("");
+
   const findMyBook = (id) => {
     customAxios
       .myBook_detail(id)
@@ -112,44 +119,35 @@ function MyBookDetail() {
 
   // star rating
   const handleRating = (rate: number) => {
-    setRate(rate);
+    setUpdateRate(rate);
   };
 
   // date picker
-  const [state, setState] = useState({
-    startDate: null,
-    endDate: null,
-  });
+
   const handleReactDatetimeChange = (who, date) => {
-    if (who === "startDate" && (!state.endDate || date < state.endDate)) {
-      setState({
-        startDate: date,
-        endDate: state.endDate,
-      });
+    if (who === "startDate" && (!updateEndDate || date < updateEndDate)) {
+      setUpdateStartDate(date);
+      setUpdateEndDate(updateEndDate);
     } else if (
       who === "endDate" &&
-      (!state.startDate || date > state.startDate)
+      (!updateStartDate || date > updateStartDate)
     ) {
-      setState({
-        startDate: state.startDate,
-        endDate: date,
-      });
+      setUpdateStartDate(updateStartDate);
+      setUpdateEndDate(date);
     } else {
-      setState({
-        startDate: date,
-        endDate: date,
-      });
+      setUpdateStartDate(date);
+      setUpdateEndDate(date);
     }
   };
 
   const getClassNameReactDatetimeDays = (date) => {
-    if (state.startDate && state.endDate) {
-      if (date >= state.startDate && date <= state.endDate) {
+    if (updateStartDate && updateEndDate) {
+      if (date >= updateStartDate && date <= updateEndDate) {
         return "selected-date";
       }
-    } else if (state.startDate && date === state.startDate) {
+    } else if (updateStartDate && date === updateStartDate) {
       return "start-date";
-    } else if (state.endDate && date === state.endDate) {
+    } else if (updateEndDate && date === updateEndDate) {
       return "end-date";
     }
 
@@ -158,26 +156,30 @@ function MyBookDetail() {
 
   // 읽는 중인 경우
   const changeReadingStartDate = (date) => {
-    setReadingStartDate(date);
+    setUpdateReadingStartDate(date);
   };
 
   const changeReadingPage = (e) => {
-    setReadPage(e.target.value);
+    setUpdateReadPage(e.target.value);
   };
 
   // 읽고 싶은 경우
   const changeExpect = (e) => {
-    setExpectation(e.target.value);
+    setUpdateExpectation(e.target.value);
   };
 
   const onUpdate = () => {
     if (pill === 1) {
-      if (rate === 0 || state.startDate === null || state.endDate === null) {
+      if (
+        updateRate === 0 ||
+        updateStartDate === null ||
+        updateEndDate === null
+      ) {
         MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
         return;
       }
     } else if (pill === 2) {
-      if (readPage === 0 || readingStartDate === null) {
+      if (updateReadPage === 0 || updateReadingStartDate === null) {
         MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
         return;
       }
@@ -197,12 +199,12 @@ function MyBookDetail() {
 
     const myBookRequest = {
       myBookStatus: getPillStatus(pill),
-      rate: rate,
-      startDate: state.startDate,
-      endDate: state.endDate,
-      readPage: readPage,
-      readingStartDate: readingStartDate,
-      expectation: expectation,
+      rate: updateRate,
+      startDate: updateStartDate,
+      endDate: updateEndDate,
+      readPage: updateReadPage,
+      readingStartDate: updateReadingStartDate,
+      expectation: updateExpectation,
     };
 
     customAxios
@@ -384,7 +386,7 @@ function MyBookDetail() {
                           <TabContent activeTab={"iconTabs" + pill}>
                             <TabPane tabId="iconTabs1">
                               <span>평점 </span>
-                              <Rating onClick={handleRating} />
+                              <Rating onClick={(rate) => handleRating(rate)} />
                               <p></p>
                               <FormGroup>
                                 <InputGroup>
@@ -397,7 +399,7 @@ function MyBookDetail() {
                                     inputProps={{
                                       placeholder: "시작일",
                                     }}
-                                    value={state.startDate}
+                                    value={updateStartDate}
                                     timeFormat={false}
                                     onChange={(e) =>
                                       handleReactDatetimeChange("startDate", e)
@@ -433,7 +435,7 @@ function MyBookDetail() {
                                       placeholder: "종료일",
                                     }}
                                     className="rdtPickerOnRight"
-                                    value={state.endDate}
+                                    value={updateEndDate}
                                     timeFormat={false}
                                     onChange={(e) =>
                                       handleReactDatetimeChange("endDate", e)
