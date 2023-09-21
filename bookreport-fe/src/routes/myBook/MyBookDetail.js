@@ -28,6 +28,7 @@ import ReactDatetime from "react-datetime";
 import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
 import { Rating } from "react-simple-star-rating";
+import { icon, MixinToast } from "../../components/Alert.js";
 
 function MyBookDetail() {
   const { id } = useParams();
@@ -167,6 +168,60 @@ function MyBookDetail() {
   // 읽고 싶은 경우
   const changeExpect = (e) => {
     setExpectation(e.target.value);
+  };
+
+  const onUpdate = () => {
+    if (pill === 1) {
+      if (rate === 0 || state.startDate === null || state.endDate === null) {
+        MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
+        return;
+      }
+    } else if (pill === 2) {
+      if (readPage === 0 || readingStartDate === null) {
+        MixinToast({ icon: icon.ERROR, title: "모든 칸을 입력해주세요." });
+        return;
+      }
+    }
+    function getPillStatus(pill) {
+      switch (pill) {
+        case 1:
+          return "읽은 책";
+        case 2:
+          return "읽는 중인 책";
+        case 3:
+          return "읽고 싶은 책";
+        default:
+          return "읽은 책";
+      }
+    }
+
+    const myBookRequest = {
+      myBookStatus: getPillStatus(pill),
+      rate: rate,
+      startDate: state.startDate,
+      endDate: state.endDate,
+      readPage: readPage,
+      readingStartDate: readingStartDate,
+      expectation: expectation,
+    };
+
+    customAxios
+      .myBook_update(id, myBookRequest)
+      .then((res) => {
+        if (res.status === 200) {
+          setMyBookStatus(res.data.myBookStatus);
+          setRate(res.data.rate);
+          setStartDate(res.data.startDate);
+          setEndDate(res.data.endDate);
+          setReadPage(res.data.readPage);
+          setReadingStartDate(res.data.readingStartDate);
+          setExpectation(res.data.expectation);
+          setFormModal(!formModal);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -463,6 +518,7 @@ function MyBookDetail() {
                           color="primary"
                           outline
                           type="button"
+                          onClick={onUpdate}
                         >
                           수정하기
                         </Button>

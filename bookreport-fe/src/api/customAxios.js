@@ -18,6 +18,7 @@ const myBookURL = {
   MY_BOOK_CHECK: "/myBook/check",
   MY_BOOK_LIST_URL: "/myBooks",
   MY_BOOK_DETAIL_URL: "/myBook/detail",
+  MY_BOOK_UPDATE_URL: "/myBook/update",
 };
 
 const reportURL = {
@@ -101,6 +102,14 @@ const customAxios = {
 
   myBook_detail: async (id) => {
     const response = await api.get(`${myBookURL.MY_BOOK_DETAIL_URL}/${id}`);
+    return response;
+  },
+
+  myBook_update: async (id, data) => {
+    const response = await api.patch(
+      `${myBookURL.MY_BOOK_UPDATE_URL}/${id}`,
+      data
+    );
     return response;
   },
 
