@@ -28,9 +28,12 @@ import ReactDatetime from "react-datetime";
 import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
 import { Rating } from "react-simple-star-rating";
-import { icon, MixinToast } from "../../components/Alert.js";
+import { icon, MixinToast, ConfirmToast } from "../../components/Alert.js";
+import { useNavigate } from "react-router-dom";
 
 function MyBookDetail() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [isbn, setIsbn] = useState("");
   const [title, setTitle] = useState("");
@@ -77,6 +80,7 @@ function MyBookDetail() {
       })
       .catch((error) => {
         console.log(error);
+        navigate("/myBooks");
       });
   };
 
@@ -168,6 +172,7 @@ function MyBookDetail() {
     setUpdateExpectation(e.target.value);
   };
 
+  // 수정
   const onUpdate = () => {
     if (pill === 1) {
       if (
@@ -229,6 +234,36 @@ function MyBookDetail() {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  //삭제
+  const onDelete = () => {
+    ConfirmToast({
+      title: "책 삭제",
+      text: "책을 서재에서 삭제하시겠습니까?",
+      icon: icon.question,
+      confirmText: "네",
+      confirmTitle: "책 삭제",
+      confirmContent: "삭제 처리 되었습니다.",
+    })
+      .then((confirm) => {
+        if (confirm) {
+          customAxios
+            .myBook_delete(id)
+            .then((res) => {
+              if (res === 200) {
+                console.log("deleted");
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+          navigate("/myBooks");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
 
@@ -296,7 +331,12 @@ function MyBookDetail() {
                   >
                     <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
                   </Button>
-                  <Button className="btn-white" color="default" size="sm">
+                  <Button
+                    className="btn-white"
+                    color="default"
+                    size="sm"
+                    onClick={onDelete}
+                  >
                     <span className="btn-inner--text">&nbsp;삭제&nbsp;</span>
                   </Button>
                 </div>

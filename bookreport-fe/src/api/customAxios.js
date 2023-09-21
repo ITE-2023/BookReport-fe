@@ -19,6 +19,7 @@ const myBookURL = {
   MY_BOOK_LIST_URL: "/myBooks",
   MY_BOOK_DETAIL_URL: "/myBook/detail",
   MY_BOOK_UPDATE_URL: "/myBook/update",
+  MY_BOOK_DELETE_URL: "/myBook/delete",
 };
 
 const reportURL = {
@@ -110,6 +111,11 @@ const customAxios = {
       `${myBookURL.MY_BOOK_UPDATE_URL}/${id}`,
       data
     );
+    return response;
+  },
+
+  myBook_delete: async (id) => {
+    const response = await api.delete(`${myBookURL.MY_BOOK_DELETE_URL}/${id}`);
     return response;
   },
 

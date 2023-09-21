@@ -36,18 +36,23 @@ const ConfirmToast = ({
   confirmTitle,
   confirmContent,
 }) => {
-  MySwal.fire({
-    title: title,
-    text: text,
-    icon: icon,
-    showCancelButton: true,
-    confirmButtonColor: "#5E72E4",
-    cancelButtonColor: "#F5365C",
-    confirmButtonText: confirmText,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      MySwal.fire(confirmTitle, confirmContent, "success");
-    }
+  return new Promise((resolve, reject) => {
+    MySwal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonColor: "#5E72E4",
+      cancelButtonColor: "#F5365C",
+      confirmButtonText: confirmText,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        MySwal.fire(confirmTitle, confirmContent, "success");
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
   });
 };
 
