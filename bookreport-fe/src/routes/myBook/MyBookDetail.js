@@ -21,7 +21,7 @@ import {
   InputGroupText,
   InputGroup,
 } from "reactstrap";
-import styles from "../../css/BookDetail.module.css";
+import styles from "../../css/MyBookDetail.module.css";
 import { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import ReactDatetime from "react-datetime";
@@ -57,6 +57,12 @@ function MyBookDetail() {
   const [updateReadingStartDate, setUpdateReadingStartDate] = useState(null);
   const [updateExpectation, setUpdateExpectation] = useState("");
 
+  const [reportId, setReportId] = useState();
+  const [reportTitle, setReportTitle] = useState("");
+  const [reportContent, setReportContent] = useState("");
+  const [updateReportTitle, setUpdateReportTitle] = useState("");
+  const [updateReportContent, setUpdateReportContent] = useState("");
+
   const findMyBook = useCallback(() => {
     customAxios
       .myBook_detail(id)
@@ -84,9 +90,24 @@ function MyBookDetail() {
       });
   }, [id, navigate]);
 
+  // 독후감 조회
+  const findReport = useCallback((id) => {
+    customAxios.report_by_mybook(id).then((res) => {
+      if (res.status === 200 && res.data.length !== 0) {
+        setReportId(res.data.id);
+        setReportTitle(res.data.title);
+        setReportContent(res.data.content);
+
+        setUpdateReportTitle(res.data.title);
+        setUpdateReportContent(res.data.content);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     findMyBook(id);
-  }, [id, findMyBook]);
+    findReport(id);
+  }, [id, findMyBook, findReport]);
 
   const [isMore, setIsMore] = useState(false);
   const descriptionLimit = useRef(145);
@@ -265,6 +286,51 @@ function MyBookDetail() {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  // 독후감 작성
+  const [formWriteModal, setFormWriteModal] = useState(false);
+  const toggleWriteModal = () => {
+    setFormWriteModal(!formWriteModal);
+  };
+
+  const changeReportTitle = (e) => {
+    setUpdateReportTitle(e.target.value);
+  };
+
+  const changeReportContent = (e) => {
+    setUpdateReportContent(e.target.value);
+  };
+
+  const onReportSave = () => {
+    if (updateReportTitle.length === 0) {
+      MixinToast({ icon: icon.ERROR, title: "제목을 입력해주세요." });
+      return;
+    } else if (updateReportContent.length === 0) {
+      MixinToast({ icon: icon.ERROR, title: "내용을 입력해주세요." });
+      return;
+    }
+    const reportRequest = {
+      title: updateReportTitle,
+      content: updateReportContent,
+    };
+    if (reportId === undefined) {
+      customAxios.report_save(id, reportRequest).then((res) => {
+        if (res.status === 200) {
+          setReportTitle(res.data.title);
+          setReportContent(res.data.content);
+          setFormWriteModal(!formWriteModal);
+        }
+      });
+    } else {
+      customAxios.report_update(reportId, reportRequest).then((res) => {
+        if (res.status === 200) {
+          setReportTitle(res.data.title);
+          setReportContent(res.data.content);
+          setFormWriteModal(!formWriteModal);
+        }
+      });
+    }
   };
 
   return (
@@ -580,6 +646,87 @@ function MyBookDetail() {
           </Card>
         </Container>
       </Hero>
+      <div className="pb-5">
+        <Container>
+          <Card className="shadow p-5">
+            {reportTitle.length !== 0 ? (
+              <div className={styles.reportBox}>
+                <div className="text-right">
+                  <Button
+                    className="btn-white"
+                    color="default"
+                    size="sm"
+                    onClick={toggleWriteModal}
+                  >
+                    <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
+                  </Button>
+                </div>
+                <h5>{reportTitle}</h5>
+                <hr />
+                <p>{reportContent}</p>
+              </div>
+            ) : (
+              <div className={styles.reportBox2}>
+                <h6 className="text-center mt-3">등록된 독후감이 없습니다.</h6>
+                <Button
+                  className="btn-neutral btn-icon mt-5"
+                  color="default"
+                  onClick={toggleWriteModal}
+                >
+                  <span className="btn-inner--icon">
+                    <i className="fa fa-pencil mr-2 fa-lg" aria-hidden="true" />
+                  </span>
+                  작성하기
+                </Button>
+              </div>
+            )}
+            <Modal
+              className={`${styles.reportWrite} modal-dialog-centered`}
+              isOpen={formWriteModal}
+              toggle={toggleWriteModal}
+            >
+              <div className="modal-body p-0">
+                <Card className="bg-secondary shadow border-0">
+                  <CardHeader className="bg-white pb-5">
+                    <h5 className="font-weight-bold text-muted text-center">
+                      독후감을 작성해보세요!
+                    </h5>
+                    <FormGroup>
+                      <Input
+                        className="form-control-alternative form-control-lg text-dark"
+                        placeholder="제목"
+                        type="text"
+                        onChange={changeReportTitle}
+                        value={updateReportTitle}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <textarea
+                        className={`${styles.reportContent} form-control-alternative form-control-lg`}
+                        placeholder="내용"
+                        type="text"
+                        onChange={changeReportContent}
+                        value={updateReportContent}
+                      />
+                    </FormGroup>
+                    <div className="text-center mt-4">
+                      <Button
+                        className="btn-1"
+                        color="primary"
+                        outline
+                        type="button"
+                        onClick={onReportSave}
+                      >
+                        저장하기
+                      </Button>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </div>
+            </Modal>
+          </Card>
+        </Container>
+      </div>
     </Layout>
   );
 }

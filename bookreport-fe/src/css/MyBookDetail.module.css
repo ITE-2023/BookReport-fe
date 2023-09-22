@@ -1,0 +1,40 @@
+.bookDetailBox {
+  padding: 20px;
+}
+
+.bookImage {
+  width: 170px;
+  height: 210px;
+  object-fit: scale-down;
+}
+
+.bookDetail {
+  padding-top: 10px;
+}
+
+.bookTitle {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.moreBtn:hover {
+  cursor: pointer;
+}
+
+.reportBox {
+  min-height: 300px;
+}
+
+.reportBox2 {
+  min-height: 200px;
+  text-align: center;
+}
+
+.reportWrite {
+  min-width: 800px;
+}
+
+.reportContent {
+  min-height: 300px;
+  width: 100%;
+}

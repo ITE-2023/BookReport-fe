@@ -24,6 +24,9 @@ const myBookURL = {
 
 const reportURL = {
   REPORTS_URL: "/reports",
+  REPORT_DETAIL_URL: "/report/detail",
+  REPORT_SAVE_URL: "/report/create",
+  REPORT_UPDATE_URL: "/report/update",
 };
 
 const api = axios.create({
@@ -122,6 +125,28 @@ const customAxios = {
   reports: async (isbn, currentPage) => {
     const response = await api.get(
       `${reportURL.REPORTS_URL}/${isbn}?page=${currentPage}`
+    );
+    return response;
+  },
+
+  report_by_mybook: async (myBookId) => {
+    const response = await api.get(
+      `${reportURL.REPORT_DETAIL_URL}?myBook=${myBookId}`
+    );
+    return response;
+  },
+
+  report_save: async (myBookId, data) => {
+    const response = await api.post(
+      `${reportURL.REPORT_SAVE_URL}/${myBookId}`,
+      data
+    );
+    return response;
+  },
+  report_update: async (reportId, data) => {
+    const response = await api.patch(
+      `${reportURL.REPORT_UPDATE_URL}/${reportId}`,
+      data
     );
     return response;
   },
