@@ -30,6 +30,7 @@ import { customAxios } from "../../api/customAxios.js";
 import { Rating } from "react-simple-star-rating";
 import { icon, MixinToast, ConfirmToast } from "../../components/Alert.js";
 import { useNavigate } from "react-router-dom";
+import "../../css/Alert.css";
 
 function MyBookDetail() {
   const navigate = useNavigate();
@@ -667,7 +668,7 @@ function MyBookDetail() {
               </div>
             ) : (
               <div className={styles.reportBox2}>
-                <h6 className="text-center mt-3">등록된 독후감이 없습니다.</h6>
+                <h5 className="text-center mt-3">등록된 독후감이 없습니다.</h5>
                 <Button
                   className="btn-neutral btn-icon mt-5"
                   color="default"
