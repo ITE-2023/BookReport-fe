@@ -581,7 +581,7 @@ function BookDetail() {
                                       placeholder="기대평"
                                       type="text"
                                       onChange={(e) => changeExpect(e)}
-                                      maxlength="70"
+                                      maxLength="70"
                                     />
                                   </InputGroup>
                                 </FormGroup>

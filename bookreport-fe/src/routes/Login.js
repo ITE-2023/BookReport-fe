@@ -24,7 +24,6 @@ import {
 } from "../api/customAxios.js";
 import { icon, MixinToast, TimerToast } from "../components/Alert.js";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "../api/cookie.js";
 
 function Login() {
   const [username, setUsername] = useState("");

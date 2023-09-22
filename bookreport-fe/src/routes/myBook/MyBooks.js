@@ -104,7 +104,7 @@ function MyBooks() {
     }
 
     for (let i = 5 - numIterations; i > 0; i--) {
-      arr.push(<Col key={`${i}1`}></Col>);
+      arr.push(<Col key={`${i}-1`}></Col>);
     }
     return arr;
   };
@@ -154,7 +154,7 @@ function MyBooks() {
       );
     }
     for (let i = 5 - numIterations; i > 0; i--) {
-      arr.push(<Col key={`${i}2`}></Col>);
+      arr.push(<Col key={`${i}-2`}></Col>);
     }
     return arr;
   };
