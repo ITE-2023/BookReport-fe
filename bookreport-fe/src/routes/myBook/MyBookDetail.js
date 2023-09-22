@@ -57,6 +57,7 @@ function MyBookDetail() {
   const [updateReadingStartDate, setUpdateReadingStartDate] = useState(null);
   const [updateExpectation, setUpdateExpectation] = useState("");
 
+  const [reportId, setReportId] = useState();
   const [reportTitle, setReportTitle] = useState("");
   const [reportContent, setReportContent] = useState("");
   const [updateReportTitle, setUpdateReportTitle] = useState("");
@@ -93,9 +94,12 @@ function MyBookDetail() {
   const findReport = useCallback((id) => {
     customAxios.report_by_mybook(id).then((res) => {
       if (res.status === 200 && res.data.length !== 0) {
+        setReportId(res.data.id);
         setReportTitle(res.data.title);
         setReportContent(res.data.content);
-        console.log(res);
+
+        setUpdateReportTitle(res.data.title);
+        setUpdateReportContent(res.data.content);
       }
     });
   }, []);
@@ -310,14 +314,23 @@ function MyBookDetail() {
       title: updateReportTitle,
       content: updateReportContent,
     };
-
-    customAxios.report_save(id, reportRequest).then((res) => {
-      if (res.status === 200) {
-        setReportTitle(res.data.title);
-        setReportContent(res.data.content);
-        setFormWriteModal(!formWriteModal);
-      }
-    });
+    if (reportId === undefined) {
+      customAxios.report_save(id, reportRequest).then((res) => {
+        if (res.status === 200) {
+          setReportTitle(res.data.title);
+          setReportContent(res.data.content);
+          setFormWriteModal(!formWriteModal);
+        }
+      });
+    } else {
+      customAxios.report_update(reportId, reportRequest).then((res) => {
+        if (res.status === 200) {
+          setReportTitle(res.data.title);
+          setReportContent(res.data.content);
+          setFormWriteModal(!formWriteModal);
+        }
+      });
+    }
   };
 
   return (
@@ -643,7 +656,7 @@ function MyBookDetail() {
                     className="btn-white"
                     color="default"
                     size="sm"
-                    // onClick={toggleUpdateModal}
+                    onClick={toggleWriteModal}
                   >
                     <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
                   </Button>
@@ -692,6 +705,7 @@ function MyBookDetail() {
                         placeholder="제목"
                         type="text"
                         onChange={changeReportTitle}
+                        value={updateReportTitle}
                       />
                     </FormGroup>
                     <FormGroup>
@@ -700,6 +714,7 @@ function MyBookDetail() {
                         placeholder="내용"
                         type="text"
                         onChange={changeReportContent}
+                        value={updateReportContent}
                       />
                     </FormGroup>
                     <div className="text-center mt-4">

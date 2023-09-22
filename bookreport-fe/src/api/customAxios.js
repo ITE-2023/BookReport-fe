@@ -26,6 +26,7 @@ const reportURL = {
   REPORTS_URL: "/reports",
   REPORT_DETAIL_URL: "/report/detail",
   REPORT_SAVE_URL: "/report/create",
+  REPORT_UPDATE_URL: "/report/update",
 };
 
 const api = axios.create({
@@ -138,6 +139,13 @@ const customAxios = {
   report_save: async (myBookId, data) => {
     const response = await api.post(
       `${reportURL.REPORT_SAVE_URL}/${myBookId}`,
+      data
+    );
+    return response;
+  },
+  report_update: async (reportId, data) => {
+    const response = await api.patch(
+      `${reportURL.REPORT_UPDATE_URL}/${reportId}`,
       data
     );
     return response;
