@@ -136,6 +136,11 @@ const customAxios = {
     return response;
   },
 
+  report_by_id: async (id) => {
+    const response = await api.get(`${reportURL.REPORT_DETAIL_URL}/${id}`);
+    return response;
+  },
+
   report_save: async (myBookId, data) => {
     const response = await api.post(
       `${reportURL.REPORT_SAVE_URL}/${myBookId}`,
