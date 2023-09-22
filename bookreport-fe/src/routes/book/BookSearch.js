@@ -58,7 +58,7 @@ function BookSearch() {
     let arr = [];
     for (let i = 0; i < bookList.length; i++) {
       arr.push(
-        <div onClick={() => onClick(bookList[i])}>
+        <div onClick={() => onClick(bookList[i])} key={bookList[i].isbn}>
           <Row className="book align-items-center">
             <Col className="bookImageBox">
               <img

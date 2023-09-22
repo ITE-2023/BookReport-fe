@@ -28,8 +28,14 @@ import ReactDatetime from "react-datetime";
 import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
 import { Rating } from "react-simple-star-rating";
-import { icon, MixinToast, ConfirmToast } from "../../components/Alert.js";
+import {
+  icon,
+  MixinToast,
+  ConfirmToast,
+  TimerToast,
+} from "../../components/Alert.js";
 import { useNavigate } from "react-router-dom";
+import "../../css/Alert.css";
 
 function MyBookDetail() {
   const navigate = useNavigate();
@@ -86,23 +92,37 @@ function MyBookDetail() {
       })
       .catch((error) => {
         console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
         navigate("/myBooks");
       });
   }, [id, navigate]);
 
   // 독후감 조회
-  const findReport = useCallback((id) => {
-    customAxios.report_by_mybook(id).then((res) => {
-      if (res.status === 200 && res.data.length !== 0) {
-        setReportId(res.data.id);
-        setReportTitle(res.data.title);
-        setReportContent(res.data.content);
+  const findReport = useCallback(() => {
+    customAxios
+      .report_by_mybook(id)
+      .then((res) => {
+        if (res.status === 200 && res.data.length !== 0) {
+          setReportId(res.data.id);
+          setReportTitle(res.data.title);
+          setReportContent(res.data.content);
 
-        setUpdateReportTitle(res.data.title);
-        setUpdateReportContent(res.data.content);
-      }
-    });
-  }, []);
+          setUpdateReportTitle(res.data.title);
+          setUpdateReportContent(res.data.content);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+        navigate("/myBooks");
+      });
+  }, [id, navigate]);
 
   useEffect(() => {
     findMyBook(id);
@@ -126,7 +146,7 @@ function MyBookDetail() {
   const repeatRate = () => {
     let arr = [];
     for (let i = 0; i < rate; i++) {
-      arr.push(<span>⭐</span>);
+      arr.push(<span key={i}>⭐</span>);
     }
     return arr;
   };
@@ -255,6 +275,11 @@ function MyBookDetail() {
       })
       .catch((error) => {
         console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+        navigate("/myBooks");
       });
   };
 
@@ -278,13 +303,18 @@ function MyBookDetail() {
               }
             })
             .catch((error) => {
-              console.error(error);
+              console.log(error);
+              TimerToast({
+                title: error.response.data,
+                icon: icon.ERROR,
+              });
+              navigate("/myBooks");
             });
           navigate("/myBooks");
         }
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
   };
 
@@ -315,21 +345,41 @@ function MyBookDetail() {
       content: updateReportContent,
     };
     if (reportId === undefined) {
-      customAxios.report_save(id, reportRequest).then((res) => {
-        if (res.status === 200) {
-          setReportTitle(res.data.title);
-          setReportContent(res.data.content);
-          setFormWriteModal(!formWriteModal);
-        }
-      });
+      customAxios
+        .report_save(id, reportRequest)
+        .then((res) => {
+          if (res.status === 200) {
+            setReportTitle(res.data.title);
+            setReportContent(res.data.content);
+            setFormWriteModal(!formWriteModal);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          TimerToast({
+            title: error.response.data,
+            icon: icon.ERROR,
+          });
+          navigate("/myBooks");
+        });
     } else {
-      customAxios.report_update(reportId, reportRequest).then((res) => {
-        if (res.status === 200) {
-          setReportTitle(res.data.title);
-          setReportContent(res.data.content);
-          setFormWriteModal(!formWriteModal);
-        }
-      });
+      customAxios
+        .report_update(reportId, reportRequest)
+        .then((res) => {
+          if (res.status === 200) {
+            setReportTitle(res.data.title);
+            setReportContent(res.data.content);
+            setFormWriteModal(!formWriteModal);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          TimerToast({
+            title: error.response.data,
+            icon: icon.ERROR,
+          });
+          navigate("/myBooks");
+        });
     }
   };
 
@@ -619,7 +669,7 @@ function MyBookDetail() {
                                     placeholder="기대평"
                                     type="text"
                                     onChange={(e) => changeExpect(e)}
-                                    maxlength="70"
+                                    maxLength="70"
                                   />
                                 </InputGroup>
                               </FormGroup>
@@ -661,13 +711,13 @@ function MyBookDetail() {
                     <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
                   </Button>
                 </div>
-                <h5>{reportTitle}</h5>
-                <hr />
-                <p>{reportContent}</p>
+                <h4 className="display-4">{reportTitle}</h4>
+                <hr className="mt-2" />
+                <p className="lead">{reportContent}</p>
               </div>
             ) : (
               <div className={styles.reportBox2}>
-                <h6 className="text-center mt-3">등록된 독후감이 없습니다.</h6>
+                <h5 className="text-center mt-3">등록된 독후감이 없습니다.</h5>
                 <Button
                   className="btn-neutral btn-icon mt-5"
                   color="default"

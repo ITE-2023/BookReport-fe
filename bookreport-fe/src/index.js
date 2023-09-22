@@ -9,7 +9,6 @@ import "./assets/scss/argon-design-system-react.scss?v1.1.0";
 
 import Login from "./routes/Login";
 import Join from "./routes/Join";
-import ReportForm from "./routes/report/ReportForm.js";
 import BookSearch from "./routes/book/BookSearch.js";
 import BookDetail from "./routes/book/BookDetail.js";
 import MyBookDetail from "./routes/myBook/MyBookDetail.js";
@@ -26,7 +25,6 @@ root.render(
       <Route path="*" element={<Navigate to="/" replace />} />
       <Route path="/member/login" exact element={<Login />} />
       <Route path="/member/join" exact element={<Join />} />
-      <Route path="/report/create" exact element={<ReportForm />} />
       <Route path="/report/detail/:id" exact element={<ReportDetail />} />
       <Route path="/book/search" exact element={<BookSearch />} />
       <Route path="/book/detail/:isbn" exact element={<BookDetail />} />

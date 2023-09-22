@@ -24,7 +24,7 @@ import {
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
 import styles from "../../css/BookDetail.module.css";
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
 import { useParams } from "react-router-dom";
@@ -53,8 +53,8 @@ function BookDetail() {
   const [currentPage, setCurrentPage] = useState(0);
 
   // 책 상세 검색
-  const search_detail = async (isbn) => {
-    await customAxios
+  const search_detail = useCallback(() => {
+    customAxios
       .search_detail(isbn)
       .then((res) => {
         if (res.status === 200) {
@@ -66,13 +66,18 @@ function BookDetail() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error.response.data);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+        navigate(-1);
       });
-  };
+  }, [isbn, navigate]);
 
   // 책 별 독후감 조회
-  const findReports = async (isbn, currentPage) => {
-    await customAxios
+  const findReports = useCallback(() => {
+    customAxios
       .reports(isbn, currentPage)
       .then((res) => {
         if (res.status === 200) {
@@ -83,7 +88,7 @@ function BookDetail() {
       .catch((error) => {
         setReportList([]);
       });
-  };
+  }, [isbn, currentPage]);
 
   const repeatReport = (reportList) => {
     let arr = [];
@@ -92,6 +97,7 @@ function BookDetail() {
         <a
           className="text-decoration-none text-dark"
           href={`/report/detail/${reportList[i].id}`}
+          key={reportList[i].id}
         >
           <Row className="text-center mb-3">
             <Col sm="1">{i + 1 + currentPage * 10}</Col>
@@ -142,7 +148,6 @@ function BookDetail() {
     // 회원이 이미 서재에 책을 담았는지 확인
     const checkMyBook = async (isbn) => {
       if (token) {
-        console.log(token);
         await customAxios.myBook_check(isbn).then((res) => {
           if (res.status === 200) {
             setMyBookBtn(res.data.check);
@@ -155,7 +160,7 @@ function BookDetail() {
     search_detail(isbn);
     checkMyBook(isbn);
     findReports(isbn, currentPage);
-  }, [isbn, token, currentPage]);
+  }, [isbn, token, currentPage, search_detail, findReports]);
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
@@ -576,7 +581,7 @@ function BookDetail() {
                                       placeholder="기대평"
                                       type="text"
                                       onChange={(e) => changeExpect(e)}
-                                      maxlength="70"
+                                      maxLength="70"
                                     />
                                   </InputGroup>
                                 </FormGroup>

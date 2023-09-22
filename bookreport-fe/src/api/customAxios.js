@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import { setCookie, getCookie } from "./cookie.js";
 
 const SERVER_ADDRESS = "http://localhost:8080";
@@ -133,6 +133,11 @@ const customAxios = {
     const response = await api.get(
       `${reportURL.REPORT_DETAIL_URL}?myBook=${myBookId}`
     );
+    return response;
+  },
+
+  report_by_id: async (id) => {
+    const response = await api.get(`${reportURL.REPORT_DETAIL_URL}/${id}`);
     return response;
   },
 
