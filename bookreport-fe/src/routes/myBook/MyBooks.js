@@ -116,7 +116,10 @@ function MyBooks() {
     const numIterations = Math.min(myBooks.length - 5, 5);
     for (let i = 5; i < 5 + numIterations; i++) {
       arr.push(
-        <Col className={styles.box}>
+        <Col
+          className={styles.box}
+          onClick={() => myBookDetail(myBooks[i].myBookDTO.id)}
+        >
           {myBooks[i].myBookDTO.myBookStatus === "읽은 책" ? (
             <Badge className="text-uppercase mb-2" color="primary" pill>
               {myBooks[i].myBookDTO.myBookStatus}
