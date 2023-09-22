@@ -15,7 +15,6 @@ function ReportDetail() {
   const findReportById = (id) => {
     customAxios.report_by_id(id).then((res) => {
       if (res.status === 200) {
-        console.log(res.data);
         setTitle(res.data.title);
         setContent(res.data.content);
         setUsername(res.data.username);

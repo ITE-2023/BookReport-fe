@@ -71,7 +71,6 @@ function Login() {
             if (res.data.refreshToken) {
               updateRefreshToken(res.data.refreshToken);
             }
-            console.log(getCookie("accessToken"));
             navigate(-1);
           }
         })

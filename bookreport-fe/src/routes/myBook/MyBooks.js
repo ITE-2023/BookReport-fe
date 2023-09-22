@@ -69,6 +69,7 @@ function MyBooks() {
         <Col
           className={styles.box}
           onClick={() => myBookDetail(myBooks[i].myBookDTO.id)}
+          key={myBooks[i].myBookDTO.id}
         >
           {myBooks[i].myBookDTO.myBookStatus === "읽은 책" ? (
             <Badge className="text-uppercase mb-2" color="primary" pill>
@@ -103,7 +104,7 @@ function MyBooks() {
     }
 
     for (let i = 5 - numIterations; i > 0; i--) {
-      arr.push(<Col></Col>);
+      arr.push(<Col key={`${i}1`}></Col>);
     }
     return arr;
   };
@@ -119,6 +120,7 @@ function MyBooks() {
         <Col
           className={styles.box}
           onClick={() => myBookDetail(myBooks[i].myBookDTO.id)}
+          key={myBooks[i].myBookDTO.id}
         >
           {myBooks[i].myBookDTO.myBookStatus === "읽은 책" ? (
             <Badge className="text-uppercase mb-2" color="primary" pill>
@@ -152,7 +154,7 @@ function MyBooks() {
       );
     }
     for (let i = 5 - numIterations; i > 0; i--) {
-      arr.push(<Col></Col>);
+      arr.push(<Col key={`${i}2`}></Col>);
     }
     return arr;
   };

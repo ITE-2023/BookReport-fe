@@ -146,7 +146,7 @@ function MyBookDetail() {
   const repeatRate = () => {
     let arr = [];
     for (let i = 0; i < rate; i++) {
-      arr.push(<span>⭐</span>);
+      arr.push(<span key={i}>⭐</span>);
     }
     return arr;
   };
@@ -669,7 +669,7 @@ function MyBookDetail() {
                                     placeholder="기대평"
                                     type="text"
                                     onChange={(e) => changeExpect(e)}
-                                    maxlength="70"
+                                    maxLength="70"
                                   />
                                 </InputGroup>
                               </FormGroup>

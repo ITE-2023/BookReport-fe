@@ -97,6 +97,7 @@ function BookDetail() {
         <a
           className="text-decoration-none text-dark"
           href={`/report/detail/${reportList[i].id}`}
+          key={reportList[i].id}
         >
           <Row className="text-center mb-3">
             <Col sm="1">{i + 1 + currentPage * 10}</Col>
@@ -147,7 +148,6 @@ function BookDetail() {
     // 회원이 이미 서재에 책을 담았는지 확인
     const checkMyBook = async (isbn) => {
       if (token) {
-        console.log(token);
         await customAxios.myBook_check(isbn).then((res) => {
           if (res.status === 200) {
             setMyBookBtn(res.data.check);
