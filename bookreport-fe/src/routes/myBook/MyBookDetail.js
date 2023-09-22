@@ -21,7 +21,7 @@ import {
   InputGroupText,
   InputGroup,
 } from "reactstrap";
-import styles from "../../css/BookDetail.module.css";
+import styles from "../../css/MyBookDetail.module.css";
 import { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import ReactDatetime from "react-datetime";
@@ -93,6 +93,7 @@ function MyBookDetail() {
       if (res.status === 200 && res.data.length !== 0) {
         setReportTitle(res.data.title);
         setReportContent(res.data.content);
+        console.log(res);
       }
     });
   }, []);
@@ -596,7 +597,19 @@ function MyBookDetail() {
       </Hero>
       <div className="pb-5">
         <Container>
-          <Card className="shadow p-5"></Card>
+          <Card className="shadow p-5">
+            {reportTitle.length !== 0 ? (
+              <div className={styles.reportBox}>
+                <h5>{reportTitle}</h5>
+                <hr />
+                <p>{reportContent}</p>
+              </div>
+            ) : (
+              <div className={styles.reportBox}>
+                <h6 className="text-center">등록된 독후감이 없습니다.</h6>
+              </div>
+            )}
+          </Card>
         </Container>
       </div>
     </Layout>
