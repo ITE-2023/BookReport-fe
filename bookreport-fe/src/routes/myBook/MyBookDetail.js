@@ -638,6 +638,24 @@ function MyBookDetail() {
           <Card className="shadow p-5">
             {reportTitle.length !== 0 ? (
               <div className={styles.reportBox}>
+                <div className="text-right">
+                  <Button
+                    className="btn-white"
+                    color="default"
+                    size="sm"
+                    // onClick={toggleUpdateModal}
+                  >
+                    <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
+                  </Button>
+                  <Button
+                    className="btn-white"
+                    color="default"
+                    size="sm"
+                    // onClick={onReportDelete}
+                  >
+                    <span className="btn-inner--text">&nbsp;삭제&nbsp;</span>
+                  </Button>
+                </div>
                 <h5>{reportTitle}</h5>
                 <hr />
                 <p>{reportContent}</p>
