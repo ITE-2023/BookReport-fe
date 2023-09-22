@@ -275,6 +275,11 @@ function MyBookDetail() {
       })
       .catch((error) => {
         console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+        navigate("/myBooks");
       });
   };
 
@@ -298,13 +303,18 @@ function MyBookDetail() {
               }
             })
             .catch((error) => {
-              console.error(error);
+              console.log(error);
+              TimerToast({
+                title: error.response.data,
+                icon: icon.ERROR,
+              });
+              navigate("/myBooks");
             });
           navigate("/myBooks");
         }
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
   };
 
@@ -335,21 +345,41 @@ function MyBookDetail() {
       content: updateReportContent,
     };
     if (reportId === undefined) {
-      customAxios.report_save(id, reportRequest).then((res) => {
-        if (res.status === 200) {
-          setReportTitle(res.data.title);
-          setReportContent(res.data.content);
-          setFormWriteModal(!formWriteModal);
-        }
-      });
+      customAxios
+        .report_save(id, reportRequest)
+        .then((res) => {
+          if (res.status === 200) {
+            setReportTitle(res.data.title);
+            setReportContent(res.data.content);
+            setFormWriteModal(!formWriteModal);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          TimerToast({
+            title: error.response.data,
+            icon: icon.ERROR,
+          });
+          navigate("/myBooks");
+        });
     } else {
-      customAxios.report_update(reportId, reportRequest).then((res) => {
-        if (res.status === 200) {
-          setReportTitle(res.data.title);
-          setReportContent(res.data.content);
-          setFormWriteModal(!formWriteModal);
-        }
-      });
+      customAxios
+        .report_update(reportId, reportRequest)
+        .then((res) => {
+          if (res.status === 200) {
+            setReportTitle(res.data.title);
+            setReportContent(res.data.content);
+            setFormWriteModal(!formWriteModal);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          TimerToast({
+            title: error.response.data,
+            icon: icon.ERROR,
+          });
+          navigate("/myBooks");
+        });
     }
   };
 
