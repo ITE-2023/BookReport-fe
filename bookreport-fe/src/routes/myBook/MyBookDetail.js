@@ -291,18 +291,33 @@ function MyBookDetail() {
   };
 
   const changeReportTitle = (e) => {
-    setReportTitle(e.target.value);
+    setUpdateReportTitle(e.target.value);
   };
 
   const changeReportContent = (e) => {
-    setReportContent(e.target.value);
+    setUpdateReportContent(e.target.value);
   };
 
   const onReportSave = () => {
-    const ReportRequest = {
+    if (updateReportTitle.length === 0) {
+      MixinToast({ icon: icon.ERROR, title: "제목을 입력해주세요." });
+      return;
+    } else if (updateReportContent.length === 0) {
+      MixinToast({ icon: icon.ERROR, title: "내용을 입력해주세요." });
+      return;
+    }
+    const reportRequest = {
       title: updateReportTitle,
       content: updateReportContent,
     };
+
+    customAxios.report_save(id, reportRequest).then((res) => {
+      if (res.status === 200) {
+        setReportTitle(res.data.title);
+        setReportContent(res.data.content);
+        setFormWriteModal(!formWriteModal);
+      }
+    });
   };
 
   return (
