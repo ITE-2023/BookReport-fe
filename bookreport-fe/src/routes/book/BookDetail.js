@@ -24,7 +24,7 @@ import {
 import Hero from "../../components/Hero";
 import Layout from "../../components/Layout";
 import styles from "../../css/BookDetail.module.css";
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback } from "react";
 import classnames from "classnames";
 import { customAxios } from "../../api/customAxios.js";
 import { useParams } from "react-router-dom";
@@ -53,8 +53,8 @@ function BookDetail() {
   const [currentPage, setCurrentPage] = useState(0);
 
   // 책 상세 검색
-  const search_detail = async (isbn) => {
-    await customAxios
+  const search_detail = useCallback(() => {
+    customAxios
       .search_detail(isbn)
       .then((res) => {
         if (res.status === 200) {
@@ -66,13 +66,18 @@ function BookDetail() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error.response.data);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+        navigate(-1);
       });
-  };
+  }, [isbn, navigate]);
 
   // 책 별 독후감 조회
-  const findReports = async (isbn, currentPage) => {
-    await customAxios
+  const findReports = useCallback(() => {
+    customAxios
       .reports(isbn, currentPage)
       .then((res) => {
         if (res.status === 200) {
@@ -83,7 +88,7 @@ function BookDetail() {
       .catch((error) => {
         setReportList([]);
       });
-  };
+  }, [isbn, currentPage]);
 
   const repeatReport = (reportList) => {
     let arr = [];
@@ -155,7 +160,7 @@ function BookDetail() {
     search_detail(isbn);
     checkMyBook(isbn);
     findReports(isbn, currentPage);
-  }, [isbn, token, currentPage]);
+  }, [isbn, token, currentPage, search_detail, findReports]);
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import { setCookie, getCookie } from "./cookie.js";
 
 const SERVER_ADDRESS = "http://localhost:8080";
