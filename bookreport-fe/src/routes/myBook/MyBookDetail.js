@@ -57,6 +57,9 @@ function MyBookDetail() {
   const [updateReadingStartDate, setUpdateReadingStartDate] = useState(null);
   const [updateExpectation, setUpdateExpectation] = useState("");
 
+  const [reportTitle, setReportTitle] = useState("");
+  const [reportContent, setReportContent] = useState("");
+
   const findMyBook = useCallback(() => {
     customAxios
       .myBook_detail(id)
@@ -84,9 +87,20 @@ function MyBookDetail() {
       });
   }, [id, navigate]);
 
+  // 독후감 조회
+  const findReport = useCallback((id) => {
+    customAxios.report_by_mybook(id).then((res) => {
+      if (res.status === 200 && res.data.length !== 0) {
+        setReportTitle(res.data.title);
+        setReportContent(res.data.content);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     findMyBook(id);
-  }, [id, findMyBook]);
+    findReport(id);
+  }, [id, findMyBook, findReport]);
 
   const [isMore, setIsMore] = useState(false);
   const descriptionLimit = useRef(145);
@@ -580,6 +594,11 @@ function MyBookDetail() {
           </Card>
         </Container>
       </Hero>
+      <div className="pb-5">
+        <Container>
+          <Card className="shadow p-5"></Card>
+        </Container>
+      </div>
     </Layout>
   );
 }

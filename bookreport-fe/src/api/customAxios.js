@@ -24,6 +24,7 @@ const myBookURL = {
 
 const reportURL = {
   REPORTS_URL: "/reports",
+  REPORT_DETAIL_URL: "/report/detail"
 };
 
 const api = axios.create({
@@ -125,6 +126,13 @@ const customAxios = {
     );
     return response;
   },
+
+  report_by_mybook: async (myBookId) => {
+    const response = await api.get(
+      `${reportURL.REPORT_DETAIL_URL}?myBook=${myBookId}`
+    );
+    return response;
+  }
 };
 
 export { customAxios, updateAccessToken, updateRefreshToken };
