@@ -22,5 +22,19 @@
 }
 
 .reportBox {
+  min-height: 300px;
+}
+
+.reportBox2 {
   min-height: 200px;
+  text-align: center;
+}
+
+.reportWrite {
+  min-width: 800px;
+}
+
+.reportContent {
+  min-height: 300px;
+  width: 100%;
 }

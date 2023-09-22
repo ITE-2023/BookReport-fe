@@ -59,6 +59,8 @@ function MyBookDetail() {
 
   const [reportTitle, setReportTitle] = useState("");
   const [reportContent, setReportContent] = useState("");
+  const [updateReportTitle, setUpdateReportTitle] = useState("");
+  const [updateReportContent, setUpdateReportContent] = useState("");
 
   const findMyBook = useCallback(() => {
     customAxios
@@ -280,6 +282,27 @@ function MyBookDetail() {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  // 독후감 작성
+  const [formWriteModal, setFormWriteModal] = useState(false);
+  const toggleWriteModal = () => {
+    setFormWriteModal(!formWriteModal);
+  };
+
+  const changeReportTitle = (e) => {
+    setReportTitle(e.target.value);
+  };
+
+  const changeReportContent = (e) => {
+    setReportContent(e.target.value);
+  };
+
+  const onReportSave = () => {
+    const ReportRequest = {
+      title: updateReportTitle,
+      content: updateReportContent,
+    };
   };
 
   return (
@@ -605,10 +628,62 @@ function MyBookDetail() {
                 <p>{reportContent}</p>
               </div>
             ) : (
-              <div className={styles.reportBox}>
-                <h6 className="text-center">등록된 독후감이 없습니다.</h6>
+              <div className={styles.reportBox2}>
+                <h6 className="text-center mt-3">등록된 독후감이 없습니다.</h6>
+                <Button
+                  className="btn-neutral btn-icon mt-5"
+                  color="default"
+                  onClick={toggleWriteModal}
+                >
+                  <span className="btn-inner--icon">
+                    <i className="fa fa-pencil mr-2 fa-lg" aria-hidden="true" />
+                  </span>
+                  작성하기
+                </Button>
               </div>
             )}
+            <Modal
+              className={`${styles.reportWrite} modal-dialog-centered`}
+              isOpen={formWriteModal}
+              toggle={toggleWriteModal}
+            >
+              <div className="modal-body p-0">
+                <Card className="bg-secondary shadow border-0">
+                  <CardHeader className="bg-white pb-5">
+                    <h5 className="font-weight-bold text-muted text-center">
+                      독후감을 작성해보세요!
+                    </h5>
+                    <FormGroup>
+                      <Input
+                        className="form-control-alternative form-control-lg text-dark"
+                        placeholder="제목"
+                        type="text"
+                        onChange={changeReportTitle}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <textarea
+                        className={`${styles.reportContent} form-control-alternative form-control-lg`}
+                        placeholder="내용"
+                        type="text"
+                        onChange={changeReportContent}
+                      />
+                    </FormGroup>
+                    <div className="text-center mt-4">
+                      <Button
+                        className="btn-1"
+                        color="primary"
+                        outline
+                        type="button"
+                        onClick={onReportSave}
+                      >
+                        저장하기
+                      </Button>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </div>
+            </Modal>
           </Card>
         </Container>
       </div>
