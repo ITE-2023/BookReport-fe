@@ -660,14 +660,6 @@ function MyBookDetail() {
                   >
                     <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
                   </Button>
-                  <Button
-                    className="btn-white"
-                    color="default"
-                    size="sm"
-                    // onClick={onReportDelete}
-                  >
-                    <span className="btn-inner--text">&nbsp;삭제&nbsp;</span>
-                  </Button>
                 </div>
                 <h5>{reportTitle}</h5>
                 <hr />
