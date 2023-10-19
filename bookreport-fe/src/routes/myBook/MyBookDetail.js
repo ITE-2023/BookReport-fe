@@ -758,7 +758,7 @@ function MyBookDetail() {
               <div className="modal-body p-0">
                 <Card className="bg-secondary shadow border-0">
                   <CardHeader className="bg-white pb-5">
-                    <h5 className="font-weight-bold text-muted text-center">
+                    <h5 className="font-weight-bold text-center">
                       독후감을 작성해보세요!
                     </h5>
                     <FormGroup>
@@ -802,12 +802,77 @@ function MyBookDetail() {
               <div className="modal-body p-0">
                 <Card className="bg-secondary shadow border-0">
                   <CardHeader className="bg-white pb-5">
-                    <h5 className="font-weight-bold text-muted text-center">
+                    <h5 className="font-weight-bold text-center">
                       어울리는 노래를 추천해드려요!
                     </h5>
-                    <div>
-                      
-                    </div>
+                    <Row className="text-center mt-3">
+                      <Col sm="1">
+                        <p className="font-weight-bold">번호</p>
+                      </Col>
+                      <Col>
+                        <p className="font-weight-bold">앨범 커버</p>
+                      </Col>
+                      <Col>
+                        <p className="font-weight-bold">제목</p>
+                      </Col>
+                      <Col>
+                        <p className="font-weight-bold">가수</p>
+                      </Col>
+                    </Row>
+                    <Row className="align-items-center text-center">
+                      <Col sm="1">
+                        <h5>1</h5>
+                      </Col>
+                      <Col>
+                        <img
+                          className={styles.musicImg}
+                          src="https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg?93148adc9d3b5622f4c4dca1e429650e/melon/resize/282/quality/80/optimize"
+                          alt="musicImage"
+                        ></img>
+                      </Col>
+                      <Col>
+                        <h5>Love Lee</h5>
+                      </Col>
+                      <Col>
+                        <h5>AKMU (악뮤)</h5>
+                      </Col>
+                    </Row>
+                    <Row className="align-items-center text-center mt-4">
+                      <Col sm="1">
+                        <h5>2</h5>
+                      </Col>
+                      <Col>
+                        <img
+                          className={styles.musicImg}
+                          src="https://cdnimg.melon.co.kr/cm/album/images/026/91/419/2691419_500.jpg?6b831136fe9c54f80d2f10f3ac11fb53/melon/resize/282/quality/80/optimize"
+                          alt="musicImage"
+                        ></img>
+                      </Col>
+                      <Col>
+                        <h5>Mood Indigo</h5>
+                      </Col>
+                      <Col>
+                        <h5>CHEEZE (치즈)</h5>
+                      </Col>
+                    </Row>
+                    <Row className="align-items-center text-center mt-4">
+                      <Col sm="1">
+                        <h5>3</h5>
+                      </Col>
+                      <Col>
+                        <img
+                          className={styles.musicImg}
+                          src="https://cdnimg.melon.co.kr/cm/album/images/102/79/841/10279841_500.jpg?d8a336230f64cbe891608124389a315b/melon/resize/282/quality/80/optimize"
+                          alt="musicImage"
+                        ></img>
+                      </Col>
+                      <Col>
+                        <h5>Angel (Feat.태연)</h5>
+                      </Col>
+                      <Col>
+                        <h5>챈슬러</h5>
+                      </Col>
+                    </Row>
                     <div className="text-center mt-4">
                       <Button
                         className="btn-1"
