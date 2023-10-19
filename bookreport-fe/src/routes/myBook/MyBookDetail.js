@@ -383,6 +383,12 @@ function MyBookDetail() {
     }
   };
 
+  // 노래 추천
+  const [musicModal, setMusicModal] = useState(false);
+  const toggleMusicModal = () => {
+    setMusicModal(!musicModal);
+  };
+
   return (
     <Layout>
       <Hero>
@@ -717,7 +723,7 @@ function MyBookDetail() {
                       className="btn-white"
                       color="default"
                       size="sm"
-                      onClick={toggleWriteModal}
+                      onClick={toggleMusicModal}
                     >
                       <span className="btn-inner--text">
                         &nbsp;노래 추천&nbsp;
@@ -745,7 +751,7 @@ function MyBookDetail() {
               </div>
             )}
             <Modal
-              className={`${styles.reportWrite} modal-dialog-centered`}
+              className={`${styles.modalBox} modal-dialog-centered`}
               isOpen={formWriteModal}
               toggle={toggleWriteModal}
             >
@@ -782,6 +788,35 @@ function MyBookDetail() {
                         onClick={onReportSave}
                       >
                         저장하기
+                      </Button>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </div>
+            </Modal>
+            <Modal
+              className={`${styles.modalBox} modal-dialog-centered`}
+              isOpen={musicModal}
+              toggle={toggleMusicModal}
+            >
+              <div className="modal-body p-0">
+                <Card className="bg-secondary shadow border-0">
+                  <CardHeader className="bg-white pb-5">
+                    <h5 className="font-weight-bold text-muted text-center">
+                      어울리는 노래를 추천해드려요!
+                    </h5>
+                    <div>
+                      
+                    </div>
+                    <div className="text-center mt-4">
+                      <Button
+                        className="btn-1"
+                        color="primary"
+                        outline
+                        type="button"
+                        onClick={toggleMusicModal}
+                      >
+                        확인
                       </Button>
                     </div>
                   </CardHeader>
