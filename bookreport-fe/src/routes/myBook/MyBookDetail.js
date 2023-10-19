@@ -702,14 +702,28 @@ function MyBookDetail() {
             {reportTitle.length !== 0 ? (
               <div className={styles.reportBox}>
                 <div className="text-right">
-                  <Button
-                    className="btn-white"
-                    color="default"
-                    size="sm"
-                    onClick={toggleWriteModal}
-                  >
-                    <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
-                  </Button>
+                  <span>
+                    <Button
+                      className="btn-white"
+                      color="default"
+                      size="sm"
+                      onClick={toggleWriteModal}
+                    >
+                      <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
+                    </Button>
+                  </span>
+                  <span className="ml-2">
+                    <Button
+                      className="btn-white"
+                      color="default"
+                      size="sm"
+                      onClick={toggleWriteModal}
+                    >
+                      <span className="btn-inner--text">
+                        &nbsp;노래 추천&nbsp;
+                      </span>
+                    </Button>
+                  </span>
                 </div>
                 <h4 className="display-4">{reportTitle}</h4>
                 <hr className="mt-2" />
