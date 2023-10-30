@@ -33,6 +33,7 @@ import ReactDatetime from "react-datetime";
 import { icon, MixinToast, TimerToast } from "../../components/Alert.js";
 import { getCookie } from "../../api/cookie.js";
 import { useNavigate } from "react-router-dom";
+import { ResponsiveBar } from "@nivo/bar";
 
 function BookDetail() {
   const [token, setToken] = useState();
@@ -361,6 +362,112 @@ function BookDetail() {
                 >
                   {description.length > descriptionLimit.current &&
                     (isMore ? "[접기]" : "[더보기]")}
+                </div>
+                <div
+                  style={{ width: "700px", height: "250px", margin: "0 auto" }}
+                >
+                  <ResponsiveBar
+                    data={[
+                      {
+                        emotion: "행복",
+                        행복: 1,
+                        happyColor: "hsl(337, 70%, 50%)",
+                      },
+                      {
+                        emotion: "슬픔",
+                        슬픔: 3,
+                        sadColor: "hsl(213, 70%, 50%)",
+                      },
+                      {
+                        emotion: "놀람",
+                        놀람: 3,
+                        surprisedColor: "hsl(4, 70%, 50%)",
+                      },
+                      {
+                        emotion: "공포",
+                        공포: 2,
+                        scaryColor: "hsl(300, 70%, 50%)",
+                      },
+                      {
+                        emotion: "분노",
+                        분노: 5,
+                        angerColor: "hsl(34, 100%, 50%)",
+                      },
+                    ]}
+                    keys={["행복", "슬픔", "놀람", "공포", "분노"]}
+                    indexBy="emotion"
+                    margin={{ top: 15, right: 130, bottom: 50, left: 60 }}
+                    padding={0.3}
+                    valueScale={{ type: "linear" }}
+                    indexScale={{ type: "band", round: true }}
+                    colors={{ scheme: "nivo" }}
+                    defs={[
+                      {
+                        id: "dots",
+                        type: "patternDots",
+                        background: "inherit",
+                        color: "#38bcb2",
+                        size: 4,
+                        padding: 1,
+                        stagger: true,
+                      },
+                      {
+                        id: "lines",
+                        type: "patternLines",
+                        background: "inherit",
+                        color: "#eed312",
+                        rotation: -45,
+                        lineWidth: 6,
+                        spacing: 10,
+                      },
+                    ]}
+                    borderRadius={6}
+                    borderColor={{
+                      from: "color",
+                      modifiers: [["darker", 1.6]],
+                    }}
+                    axisTop={null}
+                    axisRight={null}
+                    axisBottom={{
+                      tickSize: 0,
+                      tickPadding: 5,
+                      tickRotation: 0,
+                      legendPosition: "middle",
+                      legendOffset: 32,
+                    }}
+                    axisLeft={null}
+                    enableGridY={false}
+                    labelSkipWidth={12}
+                    labelSkipHeight={12}
+                    labelTextColor={{
+                      from: "color",
+                      modifiers: [["darker", 1.6]],
+                    }}
+                    legends={[
+                      {
+                        dataFrom: "keys",
+                        anchor: "bottom-right",
+                        direction: "column",
+                        justify: false,
+                        translateX: 120,
+                        translateY: 0,
+                        itemsSpacing: 2,
+                        itemWidth: 100,
+                        itemHeight: 20,
+                        itemDirection: "left-to-right",
+                        itemOpacity: 0.85,
+                        symbolSize: 20,
+                        effects: [
+                          {
+                            on: "hover",
+                            style: {
+                              itemOpacity: 1,
+                            },
+                          },
+                        ],
+                      },
+                    ]}
+                  />
                 </div>
               </Col>
               <Col>
