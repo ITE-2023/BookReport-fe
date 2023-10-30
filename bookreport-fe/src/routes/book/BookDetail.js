@@ -371,27 +371,22 @@ function BookDetail() {
                       {
                         emotion: "행복",
                         행복: 1,
-                        happyColor: "hsl(337, 70%, 50%)",
                       },
                       {
                         emotion: "슬픔",
                         슬픔: 3,
-                        sadColor: "hsl(213, 70%, 50%)",
                       },
                       {
                         emotion: "놀람",
                         놀람: 3,
-                        surprisedColor: "hsl(4, 70%, 50%)",
                       },
                       {
                         emotion: "공포",
                         공포: 2,
-                        scaryColor: "hsl(300, 70%, 50%)",
                       },
                       {
                         emotion: "분노",
                         분노: 5,
-                        angerColor: "hsl(34, 100%, 50%)",
                       },
                     ]}
                     keys={["행복", "슬픔", "놀람", "공포", "분노"]}
@@ -400,32 +395,18 @@ function BookDetail() {
                     padding={0.3}
                     valueScale={{ type: "linear" }}
                     indexScale={{ type: "band", round: true }}
-                    colors={{ scheme: "nivo" }}
-                    defs={[
-                      {
-                        id: "dots",
-                        type: "patternDots",
-                        background: "inherit",
-                        color: "#38bcb2",
-                        size: 4,
-                        padding: 1,
-                        stagger: true,
-                      },
-                      {
-                        id: "lines",
-                        type: "patternLines",
-                        background: "inherit",
-                        color: "#eed312",
-                        rotation: -45,
-                        lineWidth: 6,
-                        spacing: 10,
-                      },
-                    ]}
                     borderRadius={6}
                     borderColor={{
                       from: "color",
                       modifiers: [["darker", 1.6]],
                     }}
+                    colors={[
+                      "#F875AA",
+                      "#89CFF3",
+                      "#F9B572",
+                      "#8E8FFA",
+                      "#FF6969",
+                    ]}
                     axisTop={null}
                     axisRight={null}
                     axisBottom={{
