@@ -442,6 +442,13 @@ function MyBookDetail() {
     return arr;
   };
 
+  // 수정 버튼
+  const [emotionFormModal, setEmotionFormModal] = useState(false);
+  const toggleEmotionModal = () => {
+    setEmotionFormModal(!emotionFormModal);
+    toggleMusicModal();
+  };
+
   return (
     <Layout>
       <Hero>
@@ -878,6 +885,11 @@ function MyBookDetail() {
                           </Col>
                         </Row>
                         {repeatMusic(musicList)}
+                        <div className="text-right mt-3">
+                          <span role="button" onClick={toggleEmotionModal}>
+                            노래가 마음에 안드시나요?
+                          </span>
+                        </div>
                       </div>
                     ) : (
                       <div className="text-center">
@@ -894,6 +906,32 @@ function MyBookDetail() {
                         outline
                         type="button"
                         onClick={toggleMusicModal}
+                      >
+                        확인
+                      </Button>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </div>
+            </Modal>
+            <Modal
+              className={`${styles.modalBox} modal-dialog-centered`}
+              isOpen={emotionFormModal}
+              toggle={toggleEmotionModal}
+            >
+              <div className="modal-body p-0">
+                <Card className="bg-secondary shadow border-0">
+                  <CardHeader className="bg-white pb-5">
+                    <h5 className="font-weight-bold text-center">
+                      이 책을 읽으면서 가장 가깝게 느꼈던 감정을 선택해주세요.
+                    </h5>
+                    <div className="text-center mt-4">
+                      <Button
+                        className="btn-1"
+                        color="primary"
+                        outline
+                        type="button"
+                        onClick={toggleEmotionModal}
                       >
                         확인
                       </Button>
