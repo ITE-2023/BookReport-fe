@@ -61,23 +61,23 @@ function BookDetail() {
   const [emotionData, setEmotionData] = useState([
     {
       emotion: "행복",
-      행복: undefined,
+      행복: 0,
     },
     {
       emotion: "슬픔",
-      슬픔: undefined,
+      슬픔: 0,
     },
     {
       emotion: "놀람",
-      놀람: undefined,
+      놀람: 0,
     },
     {
       emotion: "공포",
-      공포: undefined,
+      공포: 0,
     },
     {
       emotion: "분노",
-      분노: undefined,
+      분노: 0,
     },
   ]);
 
@@ -211,26 +211,33 @@ function BookDetail() {
   }, [isbn, token, currentPage, search_detail, findReports, getEmotion]);
 
   useEffect(() => {
+    const total = happy + sad + surprised + anger + scary;
+    const happyPercentage = (happy / total) * 100;
+    const sadPercentage = (sad / total) * 100;
+    const surprisedPercentage = (surprised / total) * 100;
+    const angerPercentage = (anger / total) * 100;
+    const scaryPercentage = (scary / total) * 100;
+
     setEmotionData([
       {
         emotion: "행복",
-        행복: happy,
+        행복: happyPercentage.toFixed(1),
       },
       {
         emotion: "슬픔",
-        슬픔: sad,
+        슬픔: sadPercentage.toFixed(1),
       },
       {
         emotion: "놀람",
-        놀람: surprised,
+        놀람: surprisedPercentage.toFixed(1),
       },
       {
         emotion: "공포",
-        공포: scary,
+        공포: scaryPercentage.toFixed(1),
       },
       {
         emotion: "분노",
-        분노: anger,
+        분노: angerPercentage.toFixed(1),
       },
     ]);
   }, [happy, sad, surprised, scary, anger]);
@@ -435,14 +442,8 @@ function BookDetail() {
                   {description.length > descriptionLimit.current &&
                     (isMore ? "[접기]" : "[더보기]")}
                 </div>
-                {emotionData[0]["행복"] !== undefined ? (
-                  <div
-                    style={{
-                      width: "630px",
-                      height: "250px",
-                      margin: "0 auto",
-                    }}
-                  >
+                {emotionData[0]["행복"] !== "NaN" ? (
+                  <div className={styles.emotion}>
                     <ResponsiveBar
                       data={emotionData}
                       keys={["행복", "슬픔", "놀람", "공포", "분노"]}
@@ -457,12 +458,31 @@ function BookDetail() {
                         modifiers: [["darker", 1.6]],
                       }}
                       colors={[
-                        "#F875AA",
-                        "#89CFF3",
-                        "#F9B572",
-                        "#8E8FFA",
-                        "#FF6969",
+                        "#FEBBCC",
+                        "#AEDEFC",
+                        "#FFCF96",
+                        "#D0BFFF",
+                        "#FF8989",
                       ]}
+                      theme={{
+                        labels: {
+                          text: {
+                            fontSize: 13,
+                          },
+                        },
+                        legends: {
+                          text: {
+                            fontSize: 13,
+                          },
+                        },
+                        axis: {
+                          ticks: {
+                            text: {
+                              fontSize: 13,
+                            },
+                          },
+                        },
+                      }}
                       axisTop={null}
                       axisRight={null}
                       axisBottom={{
@@ -478,7 +498,7 @@ function BookDetail() {
                       labelSkipHeight={12}
                       labelTextColor={{
                         from: "color",
-                        modifiers: [["darker", 1.6]],
+                        modifiers: [["darker", 3]],
                       }}
                       legends={[
                         {
@@ -494,6 +514,7 @@ function BookDetail() {
                           itemDirection: "left-to-right",
                           itemOpacity: 0.85,
                           symbolSize: 20,
+                          text: { fontSize: 20 },
                           effects: [
                             {
                               on: "hover",
