@@ -389,9 +389,56 @@ function MyBookDetail() {
   console.log(reportEmotionType);
 
   // 노래 추천
+  const [musicList, setMusicList] = useState([]);
   const [musicModal, setMusicModal] = useState(false);
+  const onMusicRecommend = () => {
+    customAxios
+      .music_recommend(id)
+      .then((res) => {
+        if (res.status === 200) {
+          setMusicList(res.data.musicList);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+      });
+  };
   const toggleMusicModal = () => {
     setMusicModal(!musicModal);
+  };
+
+  const repeatMusic = (musicList) => {
+    let arr = [];
+    for (let i = 0; i < musicList.length; i++) {
+      arr.push(
+        <Row
+          className="align-items-center text-center mt-4"
+          key={musicList[i].title}
+        >
+          <Col sm="1">
+            <h5>{i + 1}</h5>
+          </Col>
+          <Col>
+            <img
+              className={styles.musicImg}
+              src={musicList[i].imageUrl}
+              alt="musicImage"
+            ></img>
+          </Col>
+          <Col>
+            <h5>{musicList[i].title}</h5>
+          </Col>
+          <Col>
+            <h5>{musicList[i].singer}</h5>
+          </Col>
+        </Row>
+      );
+    }
+    return arr;
   };
 
   return (
@@ -730,7 +777,10 @@ function MyBookDetail() {
                       size="sm"
                       onClick={toggleMusicModal}
                     >
-                      <span className="btn-inner--text">
+                      <span
+                        className="btn-inner--text"
+                        onClick={onMusicRecommend}
+                      >
                         &nbsp;노래 추천&nbsp;
                       </span>
                     </Button>
@@ -824,60 +874,13 @@ function MyBookDetail() {
                         <p className="font-weight-bold">가수</p>
                       </Col>
                     </Row>
-                    <Row className="align-items-center text-center">
-                      <Col sm="1">
-                        <h5>1</h5>
-                      </Col>
-                      <Col>
-                        <img
-                          className={styles.musicImg}
-                          src="https://cdnimg.melon.co.kr/cm2/album/images/113/09/190/11309190_20230818161008_500.jpg?93148adc9d3b5622f4c4dca1e429650e/melon/resize/282/quality/80/optimize"
-                          alt="musicImage"
-                        ></img>
-                      </Col>
-                      <Col>
-                        <h5>Love Lee</h5>
-                      </Col>
-                      <Col>
-                        <h5>AKMU (악뮤)</h5>
-                      </Col>
-                    </Row>
-                    <Row className="align-items-center text-center mt-4">
-                      <Col sm="1">
-                        <h5>2</h5>
-                      </Col>
-                      <Col>
-                        <img
-                          className={styles.musicImg}
-                          src="https://cdnimg.melon.co.kr/cm/album/images/026/91/419/2691419_500.jpg?6b831136fe9c54f80d2f10f3ac11fb53/melon/resize/282/quality/80/optimize"
-                          alt="musicImage"
-                        ></img>
-                      </Col>
-                      <Col>
-                        <h5>Mood Indigo</h5>
-                      </Col>
-                      <Col>
-                        <h5>CHEEZE (치즈)</h5>
-                      </Col>
-                    </Row>
-                    <Row className="align-items-center text-center mt-4">
-                      <Col sm="1">
-                        <h5>3</h5>
-                      </Col>
-                      <Col>
-                        <img
-                          className={styles.musicImg}
-                          src="https://cdnimg.melon.co.kr/cm/album/images/102/79/841/10279841_500.jpg?d8a336230f64cbe891608124389a315b/melon/resize/282/quality/80/optimize"
-                          alt="musicImage"
-                        ></img>
-                      </Col>
-                      <Col>
-                        <h5>Angel (Feat.태연)</h5>
-                      </Col>
-                      <Col>
-                        <h5>챈슬러</h5>
-                      </Col>
-                    </Row>
+                    {musicList.length !== 0 ? (
+                      repeatMusic(musicList)
+                    ) : (
+                      <div className="text-center">
+                        음악 추천이 진행 중입니다..!
+                      </div>
+                    )}
                     <div className="text-center mt-4">
                       <Button
                         className="btn-1"
