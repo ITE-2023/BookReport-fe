@@ -36,6 +36,7 @@ import {
 } from "../../components/Alert.js";
 import { useNavigate } from "react-router-dom";
 import "../../css/Alert.css";
+import { ScaleLoader } from "react-spinners";
 
 function MyBookDetail() {
   const navigate = useNavigate();
@@ -860,25 +861,30 @@ function MyBookDetail() {
                     <h5 className="font-weight-bold text-center">
                       어울리는 노래를 추천해드려요!
                     </h5>
-                    <Row className="text-center mt-3">
-                      <Col sm="1">
-                        <p className="font-weight-bold">번호</p>
-                      </Col>
-                      <Col>
-                        <p className="font-weight-bold">앨범 커버</p>
-                      </Col>
-                      <Col>
-                        <p className="font-weight-bold">제목</p>
-                      </Col>
-                      <Col>
-                        <p className="font-weight-bold">가수</p>
-                      </Col>
-                    </Row>
                     {musicList.length !== 0 ? (
-                      repeatMusic(musicList)
+                      <div>
+                        <Row className="text-center mt-3">
+                          <Col sm="1">
+                            <p className="font-weight-bold">번호</p>
+                          </Col>
+                          <Col>
+                            <p className="font-weight-bold">앨범 커버</p>
+                          </Col>
+                          <Col>
+                            <p className="font-weight-bold">제목</p>
+                          </Col>
+                          <Col>
+                            <p className="font-weight-bold">가수</p>
+                          </Col>
+                        </Row>
+                        {repeatMusic(musicList)}
+                      </div>
                     ) : (
                       <div className="text-center">
-                        음악 추천이 진행 중입니다..!
+                        <h5 className="mt-3 text-muted">
+                          잠시만 기다려 주세요.
+                        </h5>
+                        <ScaleLoader color="#646EDE" />
                       </div>
                     )}
                     <div className="text-center mt-4">
