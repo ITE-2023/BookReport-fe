@@ -33,6 +33,10 @@ const musicURL = {
   MUSIC_RECOMMEND_URL: "/music/recommend",
 };
 
+const emotionURL = {
+  EMOTION_BY_BOOK: "/emotion",
+};
+
 const api = axios.create({
   baseURL: `${SERVER_ADDRESS}`,
   headers: { "Content-type": "application/json" },
@@ -183,6 +187,13 @@ const customAxios = {
     );
     return response;
   },
+
+  emotion: async (isbn) => {
+    const response = await api.get(
+      `${emotionURL.EMOTION_BY_BOOK}/${isbn}`
+    );
+    return response;
+  }
 };
 
 export { customAxios, updateAccessToken, updateRefreshToken };
