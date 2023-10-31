@@ -195,7 +195,7 @@ function BookDetail() {
 
   // star rating
   const [rating, setRating] = useState(0);
-  const handleRating = (rate: number) => {
+  const handleRating = (rate) => {
     setRating(rate);
   };
 

@@ -66,6 +66,7 @@ function MyBookDetail() {
   const [reportId, setReportId] = useState();
   const [reportTitle, setReportTitle] = useState("");
   const [reportContent, setReportContent] = useState("");
+  const [reportEmotionType, setReportEmotionType] = useState("");
   const [updateReportTitle, setUpdateReportTitle] = useState("");
   const [updateReportContent, setUpdateReportContent] = useState("");
 
@@ -163,7 +164,7 @@ function MyBookDetail() {
   };
 
   // star rating
-  const handleRating = (rate: number) => {
+  const handleRating = (rate) => {
     setUpdateRate(rate);
   };
 
@@ -351,6 +352,7 @@ function MyBookDetail() {
           if (res.status === 200) {
             setReportTitle(res.data.title);
             setReportContent(res.data.content);
+            setReportEmotionType(res.data.emotionType);
             setFormWriteModal(!formWriteModal);
           }
         })
@@ -369,6 +371,7 @@ function MyBookDetail() {
           if (res.status === 200) {
             setReportTitle(res.data.title);
             setReportContent(res.data.content);
+            setReportEmotionType(res.data.emotionType);
             setFormWriteModal(!formWriteModal);
           }
         })
@@ -382,6 +385,8 @@ function MyBookDetail() {
         });
     }
   };
+
+  console.log(reportEmotionType);
 
   // 노래 추천
   const [musicModal, setMusicModal] = useState(false);
