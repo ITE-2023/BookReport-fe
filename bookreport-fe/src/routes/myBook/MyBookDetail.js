@@ -488,6 +488,8 @@ function MyBookDetail() {
           icon: icon.ERROR,
         });
       });
+
+    onMusicRecommend();
   };
 
   return (
@@ -909,7 +911,7 @@ function MyBookDetail() {
                     <h5 className="font-weight-bold text-center">
                       어울리는 노래를 추천해드려요!
                     </h5>
-                    {musicList.length === 0 ? (
+                    {musicList.length !== 0 ? (
                       <div>
                         <Row className="text-center mt-3">
                           <Col sm="1">
