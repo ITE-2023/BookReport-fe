@@ -37,6 +37,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import "../../css/Alert.css";
 import { ScaleLoader } from "react-spinners";
+import { Smile } from "@emotion-icons/fa-regular/Smile";
+import { SadTear } from "@emotion-icons/fa-regular/SadTear";
+import { Surprise } from "@emotion-icons/fa-regular/Surprise";
+import { Tired } from "@emotion-icons/fa-regular/Tired";
+import { Angry } from "@emotion-icons/fa-regular/Angry";
 
 function MyBookDetail() {
   const navigate = useNavigate();
@@ -442,11 +447,16 @@ function MyBookDetail() {
     return arr;
   };
 
-  // 수정 버튼
+  // 감정 수정 버튼
   const [emotionFormModal, setEmotionFormModal] = useState(false);
   const toggleEmotionModal = () => {
     setEmotionFormModal(!emotionFormModal);
     toggleMusicModal();
+  };
+
+  const [emotionPill, setEmotionPill] = useState(1);
+  const toggleEmotionNavs = (index) => {
+    setEmotionPill(index);
   };
 
   return (
@@ -868,7 +878,7 @@ function MyBookDetail() {
                     <h5 className="font-weight-bold text-center">
                       어울리는 노래를 추천해드려요!
                     </h5>
-                    {musicList.length !== 0 ? (
+                    {musicList.length === 0 ? (
                       <div>
                         <Row className="text-center mt-3">
                           <Col sm="1">
@@ -926,6 +936,88 @@ function MyBookDetail() {
                       이 책을 읽으면서 가장 가깝게 느꼈던 감정을 선택해주세요.
                     </h5>
                     <div className="text-center mt-4">
+                      <Nav
+                        className="nav-pills-circle mb-5 justify-content-center"
+                        id="tabs_2"
+                        pills
+                        role="tablist"
+                      >
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 1}
+                            className={classnames("p-3", {
+                              active: emotionPill === 1,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(1)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Smile />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 2}
+                            className={classnames("p-3", {
+                              active: emotionPill === 2,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(2)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <SadTear />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 3}
+                            className={classnames("p-3", {
+                              active: emotionPill === 3,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(3)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Surprise />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 4}
+                            className={classnames("p-3", {
+                              active: emotionPill === 4,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(4)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Tired />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 5}
+                            className={classnames("p-3", {
+                              active: emotionPill === 5,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(5)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Angry />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                      </Nav>
                       <Button
                         className="btn-1"
                         color="primary"
