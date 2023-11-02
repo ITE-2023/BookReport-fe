@@ -116,7 +116,7 @@ function MyBookDetail() {
           setReportId(res.data.id);
           setReportTitle(res.data.title);
           setReportContent(res.data.content);
-
+          setReportEmotionType(res.data.emotionType);
           setUpdateReportTitle(res.data.title);
           setUpdateReportContent(res.data.content);
         }
@@ -358,7 +358,6 @@ function MyBookDetail() {
           if (res.status === 200) {
             setReportTitle(res.data.title);
             setReportContent(res.data.content);
-            setReportEmotionType(res.data.emotionType);
             setFormWriteModal(!formWriteModal);
           }
         })
@@ -377,7 +376,6 @@ function MyBookDetail() {
           if (res.status === 200) {
             setReportTitle(res.data.title);
             setReportContent(res.data.content);
-            setReportEmotionType(res.data.emotionType);
             setFormWriteModal(!formWriteModal);
           }
         })
@@ -391,8 +389,6 @@ function MyBookDetail() {
         });
     }
   };
-
-  console.log(reportEmotionType);
 
   // 노래 추천
   const [musicList, setMusicList] = useState([]);
@@ -457,6 +453,41 @@ function MyBookDetail() {
   const [emotionPill, setEmotionPill] = useState(1);
   const toggleEmotionNavs = (index) => {
     setEmotionPill(index);
+    if (index === 1) {
+      setReportEmotionType("HAPPY");
+    } else if (index === 2) {
+      setReportEmotionType("SAD");
+    } else if (index === 3) {
+      setReportEmotionType("SURPRISED");
+    } else if (index === 4) {
+      setReportEmotionType("SCARY");
+    } else if (index === 5) {
+      setReportEmotionType("ANGER");
+    }
+  };
+
+  const onChangeEmotion = () => {
+    const reportRequest = {
+      title: reportTitle,
+      content: reportContent,
+      emotion: reportEmotionType,
+    };
+
+    customAxios
+      .report_update(reportId, reportRequest)
+      .then((res) => {
+        if (res.status === 200) {
+          setReportEmotionType(res.data.emotionType);
+          toggleEmotionModal(!emotionFormModal);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+      });
   };
 
   return (
@@ -1023,7 +1054,7 @@ function MyBookDetail() {
                         color="primary"
                         outline
                         type="button"
-                        onClick={toggleEmotionModal}
+                        onClick={onChangeEmotion}
                       >
                         확인
                       </Button>
