@@ -453,18 +453,21 @@ function MyBookDetail() {
   const [emotionPill, setEmotionPill] = useState(1);
   const toggleEmotionNavs = (index) => {
     setEmotionPill(index);
-    if (index === 1) {
+  };
+
+  useEffect(() => {
+    if (emotionPill === 1) {
       setReportEmotionType("HAPPY");
-    } else if (index === 2) {
+    } else if (emotionPill === 2) {
       setReportEmotionType("SAD");
-    } else if (index === 3) {
+    } else if (emotionPill === 3) {
       setReportEmotionType("SURPRISED");
-    } else if (index === 4) {
+    } else if (emotionPill === 4) {
       setReportEmotionType("SCARY");
-    } else if (index === 5) {
+    } else if (emotionPill === 5) {
       setReportEmotionType("ANGER");
     }
-  };
+  }, [emotionPill, reportEmotionType]);
 
   const onChangeEmotion = () => {
     const reportRequest = {
@@ -479,6 +482,8 @@ function MyBookDetail() {
         if (res.status === 200) {
           setReportEmotionType(res.data.emotionType);
           toggleEmotionModal(!emotionFormModal);
+          setMusicList([]);
+          onMusicRecommend();
         }
       })
       .catch((error) => {
@@ -488,8 +493,6 @@ function MyBookDetail() {
           icon: icon.ERROR,
         });
       });
-
-    onMusicRecommend();
   };
 
   return (
