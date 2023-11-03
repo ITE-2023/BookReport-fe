@@ -395,7 +395,7 @@ function MyBookDetail() {
   const [musicModal, setMusicModal] = useState(false);
   const onMusicRecommend = () => {
     customAxios
-      .music_recommend(id)
+      .music_recommend(reportId)
       .then((res) => {
         if (res.status === 200) {
           setMusicList(res.data.musicList);
@@ -403,6 +403,7 @@ function MyBookDetail() {
       })
       .catch((error) => {
         console.log(error);
+        setMusicModal(false);
         TimerToast({
           title: error.response.data,
           icon: icon.ERROR,
