@@ -33,6 +33,7 @@ import ReactDatetime from "react-datetime";
 import { icon, MixinToast, TimerToast } from "../../components/Alert.js";
 import { getCookie } from "../../api/cookie.js";
 import { useNavigate } from "react-router-dom";
+import { ResponsiveBar } from "@nivo/bar";
 
 function BookDetail() {
   const [token, setToken] = useState();
@@ -51,6 +52,34 @@ function BookDetail() {
   const [totalPage, setTotalPage] = useState();
   const [reportList, setReportList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+
+  const [happy, setHappy] = useState(0);
+  const [sad, setSad] = useState(0);
+  const [surprised, setSurprised] = useState(0);
+  const [anger, setAnger] = useState(0);
+  const [scary, setScary] = useState(0);
+  const [emotionData, setEmotionData] = useState([
+    {
+      emotion: "행복",
+      행복: 0,
+    },
+    {
+      emotion: "슬픔",
+      슬픔: 0,
+    },
+    {
+      emotion: "놀람",
+      놀람: 0,
+    },
+    {
+      emotion: "공포",
+      공포: 0,
+    },
+    {
+      emotion: "분노",
+      분노: 0,
+    },
+  ]);
 
   // 책 상세 검색
   const search_detail = useCallback(() => {
@@ -143,6 +172,24 @@ function BookDetail() {
     return arr;
   };
 
+  // 감정
+  const getEmotion = useCallback(() => {
+    customAxios
+      .emotion(isbn)
+      .then((res) => {
+        if (res.status === 200) {
+          setHappy(res.data.happy);
+          setAnger(res.data.anger);
+          setSad(res.data.sad);
+          setScary(res.data.scary);
+          setSurprised(res.data.surprised);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [isbn]);
+
   useEffect(() => {
     setToken(getCookie("accessToken"));
     // 회원이 이미 서재에 책을 담았는지 확인
@@ -160,7 +207,40 @@ function BookDetail() {
     search_detail(isbn);
     checkMyBook(isbn);
     findReports(isbn, currentPage);
-  }, [isbn, token, currentPage, search_detail, findReports]);
+    getEmotion(isbn);
+  }, [isbn, token, currentPage, search_detail, findReports, getEmotion]);
+
+  useEffect(() => {
+    const total = happy + sad + surprised + anger + scary;
+    const happyPercentage = (happy / total) * 100;
+    const sadPercentage = (sad / total) * 100;
+    const surprisedPercentage = (surprised / total) * 100;
+    const angerPercentage = (anger / total) * 100;
+    const scaryPercentage = (scary / total) * 100;
+
+    setEmotionData([
+      {
+        emotion: "행복",
+        행복: happyPercentage.toFixed(1),
+      },
+      {
+        emotion: "슬픔",
+        슬픔: sadPercentage.toFixed(1),
+      },
+      {
+        emotion: "놀람",
+        놀람: surprisedPercentage.toFixed(1),
+      },
+      {
+        emotion: "공포",
+        공포: scaryPercentage.toFixed(1),
+      },
+      {
+        emotion: "분노",
+        분노: angerPercentage.toFixed(1),
+      },
+    ]);
+  }, [happy, sad, surprised, scary, anger]);
 
   // 책 소개글 더보기
   const [isMore, setIsMore] = useState(false);
@@ -194,7 +274,7 @@ function BookDetail() {
 
   // star rating
   const [rating, setRating] = useState(0);
-  const handleRating = (rate: number) => {
+  const handleRating = (rate) => {
     setRating(rate);
   };
 
@@ -362,6 +442,94 @@ function BookDetail() {
                   {description.length > descriptionLimit.current &&
                     (isMore ? "[접기]" : "[더보기]")}
                 </div>
+                {emotionData[0]["행복"] !== "NaN" ? (
+                  <div className={styles.emotion}>
+                    <ResponsiveBar
+                      data={emotionData}
+                      keys={["행복", "슬픔", "놀람", "공포", "분노"]}
+                      indexBy="emotion"
+                      margin={{ top: 15, right: 130, bottom: 50, left: -10 }}
+                      padding={0.3}
+                      valueScale={{ type: "linear" }}
+                      indexScale={{ type: "band", round: true }}
+                      borderRadius={6}
+                      borderColor={{
+                        from: "color",
+                        modifiers: [["darker", 1.6]],
+                      }}
+                      colors={[
+                        "#FEBBCC",
+                        "#AEDEFC",
+                        "#FFCF96",
+                        "#D0BFFF",
+                        "#FF8989",
+                      ]}
+                      theme={{
+                        labels: {
+                          text: {
+                            fontSize: 13,
+                          },
+                        },
+                        legends: {
+                          text: {
+                            fontSize: 13,
+                          },
+                        },
+                        axis: {
+                          ticks: {
+                            text: {
+                              fontSize: 13,
+                            },
+                          },
+                        },
+                      }}
+                      axisTop={null}
+                      axisRight={null}
+                      axisBottom={{
+                        tickSize: 0,
+                        tickPadding: 5,
+                        tickRotation: 0,
+                        legendPosition: "middle",
+                        legendOffset: 32,
+                      }}
+                      axisLeft={null}
+                      enableGridY={false}
+                      labelSkipWidth={12}
+                      labelSkipHeight={12}
+                      labelTextColor={{
+                        from: "color",
+                        modifiers: [["darker", 3]],
+                      }}
+                      legends={[
+                        {
+                          dataFrom: "keys",
+                          anchor: "bottom-right",
+                          direction: "column",
+                          justify: false,
+                          translateX: 120,
+                          translateY: 0,
+                          itemsSpacing: 2,
+                          itemWidth: 100,
+                          itemHeight: 20,
+                          itemDirection: "left-to-right",
+                          itemOpacity: 0.85,
+                          symbolSize: 20,
+                          text: { fontSize: 20 },
+                          effects: [
+                            {
+                              on: "hover",
+                              style: {
+                                itemOpacity: 1,
+                              },
+                            },
+                          ],
+                        },
+                      ]}
+                    />
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </Col>
               <Col>
                 {!myBookBtn ? (

@@ -29,10 +29,24 @@ const reportURL = {
   REPORT_UPDATE_URL: "/report/update",
 };
 
+const musicURL = {
+  MUSIC_RECOMMEND_URL: "/music/recommend",
+};
+
+const emotionURL = {
+  EMOTION_BY_BOOK: "/emotion",
+};
+
 const api = axios.create({
   baseURL: `${SERVER_ADDRESS}`,
   headers: { "Content-type": "application/json" },
   timeout: 5000,
+});
+
+const flaskapi = axios.create({
+  baseURL: `${SERVER_ADDRESS}`,
+  headers: { "Content-type": "application/json" },
+  timeout: 20000,
 });
 
 let accessToken = getCookie("accessToken");
@@ -62,7 +76,18 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+flaskapi.interceptors.request.use((config) => {
+  // 요청 전 수행 로직
+  config.headers.Authorization = `Bearer ${accessToken}`;
+  return config;
+});
+
 api.interceptors.response.use((response) => {
+  // 응답 수행 로직
+  return response;
+});
+
+flaskapi.interceptors.response.use((response) => {
   // 응답 수행 로직
   return response;
 });
@@ -155,6 +180,20 @@ const customAxios = {
     );
     return response;
   },
+
+  music_recommend: async (reportId) => {
+    const response = await flaskapi.get(
+      `${musicURL.MUSIC_RECOMMEND_URL}/${reportId}`
+    );
+    return response;
+  },
+
+  emotion: async (isbn) => {
+    const response = await api.get(
+      `${emotionURL.EMOTION_BY_BOOK}/${isbn}`
+    );
+    return response;
+  }
 };
 
 export { customAxios, updateAccessToken, updateRefreshToken };

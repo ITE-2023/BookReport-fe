@@ -36,6 +36,12 @@ import {
 } from "../../components/Alert.js";
 import { useNavigate } from "react-router-dom";
 import "../../css/Alert.css";
+import { ScaleLoader } from "react-spinners";
+import { Smile } from "@emotion-icons/fa-regular/Smile";
+import { SadTear } from "@emotion-icons/fa-regular/SadTear";
+import { Surprise } from "@emotion-icons/fa-regular/Surprise";
+import { Tired } from "@emotion-icons/fa-regular/Tired";
+import { Angry } from "@emotion-icons/fa-regular/Angry";
 
 function MyBookDetail() {
   const navigate = useNavigate();
@@ -66,6 +72,7 @@ function MyBookDetail() {
   const [reportId, setReportId] = useState();
   const [reportTitle, setReportTitle] = useState("");
   const [reportContent, setReportContent] = useState("");
+  const [reportEmotionType, setReportEmotionType] = useState("");
   const [updateReportTitle, setUpdateReportTitle] = useState("");
   const [updateReportContent, setUpdateReportContent] = useState("");
 
@@ -109,7 +116,7 @@ function MyBookDetail() {
           setReportId(res.data.id);
           setReportTitle(res.data.title);
           setReportContent(res.data.content);
-
+          setReportEmotionType(res.data.emotionType);
           setUpdateReportTitle(res.data.title);
           setUpdateReportContent(res.data.content);
         }
@@ -163,7 +170,7 @@ function MyBookDetail() {
   };
 
   // star rating
-  const handleRating = (rate: number) => {
+  const handleRating = (rate) => {
     setUpdateRate(rate);
   };
 
@@ -381,6 +388,111 @@ function MyBookDetail() {
           navigate("/myBooks");
         });
     }
+  };
+
+  // 노래 추천
+  const [musicList, setMusicList] = useState([]);
+  const [musicModal, setMusicModal] = useState(false);
+  const onMusicRecommend = () => {
+    customAxios
+      .music_recommend(id)
+      .then((res) => {
+        if (res.status === 200) {
+          setMusicList(res.data.musicList);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+      });
+  };
+  const toggleMusicModal = () => {
+    setMusicModal(!musicModal);
+  };
+
+  const repeatMusic = (musicList) => {
+    let arr = [];
+    for (let i = 0; i < musicList.length; i++) {
+      arr.push(
+        <Row
+          className="align-items-center text-center mt-4"
+          key={musicList[i].title}
+        >
+          <Col sm="1">
+            <h5>{i + 1}</h5>
+          </Col>
+          <Col>
+            <img
+              className={styles.musicImg}
+              src={musicList[i].imageUrl}
+              alt="musicImage"
+            ></img>
+          </Col>
+          <Col>
+            <h5>{musicList[i].title}</h5>
+          </Col>
+          <Col>
+            <h5>{musicList[i].singer}</h5>
+          </Col>
+        </Row>
+      );
+    }
+    return arr;
+  };
+
+  // 감정 수정 버튼
+  const [emotionFormModal, setEmotionFormModal] = useState(false);
+  const toggleEmotionModal = () => {
+    setEmotionFormModal(!emotionFormModal);
+    toggleMusicModal();
+  };
+
+  const [emotionPill, setEmotionPill] = useState(1);
+  const toggleEmotionNavs = (index) => {
+    setEmotionPill(index);
+  };
+
+  useEffect(() => {
+    if (emotionPill === 1) {
+      setReportEmotionType("HAPPY");
+    } else if (emotionPill === 2) {
+      setReportEmotionType("SAD");
+    } else if (emotionPill === 3) {
+      setReportEmotionType("SURPRISED");
+    } else if (emotionPill === 4) {
+      setReportEmotionType("SCARY");
+    } else if (emotionPill === 5) {
+      setReportEmotionType("ANGER");
+    }
+  }, [emotionPill, reportEmotionType]);
+
+  const onChangeEmotion = () => {
+    const reportRequest = {
+      title: reportTitle,
+      content: reportContent,
+      emotion: reportEmotionType,
+    };
+
+    customAxios
+      .report_update(reportId, reportRequest)
+      .then((res) => {
+        if (res.status === 200) {
+          setReportEmotionType(res.data.emotionType);
+          toggleEmotionModal(!emotionFormModal);
+          setMusicList([]);
+          onMusicRecommend();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        TimerToast({
+          title: error.response.data,
+          icon: icon.ERROR,
+        });
+      });
   };
 
   return (
@@ -702,14 +814,31 @@ function MyBookDetail() {
             {reportTitle.length !== 0 ? (
               <div className={styles.reportBox}>
                 <div className="text-right">
-                  <Button
-                    className="btn-white"
-                    color="default"
-                    size="sm"
-                    onClick={toggleWriteModal}
-                  >
-                    <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
-                  </Button>
+                  <span>
+                    <Button
+                      className="btn-white"
+                      color="default"
+                      size="sm"
+                      onClick={toggleWriteModal}
+                    >
+                      <span className="btn-inner--text">&nbsp;수정&nbsp;</span>
+                    </Button>
+                  </span>
+                  <span className="ml-2">
+                    <Button
+                      className="btn-white"
+                      color="default"
+                      size="sm"
+                      onClick={toggleMusicModal}
+                    >
+                      <span
+                        className="btn-inner--text"
+                        onClick={onMusicRecommend}
+                      >
+                        &nbsp;노래 추천&nbsp;
+                      </span>
+                    </Button>
+                  </span>
                 </div>
                 <h4 className="display-4">{reportTitle}</h4>
                 <hr className="mt-2" />
@@ -731,14 +860,14 @@ function MyBookDetail() {
               </div>
             )}
             <Modal
-              className={`${styles.reportWrite} modal-dialog-centered`}
+              className={`${styles.modalBox} modal-dialog-centered`}
               isOpen={formWriteModal}
               toggle={toggleWriteModal}
             >
               <div className="modal-body p-0">
                 <Card className="bg-secondary shadow border-0">
                   <CardHeader className="bg-white pb-5">
-                    <h5 className="font-weight-bold text-muted text-center">
+                    <h5 className="font-weight-bold text-center">
                       독후감을 작성해보세요!
                     </h5>
                     <FormGroup>
@@ -768,6 +897,171 @@ function MyBookDetail() {
                         onClick={onReportSave}
                       >
                         저장하기
+                      </Button>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </div>
+            </Modal>
+            <Modal
+              className={`${styles.modalBox} modal-dialog-centered`}
+              isOpen={musicModal}
+              toggle={toggleMusicModal}
+            >
+              <div className="modal-body p-0">
+                <Card className="bg-secondary shadow border-0">
+                  <CardHeader className="bg-white pb-5">
+                    <h5 className="font-weight-bold text-center">
+                      어울리는 노래를 추천해드려요!
+                    </h5>
+                    {musicList.length !== 0 ? (
+                      <div>
+                        <Row className="text-center mt-3">
+                          <Col sm="1">
+                            <p className="font-weight-bold">번호</p>
+                          </Col>
+                          <Col>
+                            <p className="font-weight-bold">앨범 커버</p>
+                          </Col>
+                          <Col>
+                            <p className="font-weight-bold">제목</p>
+                          </Col>
+                          <Col>
+                            <p className="font-weight-bold">가수</p>
+                          </Col>
+                        </Row>
+                        {repeatMusic(musicList)}
+                        <div className="text-right mt-3">
+                          <span role="button" onClick={toggleEmotionModal}>
+                            노래가 마음에 안드시나요?
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center">
+                        <h5 className="mt-3 text-muted">
+                          잠시만 기다려 주세요.
+                        </h5>
+                        <ScaleLoader color="#646EDE" />
+                      </div>
+                    )}
+                    <div className="text-center mt-4">
+                      <Button
+                        className="btn-1"
+                        color="primary"
+                        outline
+                        type="button"
+                        onClick={toggleMusicModal}
+                      >
+                        확인
+                      </Button>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </div>
+            </Modal>
+            <Modal
+              className={`${styles.modalBox} modal-dialog-centered`}
+              isOpen={emotionFormModal}
+              toggle={toggleEmotionModal}
+            >
+              <div className="modal-body p-0">
+                <Card className="bg-secondary shadow border-0">
+                  <CardHeader className="bg-white pb-5">
+                    <h5 className="font-weight-bold text-center">
+                      이 책을 읽으면서 가장 가깝게 느꼈던 감정을 선택해주세요.
+                    </h5>
+                    <div className="text-center mt-4">
+                      <Nav
+                        className="nav-pills-circle mb-5 justify-content-center"
+                        id="tabs_2"
+                        pills
+                        role="tablist"
+                      >
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 1}
+                            className={classnames("p-3", {
+                              active: emotionPill === 1,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(1)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Smile />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 2}
+                            className={classnames("p-3", {
+                              active: emotionPill === 2,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(2)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <SadTear />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 3}
+                            className={classnames("p-3", {
+                              active: emotionPill === 3,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(3)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Surprise />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 4}
+                            className={classnames("p-3", {
+                              active: emotionPill === 4,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(4)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Tired />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            aria-selected={emotionPill === 5}
+                            className={classnames("p-3", {
+                              active: emotionPill === 5,
+                            })}
+                            onClick={(e) => toggleEmotionNavs(5)}
+                            href="#pablo"
+                            role="tab"
+                          >
+                            <span className="nav-link-icon d-block">
+                              <Angry />
+                            </span>
+                          </NavLink>
+                        </NavItem>
+                      </Nav>
+                      <Button
+                        className="btn-1"
+                        color="primary"
+                        outline
+                        type="button"
+                        onClick={onChangeEmotion}
+                      >
+                        확인
                       </Button>
                     </div>
                   </CardHeader>
