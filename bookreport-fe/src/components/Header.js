@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { getCookie, removeCookie } from "../api/cookie.js";
+import "../css/App.css";
 
 function Header() {
   const componentDidMount = () => {
@@ -43,8 +44,9 @@ function Header() {
           <Container>
             <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
               <img
+                id="logo"
                 alt="..."
-                src={require("../assets/img/LOGO.__1_-removebg-preview1111.png")}
+                src={require("../assets/img/logo.png")}
               />
             </NavbarBrand>
             <button className="navbar-toggler" id="navbar_global">
@@ -55,10 +57,7 @@ function Header() {
                 <Row>
                   <Col className="collapse-brand" xs="6">
                     <Link to="/">
-                      <img
-                        alt="..."
-                        src={require("../assets/img/LOGO.-removebg-preview1111.png")}
-                      />
+                      <img alt="..." src={require("../assets/img/logo.png")} />
                     </Link>
                   </Col>
                   <Col className="collapse-close" xs="6">
