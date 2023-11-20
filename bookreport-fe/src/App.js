@@ -17,13 +17,19 @@ import { Container, Row, Col, UncontrolledCarousel } from "reactstrap";
 function App() {
   const items = [
     {
-      src: require("./assets/img/emotion-story.png"),
+      src: require("./assets/img/page.png"),
       altText: "",
       caption: "",
       header: "",
     },
     {
-      src: require("./assets/img/emotion-story.png"),
+      src: require("./assets/img/page2.png"),
+      altText: "",
+      caption: "",
+      header: "",
+    },
+    {
+      src: require("./assets/img/page3.png"),
       altText: "",
       caption: "",
       header: "",
