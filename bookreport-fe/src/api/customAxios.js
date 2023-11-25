@@ -14,7 +14,7 @@ const bookURL = {
 };
 
 const myBookURL = {
-  MY_BOOK_SAVE_URL: "/myBook/save",
+  MY_BOOK_SAVE_URL: "/myBook/create",
   MY_BOOK_CHECK: "/myBook/check",
   MY_BOOK_LIST_URL: "/myBooks",
   MY_BOOK_DETAIL_URL: "/myBook/detail",
@@ -189,11 +189,9 @@ const customAxios = {
   },
 
   emotion: async (isbn) => {
-    const response = await api.get(
-      `${emotionURL.EMOTION_BY_BOOK}/${isbn}`
-    );
+    const response = await api.get(`${emotionURL.EMOTION_BY_BOOK}/${isbn}`);
     return response;
-  }
+  },
 };
 
 export { customAxios, updateAccessToken, updateRefreshToken };

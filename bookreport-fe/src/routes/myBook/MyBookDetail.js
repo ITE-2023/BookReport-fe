@@ -319,6 +319,7 @@ function MyBookDetail() {
             });
           navigate("/myBooks");
         }
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
