@@ -317,9 +317,8 @@ function MyBookDetail() {
               });
               navigate("/myBooks");
             });
-          navigate("/myBooks");
+          window.location.href = "/myBooks";
         }
-        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -619,9 +618,13 @@ function MyBookDetail() {
                           <NavItem>
                             <NavLink
                               aria-selected={pill === 1}
-                              className={classnames("mb-sm-3 mb-md-0", {
-                                active: pill === 1,
-                              })}
+                              className={classnames(
+                                "mb-sm-3 mb-md-0",
+                                {
+                                  active: pill === 1,
+                                },
+                                styles.pillBtn
+                              )}
                               onClick={(e) => toggleNavs(1)}
                               role="tab"
                             >
@@ -632,9 +635,13 @@ function MyBookDetail() {
                           <NavItem>
                             <NavLink
                               aria-selected={pill === 2}
-                              className={classnames("mb-sm-3 mb-md-0", {
-                                active: pill === 2,
-                              })}
+                              className={classnames(
+                                "mb-sm-3 mb-md-0",
+                                {
+                                  active: pill === 2,
+                                },
+                                styles.pillBtn
+                              )}
                               onClick={(e) => toggleNavs(2)}
                               role="tab"
                             >
@@ -645,9 +652,13 @@ function MyBookDetail() {
                           <NavItem>
                             <NavLink
                               aria-selected={pill === 3}
-                              className={classnames("mb-sm-3 mb-md-0", {
-                                active: pill === 3,
-                              })}
+                              className={classnames(
+                                "mb-sm-3 mb-md-0",
+                                {
+                                  active: pill === 3,
+                                },
+                                styles.pillBtn
+                              )}
                               onClick={(e) => toggleNavs(3)}
                               role="tab"
                             >

@@ -70,7 +70,7 @@ function Login() {
             if (res.data.refreshToken) {
               updateRefreshToken(res.data.refreshToken);
             }
-            navigate(-1);
+            navigate("/");
           }
         })
         .catch((error) => {

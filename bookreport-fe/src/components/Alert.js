@@ -47,8 +47,11 @@ const ConfirmToast = ({
       confirmButtonText: confirmText,
     }).then((result) => {
       if (result.isConfirmed) {
-        MySwal.fire(confirmTitle, confirmContent, "success");
-        resolve(true);
+        MySwal.fire(confirmTitle, confirmContent, "success").then((result2) => {
+          if (result2.isConfirmed) {
+            resolve(true);
+          }
+        });
       } else {
         reject(false);
       }
